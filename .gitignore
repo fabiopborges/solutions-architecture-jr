@@ -1,3 +1,7 @@
 # Repositório git aninhado (ferramenta de scaffolding /os-agentes, não é produto deste projeto).
 # Pendente de decisão no item 3 do prognóstico de estrutura (remover ou isolar formalmente).
-os-agentes/
+.claude/skills/os-agentes/
+
+# Settings locais do Claude Code (não versionar).
+.claude/settings.local.json
+.claude/skills/.claude/
