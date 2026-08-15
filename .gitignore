@@ -1,2 +1,5 @@
 # Settings locais do Claude Code (não versionar).
 .claude/settings.local.json
+
+# Backlog local, não versionar.
+BACKLOG.md
