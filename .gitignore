@@ -3,3 +3,6 @@
 
 # Backlog local, não versionar.
 BACKLOG.md
+
+# Demandas de teste, dados sintéticos locais, não versionar.
+demandas/

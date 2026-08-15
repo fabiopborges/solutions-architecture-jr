@@ -143,6 +143,8 @@ Cada atividade tem a mesma pasta em `skills/` e `agents/` (mesmo nome), para ser
 
 O nome da demanda **nunca é inventado por um agente**. Quem pede a demanda informa o nome explicitamente ao agente de Entendimento e Escopo (ou o agente pergunta e espera a resposta, se ninguém deu um nome ainda). Esse nome, exatamente como dado, vira a pasta `demandas/<nome-da-demanda>/`, e cada atividade que rodar nessa demanda grava um arquivo lá dentro (`entendimento.md`, `desenho.md`, `dados.md`, etc.), em vez de espalhar arquivos soltos na raiz. Duas exceções ficam fora de `demandas/`: `adrs/` (decisões reaproveitáveis por demandas futuras) e `telemetria-agentes.md` (registro contínuo entre demandas).
 
+> `demandas/` está em `.gitignore` e não faz parte deste repositório público: sempre que uma demanda roda, os artefatos ficam só no seu clone local. As demandas usadas para validar a cadeia de agentes ponta a ponta durante o desenvolvimento deste OS foram todas sintéticas (nomes de empresa, SDRs, orçamentos e decisões fictícios, nenhuma descrevendo um cliente real), e por isso mesmo não foram publicadas — mantenha o mesmo cuidado com as suas.
+
 ## Os 16 agentes
 
 | # | Agente | Quando entra | Depende de / é acionado por |
