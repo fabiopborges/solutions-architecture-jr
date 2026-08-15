@@ -90,21 +90,22 @@ flowchart TD
 
 ## Duas camadas: execução vs referência
 
-Fisicamente, este repositório é a pasta `.claude/skills/` de um projeto Claude Code. Isso cria duas camadas lado a lado, que não devem ser confundidas:
+Este repositório é a raiz de um projeto Claude Code. Isso cria duas camadas lado a lado, que não devem ser confundidas:
 
 ```
-.claude/
-├── agents/                          # CAMADA DE EXECUÇÃO: 16 subagentes reais (front-matter, invocáveis)
-│   ├── entendimento-e-escopo.md
-│   └── ...
-└── skills/                          # esta pasta é o "." das árvores abaixo
-    ├── arquiteto-solucoes/SKILL.md  # CAMADA DE EXECUÇÃO: ponto de entrada, /arquiteto-solucoes
-    ├── agents/<atividade>/AGENT.md  # CAMADA DE REFERÊNCIA: o subagente lê isto antes de agir
-    ├── skills/<atividade>/SKILL.md  # CAMADA DE REFERÊNCIA: passos, artefato, critério de pronto
-    └── (CLAUDE.md, memory.md, demandas/, adrs/, rules/, substrate/, ...)
+.
+├── .claude/
+│   ├── agents/                      # CAMADA DE EXECUÇÃO: 16 subagentes reais (front-matter, invocáveis)
+│   │   ├── entendimento-e-escopo.md
+│   │   └── ...
+│   └── skills/
+│       └── arquiteto-solucoes/SKILL.md  # CAMADA DE EXECUÇÃO: ponto de entrada, /arquiteto-solucoes
+├── agents/<atividade>/AGENT.md      # CAMADA DE REFERÊNCIA: o subagente lê isto antes de agir
+├── skills/<atividade>/SKILL.md      # CAMADA DE REFERÊNCIA: passos, artefato, critério de pronto
+└── (CLAUDE.md, memory.md, demandas/, adrs/, rules/, substrate/, ...)
 ```
 
-Os arquivos de execução são enxutos de propósito, eles apontam para os de referência em vez de duplicar o conteúdo. Se um dia esta pasta virar a raiz de um projeto próprio (não mais dentro de `.claude/skills/` de outra coisa), só os caminhos relativos internos precisam ajustar, a separação continua igual.
+Os arquivos de execução são enxutos de propósito, eles apontam para os de referência em vez de duplicar o conteúdo. `.claude/` guarda só o que o Claude Code precisa descobrir de fato (subagentes e a skill de entrada); todo o resto — inclusive a documentação de referência de cada atividade — vive na raiz, fora de `.claude/`, porque subagentes despachados via Task resolvem caminho relativo contra a raiz real do projeto, não contra `.claude/`.
 
 ## Estrutura do repositório (camada de referência)
 
@@ -186,7 +187,7 @@ Este projeto é registrado no padrão nativo do Claude Code, em duas camadas:
 
 Os arquivos em `agents/<atividade>/AGENT.md` e `skills/<atividade>/SKILL.md` (sem o prefixo `.claude/`) continuam existindo, são a documentação de referência completa que cada subagente lê antes de agir (papel, passos, critério de pronto, portão de revisão). O subagente registrado é a versão enxuta que aciona essa referência, não uma duplicata.
 
-1. Clone o repositório (ou copie a pasta) para a raiz do projeto onde você quer usar o time de agentes.
+1. Clone o repositório (ou copie a pasta inteira) para a raiz do projeto onde você quer usar o time de agentes — este repositório já É essa raiz, não deve ser aninhado dentro do `.claude/` de outro projeto.
 2. Rode `/arquiteto-solucoes <pedido ou SDR colado>` no Claude Code, dentro dessa pasta.
 3. **Dê um nome explícito à demanda quando for pedido.** Esse nome nunca é inventado por um agente, vira a pasta `demandas/<nome-da-demanda>/` onde tudo desta demanda é gravado (veja [Onde ficam os outputs de uma demanda](#onde-ficam-os-outputs-de-uma-demanda)).
 4. A skill de entrada despacha os subagentes na ordem e no paralelismo do [fluxo](#arquitetura-do-fluxo), até o portão de saída (com aprovação humana obrigatória) e a liberação em `demandas/<nome-da-demanda>/handoff.md`.
