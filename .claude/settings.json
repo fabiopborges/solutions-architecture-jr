@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.prompt // empty' | grep -Pq '(?<!/)demandas/' && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"Caminho relativo detectado (referencia a demandas/... sem prefixo absoluto). Regra de rules/always.md: sempre use caminho absoluto ao despachar um subagente, nunca relativo. Corrija o prompt com o caminho absoluto completo e tente novamente.\"}}' || exit 0",
+            "timeout": 10,
+            "statusMessage": "Conferindo caminho absoluto no despacho do subagente..."
+          }
+        ]
+      }
+    ]
+  }
+}
