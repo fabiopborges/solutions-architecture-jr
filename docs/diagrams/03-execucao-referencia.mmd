@@ -1,0 +1,15 @@
+flowchart LR
+    subgraph EXEC["Camada de execução — .claude/"]
+        direction TB
+        E1["agents/*.md<br/>16 subagentes reais<br/>(front-matter, invocáveis)"]
+        E2["skills/arquiteto-solucoes/<br/>SKILL.md<br/>ponto de entrada /arquiteto-solucoes"]
+    end
+
+    subgraph REF["Camada de referência — raiz do repo"]
+        direction TB
+        R1["agents/&lt;atividade&gt;/AGENT.md<br/>papel, dependências, portão de revisão"]
+        R2["skills/&lt;atividade&gt;/SKILL.md<br/>passos, artefato, critério de pronto"]
+    end
+
+    E1 -- "lê antes de agir" --> R1
+    E2 -- "despacha consultando" --> R2

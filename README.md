@@ -1,23 +1,31 @@
-# Time de Agentes: Arquiteto de Soluções Júnior
+# solutions-architecture-jr-agents
 
-Um conjunto de agentes de IA, construído sobre o [Claude Code](https://claude.com/claude-code), que atua como um time de Arquiteto de Soluções Júnior. Cada atividade real do trabalho de arquitetura (do entendimento da demanda até a entrega final) é um agente próprio, com uma skill focada só naquele objetivo, para reduzir alucinação e invenção fora de escopo. Os agentes rodam em loop: quando um tem dúvida sobre algo fora da própria atividade, pergunta ao agente dono dela em vez de adivinhar.
+Um time de agentes de IA — construído sobre o [Claude Code](https://claude.com/claude-code) — que atua como um **Arquiteto de Soluções Júnior**. Em vez de um prompt genérico tentando fazer tudo de uma vez, cada atividade real do trabalho de arquitetura vira um agente próprio, com escopo estreito, uma skill dedicada e um critério claro de "isso está bem feito".
 
-> **Status do projeto:** as 16 atividades + o orquestrador estão totalmente especificados e registrados como skill/subagentes nativos do Claude Code (`/arquiteto-solucoes`). Uma primeira demanda real já rodou ponta a ponta, mas ainda simulada manualmente, não pelo mecanismo de despacho por subagente. Trate isto como um design maduro, registrado, mas ainda não validado nesse formato de execução. Veja [Estado atual](#estado-atual) para o que falta.
+> **Status do projeto:** as 16 atividades + o Orquestrador estão totalmente especificadas e registradas como skill/subagentes nativos do Claude Code (`/arquiteto-solucoes`). Uma primeira demanda já rodou ponta a ponta, mas ainda simulada manualmente, não pelo mecanismo de despacho por subagente. Design maduro e registrado, execução ainda em validação — veja [Estado atual](#estado-atual).
 
 ---
 
 ## Sumário
 
+### Conceitos
+
 - [Por que isto existe](#por-que-isto-existe)
-- [Como funciona](#como-funciona)
-- [Arquitetura do fluxo](#arquitetura-do-fluxo)
-- [Duas camadas: execução vs referência](#duas-camadas-execução-vs-referência)
-- [Estrutura do repositório](#estrutura-do-repositório-camada-de-referência)
-  - [Onde ficam os outputs de uma demanda](#onde-ficam-os-outputs-de-uma-demanda)
+- [Ideia central em 30 segundos](#ideia-central-em-30-segundos)
+- [Glossário rápido](#glossário-rápido)
+- [Arquitetura da workspace](#arquitetura-da-workspace)
+  - [As seis camadas do OS](#1-as-seis-camadas-do-os)
+  - [Fluxo de execução, numerado e em estilo C4](#2-fluxo-de-execução-numerado-e-em-estilo-c4)
+  - [Diagrama de sequência completo](#3-diagrama-de-sequência-completo)
+  - [Execução vs. referência no disco](#4-execução-vs-referência-no-disco)
+
+### Mão na massa
+
+- [Pré-requisitos](#pré-requisitos)
+- [Quickstart](#quickstart)
+- [Onde ficam os outputs de uma demanda](#onde-ficam-os-outputs-de-uma-demanda)
 - [Os 16 agentes](#os-16-agentes)
 - [Regras e governança](#regras-e-governança)
-- [Pré-requisitos](#pré-requisitos)
-- [Como usar](#como-usar)
 - [Estado atual](#estado-atual)
 - [Como estender (adicionar um agente novo)](#como-estender-adicionar-um-agente-novo)
 - [Licença](#licença)
@@ -26,129 +34,183 @@ Um conjunto de agentes de IA, construído sobre o [Claude Code](https://claude.c
 
 ## Por que isto existe
 
-Arquitetura de solução tem muitas atividades distintas (entender a demanda, desenhar componentes, modelar dados, avaliar segurança, estimar custo, etc.), e é comum uma única pessoa (ou um único prompt genérico de IA) tentar fazer todas ao mesmo tempo. Isso convida a dois problemas: **alucinação** (inventar decisão técnica sem base) e **desvio de escopo** (uma atividade contaminando o julgamento de outra).
+Arquitetura de solução tem muitas atividades distintas — entender a demanda, desenhar componentes, modelar dados, avaliar segurança, estimar custo — e é comum uma única pessoa (ou um único prompt genérico de IA) tentar fazer todas ao mesmo tempo. Isso convida dois problemas:
 
-Este projeto resolve isso dividindo o trabalho em 16 atividades, cada uma com:
-- Uma **skill** (`SKILL.md`): quando usar, os passos, o artefato de saída, e o critério de "isso está bem feito".
-- Um **agente** (`AGENT.md`): o dono daquela atividade, quando ele é acionado, de quem ele depende, e o portão de revisão antes de passar o trabalho adiante.
+- **Alucinação**: inventar uma decisão técnica sem base.
+- **Desvio de escopo**: uma atividade contaminando o julgamento de outra (ex: quem está pensando em custo já começa a decidir segurança).
 
-Um **Orquestrador** decide a ordem, dispara em paralelo o que não depende de nada, e segura um portão de saída (com aprovação humana obrigatória) antes de qualquer pacote de arquitetura sair como "entregue".
+Este projeto resolve isso dividindo o trabalho em **16 atividades**, cada uma com um dono (agente) e uma skill focada só naquele objetivo. Um **Orquestrador** decide a ordem, dispara em paralelo o que não depende de nada, e segura um portão de saída — com aprovação humana obrigatória — antes de qualquer pacote de arquitetura sair como "entregue".
 
-## Como funciona
+## Ideia central em 30 segundos
 
-O projeto segue a metodologia **OS Agêntico**, seis camadas construídas de baixo para cima:
-
-| # | Camada | Onde mora | O que é |
-|---|---|---|---|
-| 1 | Identidade | [`CLAUDE.md`](CLAUDE.md) | Quem é este time, a quem serve, o que sempre/nunca faz |
-| 2 | Substrato | [`substrate/`](substrate/) | O conhecimento destilado (stack aprovada, padrões da casa, ADRs) que os agentes leem antes de decidir |
-| 3 | Regras & Hooks | [`rules/`](rules/) | As paradas duras (`never.md`) e os reflexos automáticos (`always.md`) |
-| 4 | Skills | [`skills/`](skills/) | Os 16 verbos conquistados, um por atividade |
-| 5 | Ferramentas | [`tools.md`](tools.md) | Conexões somente-leitura a fontes externas (hoje, nenhuma ligada) |
-| 6 | Agentes | [`agents/`](agents/) | Os papéis com julgamento que orquestram as skills |
-
-Tudo o que os agentes decidem, aprendem ou ainda não sabem fica registrado em [`memory.md`](memory.md), a memória viva do OS. Rodar `audit` sobre essa metodologia produz um relatório específico em [`OS-AUDIT.md`](OS-AUDIT.md).
-
-## Arquitetura do fluxo
-
-```mermaid
-flowchart TD
-    A["Entendimento e Escopo<br/>(TOGAF: capacidades de negócio)"] --> B["Desenho de Arquitetura<br/>(DDD: bounded contexts)"]
-
-    B --> C[Modelagem de Dados]
-    B --> D[Infraestrutura e Deployment]
-    B --> E[Testes e Qualidade]
-    B -.sob demanda.-> P[Pesquisa e Benchmarking]
-    B -.sob demanda.-> ESP1[Especialista em IA/ML]
-    B -.sob demanda.-> ESP2[Especialista em Dados/Analytics]
-
-    B --> F[Segurança e Compliance]
-    C --> F
-
-    D --> G[Estimativa de Custo]
-    D --> H["Observabilidade e Telemetria<br/>(frente 1: solução)"]
-
-    C & D & E & F & G & H --> I["Documentação Final<br/>(ponto de sincronização total)"]
-    B & E --> J[Riscos e Mitigação]
-
-    I --> K[Comunicação com Stakeholders]
-    J --> K
-
-    K --> L["Entrega e Handoff<br/>(prepara em paralelo, libera após aprovação)"]
-
-    M{{Trade-offs e ADR}} -.toda decisão importante.-> M
-    O{{Orquestrador}} -.gerencia dependências,<br/>paralelismo e portão de saída.-> O
-
-    L --> N(["Portão de saída:<br/>1. suposições escritas<br/>2. dúvidas fechadas<br/>3. pacote final existe<br/>4. aprovação humana"])
-    N --> Z([Entregue])
+```text
+Demanda crua (SDR, pedido de negócio)
+        │
+        ▼
+  16 agentes especialistas, cada um dono de UMA atividade,
+  perguntando uns aos outros quando têm dúvida fora do próprio escopo
+        │
+        ▼
+  Pacote de arquitetura completo: entendimento, desenho, dados,
+  segurança, custo, observabilidade, riscos, ADRs — com suposições
+  e trade-offs escritos em cada decisão
+        │
+        ▼
+  Portão de saída (aprovação humana obrigatória) → Entregue
 ```
 
-- **Linhas sólidas** = dependência real (espera terminar).
-- **Linhas pontilhadas** = acionado sob demanda, não roda por padrão.
-- Até **4 ramos simultâneos** a partir do Desenho de Arquitetura, isso é o que economiza tempo e tokens.
-- **Documentação Final** é o único ponto de sincronização total: espera todos os ramos técnicos terminarem antes de começar.
+Se você já usou um time real de arquitetura, a analogia é direta: em vez de um arquiteto sênior sozinho tentando cobrir todas as frentes, você tem uma pessoa júnior por atividade, cada uma boa numa coisa só, que sabe pedir ajuda para o colega certo em vez de chutar.
 
-## Duas camadas: execução vs referência
+## Glossário rápido
 
-Este repositório é a raiz de um projeto Claude Code. Isso cria duas camadas lado a lado, que não devem ser confundidas:
+| Termo | O que é |
+| --- | --- |
+| **Agente** | Dono de uma atividade específica (ex: Modelagem de Dados). Decide só dentro do próprio escopo. |
+| **Skill** | O "manual de operação" de uma atividade: quando usar, passos, artefato de saída, critério de pronto. |
+| **Orquestrador** | Gerencia a ordem, o paralelismo e o portão de saída. Não desenha nem decide nada de arquitetura sozinho. |
+| **Demanda** | Um pedido de arquitetura específico, com nome próprio, nunca inventado pelo agente. Vira uma pasta em `demandas/`. |
+| **ADR** | Architecture Decision Record. Toda decisão importante vira um ADR formal, com aprovação humana antes de valer. |
+| **Portão de saída** | Checklist obrigatório (suposições escritas, dúvidas fechadas, pacote completo, aprovação humana) antes de "entregue". |
+| **Substrato** | O conhecimento destilado (stack aprovada, padrões da casa, ADRs anteriores) que os agentes leem antes de decidir. |
 
-```
+## Arquitetura da workspace
+
+Esta seção documenta como a `solutions-architecture-jr-agents` está montada, em quatro vistas complementares: as camadas conceituais, o fluxo de execução numerado (estilo C4), o mesmo fluxo como troca de mensagens no tempo (sequência completa), e o mapeamento para o disco.
+
+### 1. As seis camadas do OS
+
+O projeto segue a metodologia **OS Agêntico**, construída de baixo para cima: cada camada depende da que veio antes.
+
+![As seis camadas do OS, da Identidade até os Agentes](docs/diagrams/01-camadas.svg)
+
+*Fonte editável: [`docs/diagrams/01-camadas.mmd`](docs/diagrams/01-camadas.mmd)*
+
+Tudo o que os agentes decidem, aprendem ou ainda não sabem fica registrado em [`memory.md`](memory.md), a memória viva do OS. Uma auditoria dessas seis camadas está em [`OS-AUDIT.md`](OS-AUDIT.md).
+
+### 2. Fluxo de execução, numerado e em estilo C4
+
+Mesma forma geométrica para o mesmo tipo de caixa — retângulo arredondado em todo lugar, cor indica o papel (sequencial, paralelo, sincronização, transversal), como num diagrama C4 de containers. Os números dentro de cada caixa são a ordem real de execução; letras (`3a`/`3b`/`3c`, `5a`/`5b`, `6a`/`6b`) marcam passos que acontecem **no mesmo estágio, em paralelo**.
+
+![Fluxo de execução das 16 atividades, numerado em estilo C4, do passo 1 ao 10](docs/diagrams/02-fluxo.svg)
+
+*Fonte editável: [`docs/diagrams/02-fluxo.mmd`](docs/diagrams/02-fluxo.mmd)*
+
+| Cor | Significa |
+| --- | --- |
+| 🟦 Azul escuro | Passo sequencial obrigatório (espera o anterior terminar) |
+| 🟦 Azul claro | Ramo paralelo (não depende dos outros do mesmo estágio) |
+| ⬜ Cinza tracejado | Sob demanda — só entra se o gatilho específico bater |
+| 🟧 Laranja | Ponto de sincronização (espera **todos** os ramos que apontam para ele) |
+| 🟥 Vermelho | Portão de saída (gate) |
+| 🟩 Verde | Entregue (fim) |
+| ⬜ Tracejado fino | Transversal — Trade-offs/ADR e Orquestrador atuam o tempo todo, não são um passo numerado |
+
+1. Entendimento e Escopo
+2. Desenho de Arquitetura
+3. Em paralelo — **3a** Modelagem de Dados · **3b** Infraestrutura e Deployment · **3c** Testes e Qualidade (+ sob demanda: Pesquisa e Benchmarking, Especialista IA/ML, Especialista Dados/Analytics)
+4. Segurança e Compliance (espera 2 + 3a)
+5. Em paralelo, após 3b — **5a** Estimativa de Custo · **5b** Observabilidade e Telemetria (frente 1)
+6. Em paralelo — **6a** Documentação Final (sincroniza 3a+3b+3c+4+5a+5b) · **6b** Riscos e Mitigação (espera 2 + 3c)
+7. Comunicação com Stakeholders (espera 6a + 6b)
+8. Entrega e Handoff prepara o material
+9. Portão de saída (suposições, dúvidas fechadas, pacote completo, aprovação humana)
+10. Entregue
+
+### 3. Diagrama de sequência completo
+
+O mesmo fluxo acima, mas como troca de mensagens no tempo — cada um dos 16 agentes aparece individualmente, com o Orquestrador e a Pessoa aprovadora nas pontas. A numeração é automática (`autonumber`), uma por mensagem trocada, então o número aqui é o da mensagem, não o do estágio da vista anterior.
+
+![Diagrama de sequência completo, com os 16 agentes, o Orquestrador e a aprovação humana](docs/diagrams/04-sequencia.svg)
+
+*Fonte editável: [`docs/diagrams/04-sequencia.mmd`](docs/diagrams/04-sequencia.mmd)*
+
+### 4. Execução vs. referência no disco
+
+Este repositório é a raiz de um projeto Claude Code, o que cria duas camadas lado a lado que não devem ser confundidas: uma versão **enxuta e invocável** dentro de `.claude/`, e a **documentação de referência completa** que essa versão enxuta consulta antes de agir.
+
+![Camada de execução em .claude/ apontando para a camada de referência na raiz](docs/diagrams/03-execucao-referencia.svg)
+
+*Fonte editável: [`docs/diagrams/03-execucao-referencia.mmd`](docs/diagrams/03-execucao-referencia.mmd)*
+
+Os arquivos de execução apontam para os de referência em vez de duplicar conteúdo. `.claude/` guarda só o que o Claude Code precisa descobrir (subagentes e a skill de entrada); o resto — inclusive a documentação completa de cada atividade — vive na raiz, fora de `.claude/`, porque subagentes despachados resolvem caminho relativo contra a raiz real do projeto, nunca contra `.claude/`. **Por isso todo despacho de subagente usa caminho absoluto** (reforçado por um hook real em `.claude/settings.json`, ver [Regras e governança](#regras-e-governança)).
+
+```text
 .
 ├── .claude/
-│   ├── agents/                      # CAMADA DE EXECUÇÃO: 16 subagentes reais (front-matter, invocáveis)
-│   │   ├── entendimento-e-escopo.md
-│   │   └── ...
-│   └── skills/
-│       └── arquiteto-solucoes/SKILL.md  # CAMADA DE EXECUÇÃO: ponto de entrada, /arquiteto-solucoes
-├── agents/<atividade>/AGENT.md      # CAMADA DE REFERÊNCIA: o subagente lê isto antes de agir
-├── skills/<atividade>/SKILL.md      # CAMADA DE REFERÊNCIA: passos, artefato, critério de pronto
-└── (CLAUDE.md, memory.md, demandas/, adrs/, rules/, substrate/, ...)
-```
-
-Os arquivos de execução são enxutos de propósito, eles apontam para os de referência em vez de duplicar o conteúdo. `.claude/` guarda só o que o Claude Code precisa descobrir de fato (subagentes e a skill de entrada); todo o resto — inclusive a documentação de referência de cada atividade — vive na raiz, fora de `.claude/`, porque subagentes despachados via Task resolvem caminho relativo contra a raiz real do projeto, não contra `.claude/`.
-
-## Estrutura do repositório (camada de referência)
-
-```
-.
-├── CLAUDE.md              # Identidade do OS (camada 1)
-├── memory.md              # Memória viva: decisões, status, perguntas em aberto
-├── OS-AUDIT.md            # Última auditoria completa das seis camadas
-├── tools.md               # Conexões externas (camada 5), hoje somente leitura e nenhuma ligada
-├── telemetria-agentes.md  # Registro contínuo de tempo/tokens gastos, entre demandas (ainda vazio)
-├── adrs/                  # Architecture Decision Records formais, aprovados, globais (reaproveitáveis por qualquer demanda)
-├── demandas/
-│   └── <nome-da-demanda>/ # Uma pasta por demanda real, criada pelo agente de Entendimento e Escopo
-│       ├── entendimento.md
-│       ├── desenho.md
-│       └── ...            # um arquivo por atividade que rodou nesta demanda, ver tabela abaixo
+│   ├── agents/*.md                       # execução: 16 subagentes reais
+│   └── skills/arquiteto-solucoes/SKILL.md # execução: ponto de entrada
+├── CLAUDE.md               # Identidade (camada 1)
+├── memory.md               # Memória viva: decisões, status, perguntas em aberto
+├── OS-AUDIT.md             # Última auditoria completa das seis camadas
+├── tools.md                # Conexões externas (camada 5), hoje nenhuma ligada
+├── telemetria-agentes.md   # Registro contínuo de tempo/tokens gastos, entre demandas
+├── adrs/                   # ADRs formais, aprovados, globais, reaproveitáveis
+├── demandas/                # Uma pasta por demanda real (local, não versionado)
+│   └── <nome-da-demanda>/
 ├── rules/
-│   ├── always.md          # O que todo agente sempre faz + hooks
-│   └── never.md           # Paradas duras
+│   ├── always.md           # O que todo agente sempre faz + hooks
+│   └── never.md            # Paradas duras
 ├── substrate/
-│   ├── compendium.md      # A referência destilada que os agentes leem antes de decidir
-│   └── sources.md         # De onde esse conhecimento vem
-├── skills/
-│   ├── roadmap.md         # As 16 atividades, o que já foi conquistado
-│   └── <atividade>/SKILL.md
-└── agents/
-    ├── roadmap.md         # Espelha skills/roadmap.md
-    ├── orquestrador/AGENT.md
-    └── <atividade>/AGENT.md
+│   ├── compendium.md       # Referência destilada que os agentes leem antes de decidir
+│   └── sources.md          # De onde esse conhecimento vem
+├── skills/<atividade>/SKILL.md   # referência: passos, artefato, critério de pronto
+└── agents/<atividade>/AGENT.md   # referência: papel, dependências, portão de revisão
 ```
 
-Cada atividade tem a mesma pasta em `skills/` e `agents/` (mesmo nome), para ser fácil de achar as duas metades de uma atividade.
+Cada atividade tem a mesma pasta em `skills/` e `agents/` (mesmo nome), para ser fácil achar as duas metades de uma atividade.
+
+---
+
+## Pré-requisitos
+
+- [Claude Code](https://claude.com/claude-code) instalado.
+- Nenhuma dependência externa, chave de API ou etapa de build. `tools.md` documenta conexões futuras opcionais (repositório de docs, backlog, observabilidade), todas ainda desligadas.
+
+## Quickstart
+
+**1. Coloque este repositório na raiz do seu projeto Claude Code.**
+Este repositório já É a raiz — não o aninhe dentro do `.claude/` de outro projeto.
+
+```bash
+git clone <este-repositório>
+cd solutions-architecture-jr-agents
+claude   # sempre abra a CLI a partir daqui, não de uma subpasta
+```
+
+> Por que a partir da raiz? O Claude Code carrega `.claude/settings.json` a partir do diretório onde a sessão foi iniciada, não da raiz do git. Abrir de uma subpasta faz o hook de caminho absoluto (ver [Regras e governança](#regras-e-governança)) simplesmente não carregar, sem aviso de erro. Confira com `/hooks` que `PreToolUse` aparece listado.
+
+**2. Dispare uma demanda nova.**
+
+```text
+/arquiteto-solucoes <cole aqui o pedido ou o SDR>
+```
+
+A primeira coisa que o time faz é confirmar o **nome da demanda** com você — esse nome nunca é inventado por um agente (ver [rules/never.md](rules/never.md)). É esse nome exato que vira a pasta `demandas/<nome-da-demanda>/`.
+
+**3. Deixe o time trabalhar.**
+A skill de entrada despacha os 16 agentes na ordem e no paralelismo do [fluxo](#2-fluxo-de-execução-numerado-e-em-estilo-c4), até o portão de saída — que inclui aprovação humana obrigatória — e a liberação final em `demandas/<nome-da-demanda>/handoff.md`.
+
+**4. Acompanhe sem interromper, a qualquer momento.**
+
+```text
+/arquiteto-solucoes status <nome-da-demanda>
+```
+
+Mostra o que já rodou e o que falta, sem despachar nenhum agente novo.
+
+**5. Quando o portão de saída pedir aprovação, revise e aprove.**
+Nada sai como "entregue" sem uma pessoa do time confirmar — mesmo que todos os outros critérios do portão já tenham passado.
 
 ### Onde ficam os outputs de uma demanda
 
-O nome da demanda **nunca é inventado por um agente**. Quem pede a demanda informa o nome explicitamente ao agente de Entendimento e Escopo (ou o agente pergunta e espera a resposta, se ninguém deu um nome ainda). Esse nome, exatamente como dado, vira a pasta `demandas/<nome-da-demanda>/`, e cada atividade que rodar nessa demanda grava um arquivo lá dentro (`entendimento.md`, `desenho.md`, `dados.md`, etc.), em vez de espalhar arquivos soltos na raiz. Duas exceções ficam fora de `demandas/`: `adrs/` (decisões reaproveitáveis por demandas futuras) e `telemetria-agentes.md` (registro contínuo entre demandas).
+O nome da demanda **nunca é inventado por um agente**. Quem pede informa o nome explicitamente ao agente de Entendimento e Escopo (ou o agente pergunta e espera a resposta). Esse nome vira a pasta `demandas/<nome-da-demanda>/`, e cada atividade grava um arquivo lá (`entendimento.md`, `desenho.md`, `dados.md`, etc.), em vez de espalhar arquivos soltos na raiz. Duas exceções ficam fora de `demandas/`: `adrs/` (decisões reaproveitáveis por demandas futuras) e `telemetria-agentes.md` (registro contínuo entre demandas).
 
-> `demandas/` está em `.gitignore` e não faz parte deste repositório público: sempre que uma demanda roda, os artefatos ficam só no seu clone local. As demandas usadas para validar a cadeia de agentes ponta a ponta durante o desenvolvimento deste OS foram todas sintéticas (nomes de empresa, SDRs, orçamentos e decisões fictícios, nenhuma descrevendo um cliente real), e por isso mesmo não foram publicadas — mantenha o mesmo cuidado com as suas.
+> `demandas/` está em `.gitignore`, não faz parte deste repositório público: os artefatos de cada demanda ficam só no seu clone local. As demandas usadas para validar a cadeia durante o desenvolvimento deste OS foram todas sintéticas (empresa, SDR, orçamento e decisões fictícios), e por isso não foram publicadas — mantenha o mesmo cuidado com as suas.
 
 ## Os 16 agentes
 
 | # | Agente | Quando entra | Depende de / é acionado por |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 1 | [Entendimento e Escopo](agents/entendimento-e-escopo/AGENT.md) | Sempre, primeiro | A demanda crua |
 | 2 | [Desenho de Arquitetura](agents/desenho-de-arquitetura/AGENT.md) | Sempre, segundo | Entendimento e Escopo |
 | 3 | [Pesquisa e Benchmarking](agents/pesquisa-e-benchmarking/AGENT.md) | Sob demanda | Quando a stack aprovada não resolve |
@@ -171,39 +233,20 @@ O nome da demanda **nunca é inventado por um agente**. Quem pede a demanda info
 
 - **Nunca** ([`rules/never.md`](rules/never.md)): um agente decide fora do próprio escopo; uma dúvida entre agentes passa de 3 rodadas sem se resolver (na 4ª, escala para revisão humana); uma entrega sai sem suposições/trade-offs escritos; um agente reaproveita contexto de uma demanda anterior.
 - **Sempre** ([`rules/always.md`](rules/always.md)): expor suposições e trade-offs; perguntar ao dono da atividade em caso de dúvida; paralelizar quando possível; registrar tempo/tokens gastos.
-- **Decisões importantes viram ADR** ([`adrs/`](adrs/)), formalizadas pelo agente [Trade-offs e ADR](agents/trade-offs-e-adr/AGENT.md), com portão de aprovação humana obrigatório (pessoa sênior ou líder técnico) antes de valer como decisão oficial.
+- **Hook real de caminho absoluto**: `.claude/settings.json` bloqueia (`PreToolUse`, `permissionDecision: deny`) qualquer despacho de subagente cujo prompt referencie `demandas/...` sem caminho absoluto. É reforço de verdade do harness, não só descrição de comportamento — só funciona se a sessão for aberta a partir da raiz do repo (ver [Quickstart](#quickstart)).
+- **Decisões importantes viram ADR** ([`adrs/`](adrs/)), formalizadas pelo agente [Trade-offs e ADR](agents/trade-offs-e-adr/AGENT.md), com portão de aprovação humana obrigatório antes de valer como decisão oficial.
 - **Cloud é agnóstica de provedor** ([ADR 001](adrs/adr-001-cloud-agnostica-por-criterio-de-negocio.md)): a escolha é por critério de negócio a cada demanda, não fixada em um provedor.
-- **Microsserviços seguem os limites de domínio** ([ADR 002](adrs/adr-002-microsservicos-como-consequencia-de-ddd.md)): o time usa TOGAF (Business Architecture) para mapear capacidades de negócio e DDD (Domain-Driven Design) para traduzir isso em bounded contexts.
-
-## Pré-requisitos
-
-- [Claude Code](https://claude.com/claude-code) instalado.
-- Nenhuma dependência externa, chave de API ou etapa de build. `tools.md` documenta conexões futuras opcionais (repositório de docs, backlog, observabilidade), todas ainda desligadas.
-
-## Como usar
-
-Este projeto é registrado no padrão nativo do Claude Code, em duas camadas:
-
-- **`.claude/skills/arquiteto-solucoes/SKILL.md`**: o ponto de entrada. Uma skill de verdade (com front-matter `name`/`description`/`allowed-tools`), invocável com `/arquiteto-solucoes`.
-- **`.claude/agents/*.md`**: os 16 subagentes reais, um por atividade, cada um com seu próprio front-matter (`name`, `description`, `tools`), invocáveis individualmente pela ferramenta de Agent/Task do Claude Code. A skill de entrada os despacha na ordem certa, paralelizando o que pode ser paralelo.
-
-Os arquivos em `agents/<atividade>/AGENT.md` e `skills/<atividade>/SKILL.md` (sem o prefixo `.claude/`) continuam existindo, são a documentação de referência completa que cada subagente lê antes de agir (papel, passos, critério de pronto, portão de revisão). O subagente registrado é a versão enxuta que aciona essa referência, não uma duplicata.
-
-1. Clone o repositório (ou copie a pasta inteira) para a raiz do projeto onde você quer usar o time de agentes — este repositório já É essa raiz, não deve ser aninhado dentro do `.claude/` de outro projeto.
-2. Rode `/arquiteto-solucoes <pedido ou SDR colado>` no Claude Code, dentro dessa pasta.
-3. **Dê um nome explícito à demanda quando for pedido.** Esse nome nunca é inventado por um agente, vira a pasta `demandas/<nome-da-demanda>/` onde tudo desta demanda é gravado (veja [Onde ficam os outputs de uma demanda](#onde-ficam-os-outputs-de-uma-demanda)).
-4. A skill de entrada despacha os subagentes na ordem e no paralelismo do [fluxo](#arquitetura-do-fluxo), até o portão de saída (com aprovação humana obrigatória) e a liberação em `demandas/<nome-da-demanda>/handoff.md`.
-5. Rode `/arquiteto-solucoes status <nome-da-demanda>` a qualquer momento para ver o que já rodou e o que falta, sem despachar nada.
+- **Microsserviços seguem os limites de domínio** ([ADR 002](adrs/adr-002-microsservicos-como-consequencia-de-ddd.md)): TOGAF (Business Architecture) mapeia capacidades de negócio, DDD traduz isso em bounded contexts.
 
 ## Estado atual
 
 Veja [`OS-AUDIT.md`](OS-AUDIT.md) para a auditoria completa. Resumo honesto:
 
-- As seis camadas do OS estão `solid`, o roteiro de 16 atividades está fechado, dois ADRs estão formalmente aprovados, e uma primeira demanda real já rodou ponta a ponta (`demandas/sdr-2026-001-portal-digital-de-sinistros-e-upload-de-fotos/`), embora nessa rodada os agentes ainda tenham sido simulados manualmente, não despachados pelo mecanismo abaixo.
+- As seis camadas do OS estão sólidas, o roteiro de 16 atividades está fechado, dois ADRs estão formalmente aprovados, e uma primeira demanda real já rodou ponta a ponta (`demandas/sdr-2026-001-portal-digital-de-sinistros-e-upload-de-fotos/`), embora nessa rodada os agentes ainda tenham sido simulados manualmente, não despachados pelo mecanismo de subagente.
 - **Os 16 subagentes e a skill de entrada foram registrados** em `.claude/agents/` e `.claude/skills/arquiteto-solucoes/`, seguindo o padrão nativo do Claude Code. Ainda não foram testados invocando `/arquiteto-solucoes` de ponta a ponta neste formato, só verificados estruturalmente (front-matter, caminho de descoberta).
 - **Os dois especialistas sob demanda (Dados/Analytics e IA/ML) nunca foram acionados de verdade.** O critério de gatilho deles ainda não foi testado.
-- `tools.md` lista três conexões externas úteis, nenhuma está ligada ainda.
-- Custo de processamento por agente (tokens/tempo reais, não estimados) ainda depende de rodar via essa execução por subagente de verdade, ver `telemetria-agentes.md` e `demandas/<nome-da-demanda>/custo-processamento.md`.
+- `tools.md` lista três conexões externas úteis, nenhuma ligada ainda.
+- Custo de processamento por agente (tokens/tempo reais, não estimados) ainda depende de rodar via execução por subagente de verdade — ver `telemetria-agentes.md` e `demandas/<nome-da-demanda>/custo-processamento.md`.
 
 ## Como estender (adicionar um agente novo)
 
