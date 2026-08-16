@@ -2,7 +2,7 @@
 
 Um time de agentes de IA — construído sobre o [Claude Code](https://claude.com/claude-code) — que atua como um **Arquiteto de Soluções Júnior**. Em vez de um prompt genérico tentando fazer tudo de uma vez, cada atividade real do trabalho de arquitetura vira um agente próprio, com escopo estreito, uma skill dedicada e um critério claro de "isso está bem feito".
 
-> **Status do projeto:** as 18 atividades + o Orquestrador estão especificadas e registradas como skill/subagentes nativos do Claude Code (`/arquiteto-solucoes`). Quatro demandas já rodaram ponta a ponta via despacho real de subagente. Os dois agentes mais novos (Geração de Diagramas C4 e Jornadas do Usuário) ainda não passaram por essa validação end-to-end — veja [Estado atual](#estado-atual).
+> **Status do projeto:** as 18 atividades + o Orquestrador estão especificadas e registradas como skill/subagentes nativos do Claude Code (`/arquiteto-solucoes`). Sete demandas já rodaram ponta a ponta via despacho real de subagente, incluindo os dois agentes mais novos (Geração de Diagramas C4 e Jornadas do Usuário) — veja [Estado atual](#estado-atual).
 
 ---
 
@@ -243,12 +243,12 @@ O nome da demanda **nunca é inventado por um agente**. Quem pede informa o nome
 
 Veja [`memory.md`](memory.md) para o histórico completo de decisões. Resumo honesto:
 
-- As seis camadas do OS estão sólidas, o roteiro de 18 atividades está fechado, quatro demandas reais já rodaram ponta a ponta via `/arquiteto-solucoes` de verdade (despacho por subagente, não simulação), com custo de processamento medido em tokens reais — ver `telemetria-agentes.md`.
+- As seis camadas do OS estão sólidas, o roteiro de 18 atividades está fechado, sete demandas reais já rodaram ponta a ponta via `/arquiteto-solucoes` de verdade (despacho por subagente, não simulação), com custo de processamento medido em tokens reais — ver `telemetria-agentes.md`.
 - **Os subagentes e a skill de entrada estão registrados** em `.claude/agents/` e `.claude/skills/arquiteto-solucoes/`, seguindo o padrão nativo do Claude Code, e já foram exercitados de ponta a ponta em execuções reais.
-- **Dois agentes novos (Geração de Diagramas C4 e Jornadas do Usuário) foram adicionados em 2026-08-15** (ver `memory.md`) para resolver diagramas ASCII dessincronizados entre `desenho.md`/`documentacao-final.md` e para dar um roteiro de sequência a partir dos requisitos. Ainda não rodaram numa demanda real de ponta a ponta — próximo passo real do projeto.
+- **Dois agentes novos (Geração de Diagramas C4 e Jornadas do Usuário) foram adicionados em 2026-08-15** (ver `memory.md`) para resolver diagramas ASCII dessincronizados entre `desenho.md`/`documentacao-final.md` e para dar um roteiro de sequência a partir dos requisitos. Já rodaram de ponta a ponta em várias demandas reais desde então, incluindo a geração de diagramas de sequência via ArchiFy e a correção que tornou `jornadas.md` sempre determinístico (veredito explícito, nunca ausência silenciosa).
 - **Dos dois especialistas sob demanda, só o de IA/ML já foi acionado de verdade** (`demandas/plataforma-ia-corporativa-v1/`, confirmando que o gatilho dispara quando deveria, depois de três demandas seguidas confirmando só o caminho de não disparar à toa). **O Especialista em Dados e Analytics nunca foi acionado** — nenhuma demanda real até agora teve decisão de plataforma analítica de verdade.
 - `tools.md` lista três conexões externas úteis, nenhuma ligada ainda.
-- ADRs 001 a 020 registrados em `adrs/`, com aprovação humana explícita registrada em cada um antes de valer como oficial.
+- ADRs 001 a 022 registrados em `adrs/`, com aprovação humana explícita registrada em cada um antes de valer como oficial.
 
 ## Como estender (adicionar um agente novo)
 

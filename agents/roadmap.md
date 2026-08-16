@@ -2,7 +2,7 @@
 
 Espelha `skills/roadmap.md`. Cada atividade só virou agente depois que a skill dela foi conquistada de verdade, para não construir um "gerente" de trabalho que ainda não existia. As 14 atividades originais, o Orquestrador, dois especialistas sob demanda, um agente transversal de geração de diagramas e Jornadas do Usuário estão prontos.
 
-## Prontos (15 atividades + 2 especialistas sob demanda + 1 transversal + Orquestrador)
+## Prontos (14 atividades + 2 especialistas sob demanda + 2 transversais + Orquestrador)
 1. **Entendimento e Escopo** - `agents/entendimento-e-escopo/AGENT.md`
 2. **Desenho de Arquitetura** - `agents/desenho-de-arquitetura/AGENT.md`
 3. **Pesquisa e Benchmarking** (sob demanda, quando a stack aprovada não resolve) - `agents/pesquisa-e-benchmarking/AGENT.md`
