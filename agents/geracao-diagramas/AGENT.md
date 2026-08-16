@@ -16,7 +16,7 @@ Qualquer agente que precise de um diagrama C4/sequência pra uma demanda, ou ten
 Desenho de Arquitetura decide os bounded contexts, componentes e integrações — este agente nunca inventa ou corrige essa estrutura, só traduz o que está em `desenho.md` pro spec (`docs/diagrams/c4-schema.md`) e gera o diagrama. Estrutura incompleta ou ambígua demais pra virar diagrama → a dúvida volta pro Desenho de Arquitetura, não é resolvida aqui.
 
 ## Fronteira com Jornadas do Usuário
-[[agents/jornadas-do-usuario/AGENT]] decide o passo a passo de cada jornada (as sequências, fonte dinâmica) — este agente nunca decide agrupamento de jornada, só **deriva** o Container/Contexto a partir do catálogo estático (que ele mesmo produz de `desenho.md`) combinado com essas sequências, via `docs/diagrams/c4-gerador/derivar_c4.py`. Quando o catálogo e as sequências divergem (`[ORFAO]`/`[FALTA-CATALOGO]`), este agente não decide qual dos dois está certo — devolve a pergunta a quem produziu o documento desatualizado.
+[[agents/jornadas-do-usuario/AGENT]] decide o passo a passo de cada jornada (as sequências, fonte dinâmica) — este agente nunca decide agrupamento de jornada, só **deriva** o Container/Contexto a partir do catálogo estático (que ele mesmo produz de `desenho.md`) combinado com essas sequências, via `scripts/derivar_c4.py`. Quando o catálogo e as sequências divergem (`[ORFAO]`/`[FALTA-CATALOGO]`), este agente não decide qual dos dois está certo — devolve a pergunta a quem produziu o documento desatualizado.
 
 ## Fronteira com Documentação Final
 Documentação Final decide QUE diagramas entram no pacote final e em que ordem — este agente só gera os artefatos sob pedido, não decide a montagem do documento.

@@ -43,7 +43,7 @@ python3 exportar_archify.py ENTRADA.json SAIDA.html [--journey JOURNEY_ID] [--ar
 
 ## Testes — `exportar_archify.py`
 
-Validado na POC (`../poc-archify/NOTAS-POC.md`) contra specs reais de `integracao-crm-oci-whatsapp` (Container geral, Contexto, e as duas visões filtradas por jornada — 4 de 4 convergindo em `showcase` 9/9) e testado de novo depois da promoção a pipeline padrão (2026-08-16), contra o Contexto de `plataforma-ia-corporativa-v1` (convergiu em 5 rodadas).
+Validado contra specs reais de `integracao-crm-oci-whatsapp` (Container geral, Contexto, e as duas visões filtradas por jornada — 4 de 4 convergindo em `showcase` 9/9) e testado de novo depois da promoção a pipeline padrão (2026-08-16), contra o Contexto de `plataforma-ia-corporativa-v1` (convergiu em 5 rodadas). Notas da POC original que validou essa abordagem foram descartadas após a promoção a padrão (2026-08-16).
 
 ## Uso — `exportar_sequencia_archify.py` (spec de sequência → HTML interativo)
 

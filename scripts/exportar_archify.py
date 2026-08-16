@@ -27,7 +27,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-RAIZ_REPO = Path(__file__).resolve().parents[3]
+RAIZ_REPO = Path(__file__).resolve().parents[1]
 ARCHIFY_BIN_PADRAO = RAIZ_REPO / "skills" / "vendors" / "archify" / "archify" / "bin" / "archify.mjs"
 
 

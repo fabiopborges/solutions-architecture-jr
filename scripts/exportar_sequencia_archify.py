@@ -37,7 +37,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from exportar_archify import classificar_tipo, validar, entregar, contar_palavras, LIMITE_PALAVRAS_ROTULO  # noqa: E402
 
-RAIZ_REPO = Path(__file__).resolve().parents[3]
+RAIZ_REPO = Path(__file__).resolve().parents[1]
 ARCHIFY_BIN_PADRAO = RAIZ_REPO / "skills" / "vendors" / "archify" / "archify" / "bin" / "archify.mjs"
 
 PASSO_Y = 70

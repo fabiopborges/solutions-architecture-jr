@@ -1,6 +1,6 @@
 # Schema de diagrama C4 — autoral, agnóstico de provedor
 
-Formato de dados que representa um diagrama C4 (nível Contexto, Container ou Componente), pensado para ser gerado por qualquer agente da cadeia (hoje: Desenho de Arquitetura, futuramente também Jornadas do Usuário) e consumido pelo pipeline de geração (`docs/diagrams/c4-gerador/`, MVP 3). O renderer padrão é `exportar_archify.py` (HTML interativo via ArchiFy vendorizado). A geração de `.drawio` foi eliminada do projeto em 2026-08-16.
+Formato de dados que representa um diagrama C4 (nível Contexto, Container ou Componente), pensado para ser gerado por qualquer agente da cadeia (hoje: Desenho de Arquitetura, futuramente também Jornadas do Usuário) e consumido pelo pipeline de geração (`scripts/`, MVP 3). O renderer padrão é `exportar_archify.py` (HTML interativo via ArchiFy vendorizado). A geração de `.drawio` foi eliminada do projeto em 2026-08-16.
 
 Este schema é **inspirado em padrões estruturais comuns de ferramentas de diagramação C4** (separação ator/fronteira/componente/conexão; status→cor; rótulo obrigatório; síncrono/assíncrono), mas a nomenclatura, os enums e os exemplos abaixo são **integralmente autorais deste projeto** — nenhum termo, ID de projeto ou nome de empresa de qualquer referência externa aparece aqui.
 
@@ -63,7 +63,7 @@ Comunicações entre atores/componentes.
 
 ## Convenção de cores por status
 
-Fixas no gerador (`docs/diagrams/c4-gerador/`), não configuráveis por spec, para garantir que todo diagrama gerado por este projeto seja visualmente consistente:
+Fixas no gerador (`scripts/`), não configuráveis por spec, para garantir que todo diagrama gerado por este projeto seja visualmente consistente:
 
 | Status | Cor de preenchimento | Cor de borda | Significado |
 |---|---|---|---|
@@ -82,13 +82,13 @@ Isso evita duplicar modelagem — a mesma fonte de verdade gera as duas visões,
 
 ## Exemplo
 
-Ver `docs/diagrams/exemplo-schema.json` — uma instância fictícia mínima (nível Container, 1 ator, 1 fronteira, 3 componentes com os 3 status diferentes, 3 conexões incluindo uma assíncrona e uma marcada com `journey_id`).
+O exemplo fictício mínimo que ilustrava este formato foi descartado (2026-08-16). Para um exemplo real, ver `demandas/<nome-da-demanda>/diagramas/catalogo-componentes.json` de qualquer demanda já processada — `projeto-nuvem-vendas-v1` é um caso completo (atores, fronteiras, componentes com os três status, conexões síncronas e assíncronas).
 
 ---
 
 ## Pipeline invertido: catálogo + sequência → Container/Contexto derivados (MVP 7)
 
-O formato acima (`componentes[]`+`conexoes[]` juntos num só spec) continua válido e é o que o pipeline de geração sempre consumiu (hoje: `docs/diagrams/c4-gerador/exportar_archify.py`) — mas passar a construir esse spec diretamente traduzindo `desenho.md` (como o MVP 6 fez) tem um risco real: a estrutura do Container pode divergir da sequência de execução que `jornadas.md` descreve, porque as duas são autoradas de forma independente. Foi exatamente isso que aconteceu na demanda `integracao-crm-oci-whatsapp` (tensão do componente C5: `desenho.md` dizia "interno a C2", mas o ASCII e `jornadas.md` já desenhavam como componente separado).
+O formato acima (`componentes[]`+`conexoes[]` juntos num só spec) continua válido e é o que o pipeline de geração sempre consumiu (hoje: `scripts/exportar_archify.py`) — mas passar a construir esse spec diretamente traduzindo `desenho.md` (como o MVP 6 fez) tem um risco real: a estrutura do Container pode divergir da sequência de execução que `jornadas.md` descreve, porque as duas são autoradas de forma independente. Foi exatamente isso que aconteceu na demanda `integracao-crm-oci-whatsapp` (tensão do componente C5: `desenho.md` dizia "interno a C2", mas o ASCII e `jornadas.md` já desenhavam como componente separado).
 
 A partir do MVP 7, a fonte de verdade primária passa a ser dividida em dois arquivos menores, e o Container/Contexto é **derivado**, nunca autorado diretamente:
 
@@ -116,7 +116,7 @@ Cada mensagem em `mensagens[]`:
 | `assincrona` | boolean | não | Mesma semântica de `conexoes[].assincrona` |
 | `tipo` | enum | não (default `chamada`) | `chamada` (vira seta no Container) \| `retorno` (resposta, NÃO vira seta) \| `self` (chamada interna do mesmo componente, NÃO vira seta) |
 
-### Regras de derivação (`docs/diagrams/c4-gerador/derivar_c4.py`)
+### Regras de derivação (`scripts/derivar_c4.py`)
 
 1. Mensagens com `tipo="retorno"` ou `tipo="self"` (ou `de == para`) são ignoradas na projeção para Container — são detalhe de sequência, não estrutura.
 2. Deduplicação por `(de, para, protocolo)`: a primeira ocorrência (na ordem temporal) define o rótulo usado no Container; ocorrências repetidas na mesma jornada ou em jornadas diferentes não geram conexões duplicadas.
