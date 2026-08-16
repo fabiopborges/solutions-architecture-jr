@@ -5,6 +5,7 @@ flowchart TD
     C["<b>3a</b> · Modelagem de Dados"]:::par
     D["<b>3b</b> · Infraestrutura e Deployment"]:::par
     E["<b>3c</b> · Testes e Qualidade"]:::par
+    Q["<b>3d</b> · Jornadas do Usuário"]:::par
     P["Pesquisa e Benchmarking<br/><small>sob demanda</small>"]:::opt
     ESP1["Especialista em IA/ML<br/><small>sob demanda</small>"]:::opt
     ESP2["Especialista em Dados/Analytics<br/><small>sob demanda</small>"]:::opt
@@ -22,6 +23,7 @@ flowchart TD
 
     M["Trade-offs e ADR<br/><small>toda decisão importante</small>"]:::cross
     O["Orquestrador<br/><small>dependências · paralelismo · portão</small>"]:::cross
+    R["Geração de Diagramas C4<br/><small>acionado por Desenho e Doc. Final</small>"]:::cross
 
     N(["<b>9</b> · Portão de saída<br/>suposições · dúvidas fechadas ·<br/>pacote completo · aprovação humana"]):::gate
     Z(["<b>10</b> · Entregue"]):::done
@@ -30,6 +32,7 @@ flowchart TD
     B --> C
     B --> D
     B --> E
+    B --> Q
     B -.-> P
     B -.-> ESP1
     B -.-> ESP2
@@ -43,6 +46,7 @@ flowchart TD
     F --> I
     G --> I
     H --> I
+    Q --> I
     B --> J
     E --> J
     I --> K
@@ -50,6 +54,9 @@ flowchart TD
     K --> L
     L --> N
     N --> Z
+
+    B -.aciona.-> R
+    I -.aciona.-> R
 
     classDef seq fill:#1168bd,color:#ffffff,stroke:#0b4884,stroke-width:1px,rx:6,ry:6
     classDef par fill:#438dd5,color:#ffffff,stroke:#2e6295,stroke-width:1px,rx:6,ry:6

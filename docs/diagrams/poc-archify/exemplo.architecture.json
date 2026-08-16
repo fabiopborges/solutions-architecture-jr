@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Demanda Fictícia — Container",
+    "output": "exemplo.html",
+    "quality_profile": "showcase",
+    "subtitle": "exemplo mínimo, dados fictícios",
+    "viewBox": [
+      381,
+      1097
+    ]
+  },
+  "components": [
+    {
+      "id": "usuario_final",
+      "type": "external",
+      "label": "Usuário Final",
+      "sublabel": "Cliente que aciona a funcionalidade",
+      "size": [
+        269,
+        64
+      ],
+      "pos": [
+        65.5,
+        80
+      ]
+    },
+    {
+      "id": "gateway",
+      "type": "backend",
+      "label": "Gateway de Entrada",
+      "sublabel": "Recebe e roteia requisições externas",
+      "tag": "NOVO",
+      "size": [
+        276,
+        64
+      ],
+      "pos": [
+        62.0,
+        344
+      ]
+    },
+    {
+      "id": "servico_core",
+      "type": "backend",
+      "label": "Serviço Principal",
+      "sublabel": "Processa a lógica de negócio central",
+      "tag": "NOVO",
+      "size": [
+        276,
+        64
+      ],
+      "pos": [
+        62.0,
+        608
+      ]
+    },
+    {
+      "id": "sistema_legado",
+      "type": "backend",
+      "label": "Sistema Legado",
+      "sublabel": "Sistema já existente, consultado sem alteração",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        60.0,
+        872
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c0",
+      "from": "usuario_final",
+      "to": "gateway",
+      "label": "Envia requisição (HTTPS)",
+      "labelDy": 46,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c1",
+      "from": "gateway",
+      "to": "servico_core",
+      "label": "Roteia requisição (REST/HTTPS)",
+      "labelDy": 46,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c2",
+      "from": "servico_core",
+      "to": "sistema_legado",
+      "label": "Publica evento de atualização (fila)",
+      "labelDy": 46,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Sistema Fictício — nuvem pública",
+      "wraps": [
+        "gateway",
+        "servico_core"
+      ]
+    }
+  ]
+}

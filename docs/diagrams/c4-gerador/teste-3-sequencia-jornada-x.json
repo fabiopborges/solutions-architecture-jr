@@ -1,0 +1,12 @@
+{
+  "journey_id": "jornada-x",
+  "titulo": "Jornada de teste com órfão e falta-catálogo propositais",
+  "mensagens": [
+    {"ordem": 1, "de": "usuario", "para": "gw", "rotulo": "Envia requisição", "protocolo": "HTTPS", "assincrona": false, "tipo": "chamada"},
+    {"ordem": 2, "de": "gw", "para": "svc", "rotulo": "Roteia requisição", "protocolo": "REST", "assincrona": false, "tipo": "chamada"},
+    {"ordem": 3, "de": "svc", "para": "svc", "rotulo": "Valida regra de negócio internamente", "tipo": "self"},
+    {"ordem": 4, "de": "svc", "para": "servico_nao_catalogado", "rotulo": "Consulta serviço externo não catalogado", "protocolo": "REST", "assincrona": false, "tipo": "chamada"},
+    {"ordem": 5, "de": "servico_nao_catalogado", "para": "svc", "rotulo": "Retorna dados", "protocolo": "REST", "tipo": "retorno"},
+    {"ordem": 6, "de": "svc", "para": "gw", "rotulo": "Retorna resultado", "tipo": "retorno"}
+  ]
+}

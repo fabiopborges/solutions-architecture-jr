@@ -6,3 +6,10 @@ BACKLOG.md
 
 # Demandas de teste, dados sintéticos locais, não versionar.
 demandas/
+
+# Templates/stencils de referência com IP da empresa do usuário, nunca versionar.
+templates-drawio/
+
+# Venv Python local (POC drawpyo/graphviz), nunca versionar.
+.venv/
+__pycache__/

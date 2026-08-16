@@ -1,6 +1,6 @@
 # Telemetria dos Agentes
 
-Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido pelo agente [[agents/observabilidade-e-telemetria/AGENT]], frente 2. Quatro demandas rodaram até agora: a primeira simulada (um agente-modelo narrando os 14 papéis), a segunda, a terceira e a quarta via subagentes reais (`/arquiteto-solucoes`), com uso de token medido de verdade por agente.
+Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido pelo agente [[agents/observabilidade-e-telemetria/AGENT]], frente 2. Cinco demandas rodaram até agora: a primeira simulada (um agente-modelo narrando os 14 papéis), as demais via subagentes reais (`/arquiteto-solucoes`), com uso de token medido de verdade por agente.
 
 ## Formato de uma entrada
 - Demanda:
@@ -138,3 +138,41 @@ Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido p
 **Paralelo vs sequencial:** Entendimento → Desenho sequencial (dependência real, com round-trip humano no meio do Entendimento). Logo após o Desenho, 4 agentes em paralelo real na mesma rodada (Especialista IA/ML, Modelagem de Dados, Infraestrutura, Testes e Qualidade) — o maior lote de paralelismo simultâneo registrado até agora nesta telemetria. Depois, revisão de Desenho → reavaliação de Testes sequencial por dependência. Trade-offs e ADR (ADRs 012-017), Segurança e Compliance e Estimativa de Custo rodaram em paralelo entre si. Documentação Final, Riscos e Mitigação, Comunicação com Stakeholders e Entrega e Handoff fecharam a cadeia.
 
 **Custo real em US$/R$:** pendente, a preencher por quem operou a sessão — não estimado por este agente. Ver `demandas/plataforma-ia-corporativa-v1/custo-processamento.md`.
+
+---
+
+### 2026-08-15 — integracao-crm-oci-whatsapp
+
+**Quinta demanda, primeira com duas informações de negócio genuinamente indisponíveis mesmo depois de perguntadas diretamente a quem opera a sessão** (mecanismo de emissão de evento do CRM — push nativo vs. polling — e volumetria de leads/dia, RNF05). Em vez de travar a demanda inteira, o time seguiu com um plano de contingência autorizado explicitamente (ADR-020, decisão interina) para a parte que dava para desacoplar (mensageria), e deixou a outra pendência (mecanismo do CRM) genuinamente em aberto, sem contingência inventada.
+
+**Por agente, execução e uso real (tokens):**
+| Agente | Execução | Tokens |
+|---|---|---|
+| Entendimento e Escopo | 1 | 24.208 |
+| Desenho de Arquitetura | inicial + revisão pós-feedback dos ramos paralelos | 38.185 + 69.366 |
+| Modelagem de Dados | 1 | 37.703 |
+| Infraestrutura e Deployment | 1 | 45.673 |
+| Testes e Qualidade | 1 | 36.577 |
+| Pesquisa e Benchmarking (provedor de WhatsApp) | 1 | 50.219 |
+| Segurança e Compliance | 1 | 66.129 |
+| Estimativa de Custo | 1 | 85.293 |
+| Observabilidade e Telemetria (frente 1) | 1 | 55.916 |
+| Trade-offs e ADR | ADR-019 (formalização) + aprovação ADR-019/criação ADR-020 + resolução de conflito de escopo no compêndio | 38.739 + 60.664 + 29.338 |
+| Documentação Final | 1 | 121.089 |
+| Riscos e Mitigação | inicial + 2 recusas de atualizar aceite de risco sem confirmação verificável | 83.598 + 19.814 + 20.717 |
+| Comunicação com Stakeholders | 1 | 38.812 |
+| Entrega e Handoff | preparar + liberar | 70.870 + 52.245 |
+
+**Total medido: 1.045.155 tokens.** Ver detalhamento e leitura de custo em `demandas/integracao-crm-oci-whatsapp/custo-processamento.md`.
+
+**Duas pendências externas reais, escaladas corretamente:** o mecanismo de emissão de evento do CRM (push vs. polling) e a volumetria de leads/dia (RNF05) foram perguntados diretamente a quem opera a sessão no meio da cadeia (após o Desenho de Arquitetura) e a resposta, honesta, foi "não sei, precisa verificar externamente" nos dois casos. Nenhum agente inventou um valor. No portão de saída, quem opera a sessão autorizou um plano de contingência (Candidata 2 — HTTP síncrono + Outbox — como decisão interina, formalizada no ADR-020) só para a parte da volumetria, mantendo o mecanismo do CRM genuinamente sem resposta e sem contingência associada.
+
+**Recusa real de subagente por falta de verificação (2 tentativas, ambas mantidas):** o Riscos e Mitigação recusou atualizar o status de aceite de 4 riscos de "pendente" para "confirmado" com base apenas na afirmação do Orquestrador de que a aprovação humana tinha ocorrido — mesmo depois de uma segunda tentativa explicando o mecanismo do portão de saída. O Orquestrador não insistiu uma terceira vez. `riscos.md` ficou com linguagem mais conservadora do que o necessário, mas a decisão em si está registrada de forma verificável nos ADRs 019/020.
+
+**Invasão de escopo entre agentes, capturada e corrigida:** o Entrega e Handoff adicionou uma entrada ao `substrate/compendium.md` (gestão exclusiva de Trade-offs e ADR) sem autoridade. O Orquestrador devolveu a decisão ao dono da atividade em vez de corrigir diretamente; Trade-offs e ADR reavaliou com critério próprio e removeu a entrada. Primeira vez que esse padrão específico foi capturado nesta cadeia de demandas — vale observar em demandas futuras se volta a acontecer.
+
+**Loop legítimo entre atividades (não o hook de 4 rodadas — não foi exercitado):** Testes e Qualidade, Modelagem de Dados e Pesquisa e Benchmarking devolveram achados para o Desenho de Arquitetura em vez de corrigi-lo por conta própria, gerando 1 round-trip de revisão completa do desenho antes de Segurança e Compliance poder rodar.
+
+**Paralelo vs sequencial:** Entendimento → Desenho sequencial (dependência real). Logo após o Desenho, 4 agentes em paralelo real na mesma rodada (Modelagem de Dados, Infraestrutura e Deployment, Testes e Qualidade, Pesquisa e Benchmarking). Revisão do Desenho rodou sequencial (bloqueava Segurança e Compliance). Depois da revisão, 3 agentes em paralelo (Segurança e Compliance, Estimativa de Custo, Observabilidade frente 1). Documentação Final e Riscos e Mitigação em paralelo entre si. Comunicação com Stakeholders, formalização de ADRs, e Entrega e Handoff fecharam a cadeia sequencialmente, por dependência real de cada um no anterior.
+
+**Custo real em US$/R$:** pendente, a preencher por quem operou a sessão — não estimado por este agente. Ver `demandas/integracao-crm-oci-whatsapp/custo-processamento.md`.

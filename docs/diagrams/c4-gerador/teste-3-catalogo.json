@@ -1,0 +1,13 @@
+{
+  "atores": [
+    {"id": "usuario", "nome": "Usuário", "tipo": "usuario_externo"}
+  ],
+  "fronteiras": [
+    {"id": "sistema_x", "nome": "Sistema X", "ambiente": "nuvem pública"}
+  ],
+  "componentes": [
+    {"id": "gw", "nome": "Gateway", "status": "novo", "tipo": "API Gateway", "fronteira_id": "sistema_x"},
+    {"id": "svc", "nome": "Serviço Principal", "status": "novo", "tipo": "serviço", "fronteira_id": "sistema_x"},
+    {"id": "componente_orfao", "nome": "Componente Nunca Usado", "status": "reuso", "tipo": "serviço", "fronteira_id": "sistema_x"}
+  ]
+}

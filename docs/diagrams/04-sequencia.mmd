@@ -8,7 +8,9 @@ sequenceDiagram
     participant MD as Modelagem de Dados
     participant ID as Infraestrutura e Deployment
     participant TQ as Testes e Qualidade
+    participant JU as Jornadas do Usuário
     participant TA as Trade-offs e ADR
+    participant GD as Geração de Diagramas C4
     participant SC as Segurança e Compliance
     participant EC as Estimativa de Custo
     participant OT as Observabilidade (frente 1)
@@ -34,6 +36,9 @@ sequenceDiagram
     H-->>TA: aprova
     TA-->>DA: ADR registrado
 
+    DA->>GD: aciona (estrutura decidida)
+    GD-->>DA: diagrama C4 gerado
+
     par ramos paralelos a partir do Desenho
         O->>MD: aciona
         MD-->>O: dados.md
@@ -43,6 +48,9 @@ sequenceDiagram
     and
         O->>TQ: aciona
         TQ-->>O: testes.md
+    and
+        O->>JU: aciona
+        JU-->>O: jornadas.md
     end
 
     O->>SC: aciona (depende de Desenho + Modelagem)
@@ -58,6 +66,8 @@ sequenceDiagram
 
     par sincronização total e riscos
         O->>DF: aciona (espera Modelagem, Infra, Testes, Segurança, Custo, Observabilidade)
+        DF->>GD: aciona (consolida diagramas, inclui visões por jornada se houver)
+        GD-->>DF: diagramas consolidados
         DF-->>O: documentacao-final.md
     and
         O->>RSK: aciona (espera Desenho + Testes)

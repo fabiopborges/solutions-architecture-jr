@@ -1,0 +1,67 @@
+{
+  "titulo": "Demanda Fictícia — Container",
+  "nivel": "container",
+  "subtitulo": "exemplo mínimo, dados fictícios",
+  "atores": [
+    {
+      "id": "usuario_final",
+      "nome": "Usuário Final",
+      "tipo": "usuario_externo",
+      "papel": "Cliente que aciona a funcionalidade"
+    }
+  ],
+  "fronteiras": [
+    {
+      "id": "sistema_novo",
+      "nome": "Sistema Fictício",
+      "ambiente": "nuvem pública"
+    }
+  ],
+  "componentes": [
+    {
+      "id": "gateway",
+      "nome": "Gateway de Entrada",
+      "status": "novo",
+      "tipo": "API Gateway",
+      "descricao": "Recebe e roteia requisições externas",
+      "fronteira_id": "sistema_novo"
+    },
+    {
+      "id": "servico_core",
+      "nome": "Serviço Principal",
+      "status": "novo",
+      "tipo": "serviço",
+      "descricao": "Processa a lógica de negócio central",
+      "fronteira_id": "sistema_novo"
+    },
+    {
+      "id": "sistema_legado",
+      "nome": "Sistema Legado",
+      "status": "reuso",
+      "tipo": "sistema existente",
+      "descricao": "Sistema já existente, consultado sem alteração"
+    }
+  ],
+  "conexoes": [
+    {
+      "de": "usuario_final",
+      "para": "gateway",
+      "rotulo": "Envia requisição (HTTPS)",
+      "assincrona": false,
+      "journey_id": "jornada-exemplo"
+    },
+    {
+      "de": "gateway",
+      "para": "servico_core",
+      "rotulo": "Roteia requisição (REST/HTTPS)",
+      "assincrona": false,
+      "journey_id": "jornada-exemplo"
+    },
+    {
+      "de": "servico_core",
+      "para": "sistema_legado",
+      "rotulo": "Publica evento de atualização (fila)",
+      "assincrona": true
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 # Roteiro de agentes
 
-Espelha `skills/roadmap.md`. Cada atividade só virou agente depois que a skill dela foi conquistada de verdade, para não construir um "gerente" de trabalho que ainda não existia. As 14 atividades originais, o Orquestrador, e dois especialistas sob demanda estão prontos.
+Espelha `skills/roadmap.md`. Cada atividade só virou agente depois que a skill dela foi conquistada de verdade, para não construir um "gerente" de trabalho que ainda não existia. As 14 atividades originais, o Orquestrador, dois especialistas sob demanda, um agente transversal de geração de diagramas e Jornadas do Usuário estão prontos.
 
-## Prontos (14 atividades + 2 especialistas sob demanda + Orquestrador)
+## Prontos (15 atividades + 2 especialistas sob demanda + 1 transversal + Orquestrador)
 1. **Entendimento e Escopo** - `agents/entendimento-e-escopo/AGENT.md`
 2. **Desenho de Arquitetura** - `agents/desenho-de-arquitetura/AGENT.md`
 3. **Pesquisa e Benchmarking** (sob demanda, quando a stack aprovada não resolve) - `agents/pesquisa-e-benchmarking/AGENT.md`
@@ -19,6 +19,8 @@ Espelha `skills/roadmap.md`. Cada atividade só virou agente depois que a skill 
 14. **Entrega e Handoff** (prepara em paralelo, só libera após a aprovação humana) - `agents/entrega-e-handoff/AGENT.md`
 15. **Especialista em Dados e Analytics** (sob demanda, só quando há decisão de plataforma analítica, nunca por padrão) - `agents/especialista-dados-analytics/AGENT.md`
 16. **Especialista em IA e Machine Learning** (sob demanda, só quando há decisão de modelo de IA/ML, nunca por padrão) - `agents/especialista-ia-ml/AGENT.md`
-17. **Orquestrador** (papel de gerente do loop, não de atividade) - `agents/orquestrador/AGENT.md`
+17. **Geração de Diagramas C4** (transversal, acionado por Desenho de Arquitetura e Documentação Final, formaliza diagramas a partir do que já foi decidido, não decide arquitetura — mesmo padrão do Trade-offs e ADR, deriva Container/Contexto de catálogo+sequências desde o MVP 7, nunca traduz desenho.md direto quando há jornada) - `agents/geracao-diagramas/AGENT.md`
+18. **Jornadas do Usuário** (roda em paralelo com Modelagem de Dados, Infraestrutura, Testes e Pesquisa, a partir do Desenho — traduz RFs + componentes já decididos em jornadas observáveis, e emite o spec de sequência máquina-legível que alimenta a derivação do Container) - `agents/jornadas-do-usuario/AGENT.md`
+19. **Orquestrador** (papel de gerente do loop, não de atividade) - `agents/orquestrador/AGENT.md`
 
-Roteiro fechado de novo. O próximo trabalho real é rodar uma demanda de verdade pela cadeia inteira, e testar se o critério de gatilho dos dois especialistas funciona na prática (nem sendo acionado à toa, nem sendo esquecido quando deveria entrar), não inventar um 18º papel que ninguém pediu.
+Roteiro fechado de novo (com duas adições justificadas em 2026-08-15, ver `memory.md`: geração de diagramas virou agente transversal por resolver um problema real de dessincronização entre `desenho.md` e `documentacao-final.md` já observado numa demanda real; Jornadas do Usuário virou agente por dar o roteiro de sequência e a marcação de jornada que o gerador de diagramas consome). O próximo trabalho real é rodar uma demanda de verdade pela cadeia inteira usando os dois agentes novos, e testar se o critério de gatilho dos dois especialistas de dados/IA funciona na prática, não inventar mais um papel que ninguém pediu.

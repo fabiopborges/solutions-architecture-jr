@@ -14,7 +14,7 @@ O agente "Comunicação com Stakeholders" é o dono desta atividade. Qualquer ag
 5. Termine com uma pergunta clara: o que precisa de aprovação ou decisão de quem está lendo. Não é só informativo.
 
 ## Artefato de saída
-Um documento `demandas/<nome-da-demanda>/apresentacao.md` (ou slides, se o formato pedir) com: resumo em linguagem simples, custo/prazo/risco principal, diagramas simplificados, e a pergunta de aprovação no final.
+Um documento `demandas/<nome-da-demanda>/comunicacao.md` (ou slides, se o formato pedir) com: resumo em linguagem simples, custo/prazo/risco principal, diagramas simplificados, e a pergunta de aprovação no final. (Nome padronizado em 2026-08-16 para seguir a convenção de nome-por-agente usada em todos os outros artefatos da cadeia — dados.md, seguranca.md, qualidade.md etc. Demandas geradas antes dessa data podem ter esse artefato como `apresentacao.md`; não é retroativo.)
 
 ## Como é bem feito
 Um stakeholder não técnico consegue ler e entender o que foi decidido e por quê, e sabe exatamente o que precisa aprovar ou decidir depois de ler.

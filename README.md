@@ -2,7 +2,7 @@
 
 Um time de agentes de IA — construído sobre o [Claude Code](https://claude.com/claude-code) — que atua como um **Arquiteto de Soluções Júnior**. Em vez de um prompt genérico tentando fazer tudo de uma vez, cada atividade real do trabalho de arquitetura vira um agente próprio, com escopo estreito, uma skill dedicada e um critério claro de "isso está bem feito".
 
-> **Status do projeto:** as 16 atividades + o Orquestrador estão totalmente especificadas e registradas como skill/subagentes nativos do Claude Code (`/arquiteto-solucoes`). Uma primeira demanda já rodou ponta a ponta, mas ainda simulada manualmente, não pelo mecanismo de despacho por subagente. Design maduro e registrado, execução ainda em validação — veja [Estado atual](#estado-atual).
+> **Status do projeto:** as 18 atividades + o Orquestrador estão especificadas e registradas como skill/subagentes nativos do Claude Code (`/arquiteto-solucoes`). Quatro demandas já rodaram ponta a ponta via despacho real de subagente. Os dois agentes mais novos (Geração de Diagramas C4 e Jornadas do Usuário) ainda não passaram por essa validação end-to-end — veja [Estado atual](#estado-atual).
 
 ---
 
@@ -24,7 +24,7 @@ Um time de agentes de IA — construído sobre o [Claude Code](https://claude.co
 - [Pré-requisitos](#pré-requisitos)
 - [Quickstart](#quickstart)
 - [Onde ficam os outputs de uma demanda](#onde-ficam-os-outputs-de-uma-demanda)
-- [Os 16 agentes](#os-16-agentes)
+- [Os 18 agentes](#os-18-agentes)
 - [Regras e governança](#regras-e-governança)
 - [Estado atual](#estado-atual)
 - [Como estender (adicionar um agente novo)](#como-estender-adicionar-um-agente-novo)
@@ -39,7 +39,7 @@ Arquitetura de solução tem muitas atividades distintas — entender a demanda,
 - **Alucinação**: inventar uma decisão técnica sem base.
 - **Desvio de escopo**: uma atividade contaminando o julgamento de outra (ex: quem está pensando em custo já começa a decidir segurança).
 
-Este projeto resolve isso dividindo o trabalho em **16 atividades**, cada uma com um dono (agente) e uma skill focada só naquele objetivo. Um **Orquestrador** decide a ordem, dispara em paralelo o que não depende de nada, e segura um portão de saída — com aprovação humana obrigatória — antes de qualquer pacote de arquitetura sair como "entregue".
+Este projeto resolve isso dividindo o trabalho em **18 atividades**, cada uma com um dono (agente) e uma skill focada só naquele objetivo. Um **Orquestrador** decide a ordem, dispara em paralelo o que não depende de nada, e segura um portão de saída — com aprovação humana obrigatória — antes de qualquer pacote de arquitetura sair como "entregue".
 
 ## Ideia central em 30 segundos
 
@@ -47,7 +47,7 @@ Este projeto resolve isso dividindo o trabalho em **16 atividades**, cada uma co
 Demanda crua (SDR, pedido de negócio)
         │
         ▼
-  16 agentes especialistas, cada um dono de UMA atividade,
+  18 agentes especialistas, cada um dono de UMA atividade,
   perguntando uns aos outros quando têm dúvida fora do próprio escopo
         │
         ▼
@@ -91,7 +91,7 @@ Tudo o que os agentes decidem, aprendem ou ainda não sabem fica registrado em [
 
 Mesma forma geométrica para o mesmo tipo de caixa — retângulo arredondado em todo lugar, cor indica o papel (sequencial, paralelo, sincronização, transversal), como num diagrama C4 de containers. Os números dentro de cada caixa são a ordem real de execução; letras (`3a`/`3b`/`3c`, `5a`/`5b`, `6a`/`6b`) marcam passos que acontecem **no mesmo estágio, em paralelo**.
 
-![Fluxo de execução das 16 atividades, numerado em estilo C4, do passo 1 ao 10](docs/diagrams/02-fluxo.svg)
+![Fluxo de execução das 18 atividades, numerado em estilo C4, do passo 1 ao 10](docs/diagrams/02-fluxo.svg)
 
 *Fonte editável: [`docs/diagrams/02-fluxo.mmd`](docs/diagrams/02-fluxo.mmd)*
 
@@ -103,14 +103,14 @@ Mesma forma geométrica para o mesmo tipo de caixa — retângulo arredondado em
 | 🟧 Laranja | Ponto de sincronização (espera **todos** os ramos que apontam para ele) |
 | 🟥 Vermelho | Portão de saída (gate) |
 | 🟩 Verde | Entregue (fim) |
-| ⬜ Tracejado fino | Transversal — Trade-offs/ADR e Orquestrador atuam o tempo todo, não são um passo numerado |
+| ⬜ Tracejado fino | Transversal — Trade-offs/ADR, Geração de Diagramas C4 e Orquestrador atuam o tempo todo, não são um passo numerado |
 
 1. Entendimento e Escopo
-2. Desenho de Arquitetura
-3. Em paralelo — **3a** Modelagem de Dados · **3b** Infraestrutura e Deployment · **3c** Testes e Qualidade (+ sob demanda: Pesquisa e Benchmarking, Especialista IA/ML, Especialista Dados/Analytics)
+2. Desenho de Arquitetura (aciona Geração de Diagramas C4 assim que a estrutura fecha)
+3. Em paralelo — **3a** Modelagem de Dados · **3b** Infraestrutura e Deployment · **3c** Testes e Qualidade · **3d** Jornadas do Usuário (+ sob demanda: Pesquisa e Benchmarking, Especialista IA/ML, Especialista Dados/Analytics)
 4. Segurança e Compliance (espera 2 + 3a)
 5. Em paralelo, após 3b — **5a** Estimativa de Custo · **5b** Observabilidade e Telemetria (frente 1)
-6. Em paralelo — **6a** Documentação Final (sincroniza 3a+3b+3c+4+5a+5b) · **6b** Riscos e Mitigação (espera 2 + 3c)
+6. Em paralelo — **6a** Documentação Final (sincroniza 3a+3b+3c+3d+4+5a+5b, aciona Geração de Diagramas C4 de novo pra consolidar) · **6b** Riscos e Mitigação (espera 2 + 3c)
 7. Comunicação com Stakeholders (espera 6a + 6b)
 8. Entrega e Handoff prepara o material
 9. Portão de saída (suposições, dúvidas fechadas, pacote completo, aprovação humana)
@@ -118,9 +118,9 @@ Mesma forma geométrica para o mesmo tipo de caixa — retângulo arredondado em
 
 ### 3. Diagrama de sequência completo
 
-O mesmo fluxo acima, mas como troca de mensagens no tempo — cada um dos 16 agentes aparece individualmente, com o Orquestrador e a Pessoa aprovadora nas pontas. A numeração é automática (`autonumber`), uma por mensagem trocada, então o número aqui é o da mensagem, não o do estágio da vista anterior.
+O mesmo fluxo acima, mas como troca de mensagens no tempo — cada um dos 18 agentes aparece individualmente, com o Orquestrador e a Pessoa aprovadora nas pontas. A numeração é automática (`autonumber`), uma por mensagem trocada, então o número aqui é o da mensagem, não o do estágio da vista anterior.
 
-![Diagrama de sequência completo, com os 16 agentes, o Orquestrador e a aprovação humana](docs/diagrams/04-sequencia.svg)
+![Diagrama de sequência completo, com os 18 agentes, o Orquestrador e a aprovação humana](docs/diagrams/04-sequencia.svg)
 
 *Fonte editável: [`docs/diagrams/04-sequencia.mmd`](docs/diagrams/04-sequencia.mmd)*
 
@@ -137,7 +137,7 @@ Os arquivos de execução apontam para os de referência em vez de duplicar cont
 ```text
 .
 ├── .claude/
-│   ├── agents/*.md                       # execução: 16 subagentes reais
+│   ├── agents/*.md                       # execução: 18 subagentes reais
 │   └── skills/arquiteto-solucoes/SKILL.md # execução: ponto de entrada
 ├── CLAUDE.md               # Identidade (camada 1)
 ├── memory.md               # Memória viva: decisões, status, perguntas em aberto
@@ -188,7 +188,7 @@ claude   # sempre abra a CLI a partir daqui, não de uma subpasta
 A primeira coisa que o time faz é confirmar o **nome da demanda** com você — esse nome nunca é inventado por um agente (ver [rules/never.md](rules/never.md)). É esse nome exato que vira a pasta `demandas/<nome-da-demanda>/`.
 
 **3. Deixe o time trabalhar.**
-A skill de entrada despacha os 16 agentes na ordem e no paralelismo do [fluxo](#2-fluxo-de-execução-numerado-e-em-estilo-c4), até o portão de saída — que inclui aprovação humana obrigatória — e a liberação final em `demandas/<nome-da-demanda>/handoff.md`.
+A skill de entrada despacha os 18 agentes na ordem e no paralelismo do [fluxo](#2-fluxo-de-execução-numerado-e-em-estilo-c4), até o portão de saída — que inclui aprovação humana obrigatória — e a liberação final em `demandas/<nome-da-demanda>/handoff.md`.
 
 **4. Acompanhe sem interromper, a qualquer momento.**
 
@@ -207,7 +207,7 @@ O nome da demanda **nunca é inventado por um agente**. Quem pede informa o nome
 
 > `demandas/` está em `.gitignore`, não faz parte deste repositório público: os artefatos de cada demanda ficam só no seu clone local. As demandas usadas para validar a cadeia durante o desenvolvimento deste OS foram todas sintéticas (empresa, SDR, orçamento e decisões fictícios), e por isso não foram publicadas — mantenha o mesmo cuidado com as suas.
 
-## Os 16 agentes
+## Os 18 agentes
 
 | # | Agente | Quando entra | Depende de / é acionado por |
 | --- | --- | --- | --- |
@@ -221,12 +221,14 @@ O nome da demanda **nunca é inventado por um agente**. Quem pede informa o nome
 | 8 | [Estimativa de Custo](agents/estimativa-de-custo/AGENT.md) | Depois de Infraestrutura | Não roda em paralelo com ele |
 | 9 | [Observabilidade e Telemetria](agents/observabilidade-e-telemetria/AGENT.md) | Frente 1 depois de Infra; frente 2 contínua | Duas frentes: solução entregue + telemetria dos agentes |
 | 10 | [Testes e Qualidade](agents/testes-e-qualidade/AGENT.md) | Paralelo, a partir do Desenho | Desenho de Arquitetura |
-| 11 | [Documentação Final](agents/documentacao-final/AGENT.md) | Sincronização total | Espera todos os ramos técnicos |
-| 12 | [Riscos e Mitigação](agents/riscos-e-mitigacao/AGENT.md) | Paralelo com Documentação Final | Desenho + Testes e Qualidade |
-| 13 | [Comunicação com Stakeholders](agents/comunicacao-stakeholders/AGENT.md) | Depois de Doc. Final + Riscos | Traduz o que já existe, não decide nada novo |
-| 14 | [Entrega e Handoff](agents/entrega-e-handoff/AGENT.md) | Última | Prepara em paralelo, libera após aprovação |
-| 15 | [Especialista em Dados e Analytics](agents/especialista-dados-analytics/AGENT.md) | Sob demanda | Só se há decisão de plataforma analítica |
-| 16 | [Especialista em IA e Machine Learning](agents/especialista-ia-ml/AGENT.md) | Sob demanda | Só se há decisão de modelo de IA/ML |
+| 11 | [Jornadas do Usuário](agents/jornadas-do-usuario/AGENT.md) | Paralelo, a partir do Desenho | Desenho de Arquitetura + RFs de Entendimento e Escopo |
+| 12 | [Documentação Final](agents/documentacao-final/AGENT.md) | Sincronização total | Espera todos os ramos técnicos |
+| 13 | [Riscos e Mitigação](agents/riscos-e-mitigacao/AGENT.md) | Paralelo com Documentação Final | Desenho + Testes e Qualidade |
+| 14 | [Comunicação com Stakeholders](agents/comunicacao-stakeholders/AGENT.md) | Depois de Doc. Final + Riscos | Traduz o que já existe, não decide nada novo |
+| 15 | [Entrega e Handoff](agents/entrega-e-handoff/AGENT.md) | Última | Prepara em paralelo, libera após aprovação |
+| 16 | [Especialista em Dados e Analytics](agents/especialista-dados-analytics/AGENT.md) | Sob demanda | Só se há decisão de plataforma analítica |
+| 17 | [Especialista em IA e Machine Learning](agents/especialista-ia-ml/AGENT.md) | Sob demanda | Só se há decisão de modelo de IA/ML |
+| 18 | [Geração de Diagramas C4](agents/geracao-diagramas/AGENT.md) | Transversal | Acionado por Desenho de Arquitetura e Documentação Final |
 | — | [Orquestrador](agents/orquestrador/AGENT.md) | Sempre ativo | Gerencia dependências, paralelismo e o portão de saída |
 
 ## Regras e governança
@@ -242,11 +244,12 @@ O nome da demanda **nunca é inventado por um agente**. Quem pede informa o nome
 
 Veja [`OS-AUDIT.md`](OS-AUDIT.md) para a auditoria completa. Resumo honesto:
 
-- As seis camadas do OS estão sólidas, o roteiro de 16 atividades está fechado, dois ADRs estão formalmente aprovados, e uma primeira demanda real já rodou ponta a ponta (`demandas/sdr-2026-001-portal-digital-de-sinistros-e-upload-de-fotos/`), embora nessa rodada os agentes ainda tenham sido simulados manualmente, não despachados pelo mecanismo de subagente.
-- **Os 16 subagentes e a skill de entrada foram registrados** em `.claude/agents/` e `.claude/skills/arquiteto-solucoes/`, seguindo o padrão nativo do Claude Code. Ainda não foram testados invocando `/arquiteto-solucoes` de ponta a ponta neste formato, só verificados estruturalmente (front-matter, caminho de descoberta).
-- **Os dois especialistas sob demanda (Dados/Analytics e IA/ML) nunca foram acionados de verdade.** O critério de gatilho deles ainda não foi testado.
+- As seis camadas do OS estão sólidas, o roteiro de 18 atividades está fechado, quatro demandas reais já rodaram ponta a ponta via `/arquiteto-solucoes` de verdade (despacho por subagente, não simulação), com custo de processamento medido em tokens reais — ver `telemetria-agentes.md`.
+- **Os subagentes e a skill de entrada estão registrados** em `.claude/agents/` e `.claude/skills/arquiteto-solucoes/`, seguindo o padrão nativo do Claude Code, e já foram exercitados de ponta a ponta em execuções reais.
+- **Dois agentes novos (Geração de Diagramas C4 e Jornadas do Usuário) foram adicionados em 2026-08-15** (ver `memory.md`) para resolver diagramas ASCII dessincronizados entre `desenho.md`/`documentacao-final.md` e para dar um roteiro de sequência a partir dos requisitos. Ainda não rodaram numa demanda real de ponta a ponta — próximo passo real do projeto.
+- **Dos dois especialistas sob demanda, só o de IA/ML já foi acionado de verdade** (`demandas/plataforma-ia-corporativa-v1/`, confirmando que o gatilho dispara quando deveria, depois de três demandas seguidas confirmando só o caminho de não disparar à toa). **O Especialista em Dados e Analytics nunca foi acionado** — nenhuma demanda real até agora teve decisão de plataforma analítica de verdade.
 - `tools.md` lista três conexões externas úteis, nenhuma ligada ainda.
-- Custo de processamento por agente (tokens/tempo reais, não estimados) ainda depende de rodar via execução por subagente de verdade — ver `telemetria-agentes.md` e `demandas/<nome-da-demanda>/custo-processamento.md`.
+- ADRs 001 a 020 registrados em `adrs/`, com aprovação humana explícita registrada em cada um antes de valer como oficial.
 
 ## Como estender (adicionar um agente novo)
 
