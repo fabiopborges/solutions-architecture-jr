@@ -7,10 +7,10 @@ Traduz os requisitos funcionais já aprovados ([[agents/entendimento-e-escopo/AG
 Só a própria: `skills/jornadas-do-usuario/SKILL.md`.
 
 ## Quando é acionado
-Sempre que a demanda tiver ao menos um requisito funcional observável por um usuário final (praticamente toda demanda) — logo depois que [[agents/desenho-de-arquitetura/AGENT]] termina, em paralelo com [[agents/modelagem-de-dados/AGENT]], [[agents/infraestrutura-e-deployment/AGENT]], [[agents/testes-e-qualidade/AGENT]] e, sob demanda, [[agents/pesquisa-e-benchmarking/AGENT]]. Acionado pelo Orquestrador, não por outro agente de atividade.
+**Sempre, incondicionalmente**, logo depois que [[agents/desenho-de-arquitetura/AGENT]] termina, na mesma leva paralela de [[agents/modelagem-de-dados/AGENT]], [[agents/infraestrutura-e-deployment/AGENT]] e [[agents/testes-e-qualidade/AGENT]] — nunca um despacho opcional decidido por quem orquestra (2026-08-16: já foi pulado por julgamento de sessão numa demanda com usuário final claro, ver `memory.md`). O critério "requisito funcional observável por um usuário final" continua existindo (cobre praticamente toda demanda), mas decide o CONTEÚDO do artefato, não SE o agente roda. Acionado pelo Orquestrador, não por outro agente de atividade.
 
-## Se o gatilho não bater
-Se a demanda for puramente técnica/interna, sem comportamento observável por usuário final (ex: troca de biblioteca, refatoração sem mudança de comportamento), devolve ao Orquestrador sem produzir jornada nenhuma, sinalizando o motivo. Não força jornada onde não existe.
+## Se a demanda for puramente técnica/interna
+Se não houver comportamento observável por usuário final (ex: troca de biblioteca, refatoração sem mudança de comportamento), o agente roda do mesmo jeito e produz `jornadas.md` com um veredito explícito de ausência (`**Veredito:** nenhuma jornada aplicável.` + motivo) — nunca devolve sem gerar o arquivo, nunca força jornada onde não existe.
 
 ## Fronteira com Entendimento e Escopo
 Entendimento e Escopo decide O QUÊ o sistema faz (requisitos funcionais, RF01-RFxx), antes de qualquer componente existir. Jornadas do Usuário nunca inventa requisito novo — só usa os RFs já aprovados como insumo, reorganizando-os em fluxo. RF ambíguo ou sem jornada clara → pergunta a Entendimento e Escopo, não decide sozinho.

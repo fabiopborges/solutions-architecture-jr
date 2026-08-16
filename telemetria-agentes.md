@@ -1,6 +1,6 @@
 # Telemetria dos Agentes
 
-Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido pelo agente [[agents/observabilidade-e-telemetria/AGENT]], frente 2. Cinco demandas rodaram até agora: a primeira simulada (um agente-modelo narrando os 14 papéis), as demais via subagentes reais (`/arquiteto-solucoes`), com uso de token medido de verdade por agente.
+Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido pelo agente [[agents/observabilidade-e-telemetria/AGENT]], frente 2. Seis demandas rodaram até agora: a primeira simulada (um agente-modelo narrando os 14 papéis), as demais via subagentes reais (`/arquiteto-solucoes`), com uso de token medido de verdade por agente.
 
 ## Formato de uma entrada
 - Demanda:
@@ -176,3 +176,38 @@ Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido p
 **Paralelo vs sequencial:** Entendimento → Desenho sequencial (dependência real). Logo após o Desenho, 4 agentes em paralelo real na mesma rodada (Modelagem de Dados, Infraestrutura e Deployment, Testes e Qualidade, Pesquisa e Benchmarking). Revisão do Desenho rodou sequencial (bloqueava Segurança e Compliance). Depois da revisão, 3 agentes em paralelo (Segurança e Compliance, Estimativa de Custo, Observabilidade frente 1). Documentação Final e Riscos e Mitigação em paralelo entre si. Comunicação com Stakeholders, formalização de ADRs, e Entrega e Handoff fecharam a cadeia sequencialmente, por dependência real de cada um no anterior.
 
 **Custo real em US$/R$:** pendente, a preencher por quem operou a sessão — não estimado por este agente. Ver `demandas/integracao-crm-oci-whatsapp/custo-processamento.md`.
+
+### 2026-08-16 — pipeline-marketing-crm-legado
+
+**Sexta demanda, primeira em que a pesquisa técnica (Pesquisa e Benchmarking) derruba a proposta que o próprio sponsor trouxe no pedido original.** Quem pediu (Diretoria de Growth/Marketing) já chegou com um ASD detalhado propondo IDMC + Databricks on-premises. Pesquisa e Benchmarking verificou via busca externa (não suposição) que nenhum dos dois produtos tem oferta genuinamente self-managed/on-prem — ambos dependem de control plane na nuvem do fornecedor, contradizendo a exigência de 100% on-prem do próprio pedido. Isso gerou dois ADRs (021 rejeitando a proposta do sponsor, 022 formalizando hospedagem por componente) e se propagou como condicionante real em Custo, Infraestrutura e Riscos — não foi um achado isolado, mudou a base de estimativa de custo da demanda inteira.
+
+**Segundo achado real, independente do primeiro: estouro de orçamento.** Mesmo na alternativa recomendada (mais barata que a proposta original em licenciamento, já que dispensa IDMC/Databricks), Estimativa de Custo projetou total entre R$2.794.500 e R$2.913.500, acima do teto de R$2.400.000,00 do pedido original em ~R$400-500 mil. Riscos e Mitigação formalizou os dois achados como riscos de negócio P0 (RN-01 orçamento, RN-02 divergência de proposta) e recomendou explicitamente que sejam levados juntos à Diretoria, já que são a mesma decisão vista de dois ângulos.
+
+**Cadeia limpa, sem loop de revisão nem recusa de subagente** — diferente da demanda anterior (`integracao-crm-oci-whatsapp`), nenhum achado de um ramo paralelo forçou reabertura do Desenho de Arquitetura. Todos os achados (Testes e Qualidade sobre RNF-06/LGPD, Pesquisa sobre inviabilidade on-prem) foram absorvidos pelos agentes seguintes na própria cadeia (Segurança resolveu a lacuna de LGPD com tokenização end-to-end; Trade-offs e ADR formalizou a mudança de tecnologia) sem precisar devolver ao Desenho.
+
+**Por agente, execução e uso real (tokens):**
+| Agente | Execução | Tokens |
+|---|---|---|
+| Entendimento e Escopo | 1 | 31.406 |
+| Desenho de Arquitetura | 1 | 47.384 |
+| Modelagem de Dados | 1 | 45.566 |
+| Infraestrutura e Deployment | 1 | 54.332 |
+| Testes e Qualidade | 1 | 41.079 |
+| Pesquisa e Benchmarking | tecnologia de ingestão (C1/C2/C3) | 53.384 |
+| Geração de Diagramas C4 | 1ª execução + 2ª execução (fluxo de dados) | 56.320 + 38.857 |
+| Trade-offs e ADR | ADR-021 + ADR-022 | 53.911 |
+| Segurança e Compliance | 1 | 68.195 |
+| Estimativa de Custo | 1 | 79.358 |
+| Observabilidade e Telemetria (frente 1) | 1 | 56.198 |
+| Riscos e Mitigação | 1 | 123.161 |
+| Documentação Final | 1 | 170.730 |
+| Comunicação com Stakeholders | 1 | 59.637 |
+| Entrega e Handoff | preparar (não liberado — aprovação humana pendente) | 62.866 |
+
+**Total medido: 1.042.384 tokens.** Ver detalhamento em `demandas/pipeline-marketing-crm-legado/custo-processamento.md`.
+
+**Quatro pendências reais de resposta externa, nenhuma inventada:** as 3 perguntas originais do ASD (interface de entrada do CRM, SLA de latência, mecanismo de deadlock) seguem sem resposta do sponsor, e Riscos e Mitigação sugeriu formalizar uma quarta (SLA de disponibilidade do CRM, hoje espalhada como nota lateral em 3 documentos) — nenhum agente decidiu por conta própria. Handoff ficou como PREPARADO, não LIBERADO: nenhuma aprovação humana ocorreu nesta sessão (nem das 4 pendências, nem dos 2 ADRs, nem do estouro de orçamento, nem da pergunta final de `comunicacao.md`).
+
+**Paralelo vs sequencial:** Entendimento → Desenho sequencial (dependência real). Logo após o Desenho, 5 agentes em paralelo real (Modelagem de Dados, Infraestrutura e Deployment, Testes e Qualidade, Pesquisa e Benchmarking, Geração de Diagramas C4 1ª execução). Depois, 4 agentes em paralelo (Trade-offs e ADR, Segurança e Compliance, Estimativa de Custo, Observabilidade frente 1). Geração de Diagramas (2ª execução, fluxo de dados) e Riscos e Mitigação em paralelo entre si. Documentação Final, Comunicação com Stakeholders e Entrega e Handoff fecharam a cadeia sequencialmente, por dependência real de cada um no anterior.
+
+**Custo real em US$/R$:** pendente, a preencher por quem operou a sessão — não estimado por este agente. Ver `demandas/pipeline-marketing-crm-legado/custo-processamento.md`.

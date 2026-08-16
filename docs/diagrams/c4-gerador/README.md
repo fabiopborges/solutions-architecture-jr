@@ -17,7 +17,7 @@ python3 derivar_c4.py CATALOGO.json SEQUENCIA1.json [SEQUENCIA2.json ...] --said
 - `SEQUENCIA*.json`: um ou mais `sequencia-<journey_id>_spec.json`, produzidos por [[agents/jornadas-do-usuario/AGENT]].
 - `--saida-dir DIR`: grava `c4-container-jornada-<id>.json` (um por sequência), `c4-container.json` (união de todas), e `c4-contexto.json` (Container colapsado por fronteira).
 - Imprime um **relatório de derivação** no stdout: `[ORFAO]` (componente do catálogo nunca usado em nenhuma jornada, excluído dos diagramas) e `[FALTA-CATALOGO]` (participante de sequência ausente do catálogo, importado com atributos mínimos, status `desconhecido` → fallback). Esses avisos não são cosméticos — nunca devem ser silenciados, ver `c4-schema.md`.
-- Se a demanda não tiver gatilho de jornada, pule este script — traduza `desenho.md` direto para `conexoes[]` de um spec de Container único (ver `skills/geracao-diagramas/SKILL.md`, passo 4).
+- Se não existir nenhum `sequencia-<journey_id>_spec.json` (veredito de `jornadas.md` foi "nenhuma jornada aplicável" — o arquivo sempre existe, só o spec de sequência é que é condicional), pule este script — traduza `desenho.md` direto para `conexoes[]` de um spec de Container único (ver `skills/geracao-diagramas/SKILL.md`, passo 4).
 
 ## Uso — `exportar_archify.py` (spec → HTML interativo)
 

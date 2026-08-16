@@ -707,6 +707,58 @@ def recolocar(arch, posicoes_grid, orientacao):
                     con["via"][1][idx_perp] += delta
 
 
+CODIGOS_ROTA_BLOQUEADA = {
+    "clean-flow/edge-through-node",
+    "clean-flow/endpoint-side-direction",
+    "composition/proper-crossing",
+    "composition/ambiguous-corridor",
+}
+
+
+def _forcar_rota_por_fora(con, arch, orientacao, tentativas_por_conexao):
+    """Roteamento com contorno (2026-08-16): quando o auto-router do ArchiFy
+    cruza um componente ou outra conexão e nenhum reparo cosmético resolve
+    (rótulo/sublabel não é o problema, é a rota em si — ex: padrão bipartido
+    K2,2, dois chamadores atingindo os mesmos dois serviços compartilhados,
+    força cruzamento matematicamente em qualquer ordenação de duas colunas
+    adjacentes — caso documentado em NOTAS.md de plataforma-ia-corporativa-v1),
+    converte a conexão pra rota "por fora" numa faixa própria — mesmo
+    mecanismo já usado pra back-edges/saltos de camada (montar_via_de_faixa),
+    só que forçado aqui em vez de decidido por análise de grafo. Cada
+    conexão forçada ganha sua própria faixa nova, incrementalmente, pra não
+    colidir com faixas já em uso. Não mexe em conexão que já tem `via`
+    próprio — essa já passa por _empurrar_conexao. Retorna True se converteu."""
+    if con.get("via"):
+        return False
+    contador = tentativas_por_conexao.setdefault("_faixas_forcadas", [0])
+    n = contador[0]
+    comps_por_id = {c["id"]: c for c in arch["components"]}
+    de, para = comps_por_id.get(con["from"]), comps_por_id.get(con["to"])
+    if not de or not para:
+        return False
+    if orientacao == "horizontal":
+        lane_base = max(c["pos"][1] + c["size"][1] for c in arch["components"]) + 70
+        faixa = lane_base + 30 * (n + 1)
+        c_de = de["pos"][0] + de["size"][0] / 2
+        c_para = para["pos"][0] + para["size"][0] / 2
+        con["via"] = [[c_de, faixa], [c_para, faixa]]
+        con["fromSide"], con["toSide"] = "bottom", "bottom"
+        con["labelSegment"] = 1
+    else:
+        lane_base = max(c["pos"][0] + c["size"][0] for c in arch["components"]) + 70
+        faixa = lane_base + 220 * (n + 1)
+        p_de = (*de["pos"], *de["size"])
+        p_para = (*para["pos"], *para["size"])
+        contato_de = de["pos"][0] + de["size"][0] * 0.5
+        contato_para = para["pos"][0] + para["size"][0] * 0.5
+        con["via"] = montar_via_de_faixa(p_de, p_para, faixa, "bottom", contato_de, "top", contato_para)
+        con["fromSide"], con["toSide"] = "bottom", "top"
+        con["_faixa"] = faixa
+    con.pop("labelDy", None)
+    contador[0] = n + 1
+    return True
+
+
 def aplicar_reparo(arch, diagnosticos, tentativas_por_conexao, posicoes_grid, orientacao):
     """Aplica correções mecânicas a partir dos diagnósticos do `validate`,
     usando a própria sugestão numérica que o `validate` devolve na mensagem.
@@ -716,6 +768,20 @@ def aplicar_reparo(arch, diagnosticos, tentativas_por_conexao, posicoes_grid, or
     comps_por_id = {c["id"]: c for c in arch["components"]}
 
     for d in diagnosticos:
+        if d.get("code") in CODIGOS_ROTA_BLOQUEADA:
+            con_id = (d.get("subject") or {}).get("id")
+            con = next((c for c in arch["connections"] if c["id"] == con_id), None)
+            if not con:
+                continue
+            if _forcar_rota_por_fora(con, arch, orientacao, tentativas_por_conexao):
+                algo_mudou = True
+            elif _empurrar_conexao(con, tentativas_por_conexao, orientacao, comps_por_id):
+                # Já tinha via/faixa própria (de uma rodada anterior de
+                # _forcar_rota_por_fora, ou de back-edge estrutural) e ainda
+                # assim colide com outra conexão — desloca a faixa, mesmo
+                # mecanismo usado pra colisão de rótulo.
+                algo_mudou = True
+            continue
         msg = d.get("message", "")
         m = PADRAO_ROTULO_NO_ESTREITO.search(msg)
         if m:
@@ -809,8 +875,8 @@ def _empurrar_conexao(con, tentativas_por_conexao, orientacao, comps_por_id, can
     return False
 
 
-def validar(archify_bin, caminho_spec, tipo="architecture"):
-    cmd = ["node", archify_bin, "validate", tipo, str(caminho_spec), "--quality", "showcase", "--json"]
+def validar(archify_bin, caminho_spec, tipo="architecture", qualidade="showcase"):
+    cmd = ["node", archify_bin, "validate", tipo, str(caminho_spec), "--quality", qualidade, "--json"]
     r = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
     try:
         return json.loads(r.stdout)
@@ -850,8 +916,8 @@ def serializar_para_archify(arch):
     return limpo
 
 
-def entregar(archify_bin, caminho_spec, caminho_html, tipo="architecture"):
-    cmd = ["node", archify_bin, "deliver", tipo, str(caminho_spec), str(caminho_html), "--quality", "showcase", "--json"]
+def entregar(archify_bin, caminho_spec, caminho_html, tipo="architecture", qualidade="showcase"):
+    cmd = ["node", archify_bin, "deliver", tipo, str(caminho_spec), str(caminho_html), "--quality", qualidade, "--json"]
     r = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
     try:
         return json.loads(r.stdout)
@@ -925,11 +991,21 @@ def main():
     else:
         print("[aviso] limite de tentativas de reparo atingido.", file=sys.stderr)
 
+    qualidade_final = "showcase"
     if melhor_n_erros:
-        print(f"[aviso] não convergiu a zero — entregando a melhor rodada ({melhor_n_erros} diagnósticos).", file=sys.stderr)
+        print(f"[aviso] não convergiu a zero em showcase ({melhor_n_erros} diagnósticos) — testando fallback --quality standard antes de desistir (ver docs/diagrams/poc-archify/NOTAS-POC.md, 'Caminhos pra evoluir', item 3).", file=sys.stderr)
+        caminho_spec_archify.write_text(json.dumps(serializar_para_archify(melhor_arch), indent=2, ensure_ascii=False), encoding="utf-8")
+        resultado_standard = validar(args.archify_bin, caminho_spec_archify, qualidade="standard")
+        comp_standard = resultado_standard.get("composition") or {}
+        if resultado_standard.get("ok") and comp_standard.get("status") == "pass":
+            qualidade_final = "standard"
+            print("[aviso] convergiu em --quality standard — entregando nessa qualidade (showcase é mais rigoroso, standard ainda é um diagrama válido e legível, só sem o polish extra).", file=sys.stderr)
+        else:
+            print(f"[aviso] também não convergiu em standard ({len(resultado_standard.get('diagnostics', []))} diagnósticos) — entregando a melhor rodada de showcase mesmo assim, vai falhar.", file=sys.stderr)
+
     caminho_spec_archify.write_text(json.dumps(serializar_para_archify(melhor_arch), indent=2, ensure_ascii=False), encoding="utf-8")
 
-    entrega = entregar(args.archify_bin, caminho_spec_archify, saida_html)
+    entrega = entregar(args.archify_bin, caminho_spec_archify, saida_html, qualidade=qualidade_final)
     print(json.dumps(entrega, indent=2, ensure_ascii=False))
     if not entrega.get("ok"):
         sys.exit(1)

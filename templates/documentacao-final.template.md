@@ -9,9 +9,12 @@ demanda. Isso é o que permite comparar pacotes de demandas diferentes sem
 precisar reaprender a estrutura a cada leitura.
 
 Seções marcadas [CONDICIONAL] só entram se o artefato de origem existir nesta
-demanda. Se a seção condicional for omitida, NÃO pule o número — renumere as
-seções seguintes para não deixar buraco (ex: se não há Jornadas, o que seria
-"## 9." vira "## 8.", e assim por diante).
+demanda (ou, no caso de Jornadas do Usuário, se o VEREDITO dentro de
+`jornadas.md` for positivo — o arquivo em si sempre existe, ver
+skills/jornadas-do-usuario/SKILL.md, 2026-08-16). Se a seção condicional for
+omitida, NÃO pule o número — renumere as seções seguintes para não deixar
+buraco (ex: se o veredito de Jornadas for "nenhuma jornada aplicável", o que
+seria "## 9." vira "## 8.", e assim por diante).
 -->
 
 # Pacote de Arquitetura Final — <Nome legível da demanda>
@@ -53,7 +56,7 @@ Agente: Documentação Final (ponto de sincronização total da cadeia — todos
 
 <Tabela ou lista: componente, responsabilidade, RF/RNF que satisfaz.>
 
-## 3. Jornadas do usuário (fonte: `jornadas.md`) [CONDICIONAL — só se `jornadas.md` existir]
+## 3. Jornadas do usuário (fonte: `jornadas.md`) [CONDICIONAL — só se o veredito de `jornadas.md` for "jornadas identificadas"; se for "nenhuma jornada aplicável", omita a seção mas não deixe de citar o motivo do veredito em uma frase na seção 1 ou 2]
 
 <Jornadas observáveis derivadas dos RFs já aprovados e dos componentes já decididos, com as visões de diagrama filtradas por jornada.>
 
