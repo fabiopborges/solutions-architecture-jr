@@ -85,7 +85,7 @@ O projeto segue a metodologia **OS Agêntico**, construída de baixo para cima: 
 
 *Fonte editável: [`docs/diagrams/01-camadas.mmd`](docs/diagrams/01-camadas.mmd)*
 
-Tudo o que os agentes decidem, aprendem ou ainda não sabem fica registrado em [`memory.md`](memory.md), a memória viva do OS. Uma auditoria dessas seis camadas está em [`OS-AUDIT.md`](OS-AUDIT.md).
+Tudo o que os agentes decidem, aprendem ou ainda não sabem fica registrado em [`memory.md`](memory.md), a memória viva do OS.
 
 ### 2. Fluxo de execução, numerado e em estilo C4
 
@@ -141,7 +141,6 @@ Os arquivos de execução apontam para os de referência em vez de duplicar cont
 │   └── skills/arquiteto-solucoes/SKILL.md # execução: ponto de entrada
 ├── CLAUDE.md               # Identidade (camada 1)
 ├── memory.md               # Memória viva: decisões, status, perguntas em aberto
-├── OS-AUDIT.md             # Última auditoria completa das seis camadas
 ├── tools.md                # Conexões externas (camada 5), hoje nenhuma ligada
 ├── telemetria-agentes.md   # Registro contínuo de tempo/tokens gastos, entre demandas
 ├── adrs/                   # ADRs formais, aprovados, globais, reaproveitáveis
@@ -242,7 +241,7 @@ O nome da demanda **nunca é inventado por um agente**. Quem pede informa o nome
 
 ## Estado atual
 
-Veja [`OS-AUDIT.md`](OS-AUDIT.md) para a auditoria completa. Resumo honesto:
+Veja [`memory.md`](memory.md) para o histórico completo de decisões. Resumo honesto:
 
 - As seis camadas do OS estão sólidas, o roteiro de 18 atividades está fechado, quatro demandas reais já rodaram ponta a ponta via `/arquiteto-solucoes` de verdade (despacho por subagente, não simulação), com custo de processamento medido em tokens reais — ver `telemetria-agentes.md`.
 - **Os subagentes e a skill de entrada estão registrados** em `.claude/agents/` e `.claude/skills/arquiteto-solucoes/`, seguindo o padrão nativo do Claude Code, e já foram exercitados de ponta a ponta em execuções reais.
