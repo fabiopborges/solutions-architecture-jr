@@ -1,0 +1,85 @@
+name: Aceite do CLA
+
+# Verifica se as três caixas da seção "Acordo de Contribuição e Licenciamento"
+# do modelo de PR foram marcadas. Ative este check como obrigatório na proteção
+# da branch `main` para que ele bloqueie o merge de verdade — sozinho, ele
+# apenas sinaliza (ver CONTRIBUTING.md).
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+
+# Somente leitura: o job não precisa escrever no repositório. O relatório vai
+# para o resumo da execução ($GITHUB_STEP_SUMMARY), que funciona mesmo com
+# token de leitura e também em PRs vindos de forks.
+permissions:
+  contents: read
+
+jobs:
+  aceite-do-cla:
+    name: Aceite do CLA
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar caixas de aceite no corpo do PR
+        env:
+          # O corpo do PR é conteúdo de terceiro: passa por env, nunca por
+          # interpolação direta no script (evita injeção de comando).
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+
+          # Remove ênfase Markdown (*, _) para que "**Licença MIT**" case igual
+          # a "Licença MIT". As palavras-chave abaixo são todas ASCII, o que
+          # evita depender do locale do runner na comparação.
+          normalizado=$(printf '%s' "${PR_BODY:-}" | tr -d '*_')
+
+          faltando=()
+
+          verificar() {
+            rotulo="$1"
+            chave="$2"
+            if ! printf '%s\n' "$normalizado" \
+              | grep -qiE "^[[:space:]]*-[[:space:]]*\[x\][[:space:]]+.*${chave}"; then
+              faltando+=("$rotulo")
+            fi
+          }
+
+          verificar "Autoria do código ou direito de compartilhá-lo" "autoria"
+          verificar "Distribuição sob a Licença MIT"                 "MIT"
+          verificar "Ausência de credenciais no código enviado"      "credencial"
+
+          if [ "${#faltando[@]}" -eq 0 ]; then
+            {
+              echo "## ✅ Aceite do CLA registrado"
+              echo
+              echo "As três declarações da seção **📜 Acordo de Contribuição e Licenciamento** estão marcadas."
+              echo
+              echo "A marcação constitui aceitação integral do [CLA](../blob/main/CONTRIBUTING.md#acordo-de-licença-de-contribuição-cla), e não apenas dos itens listados no modelo."
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "Aceite do CLA registrado."
+            exit 0
+          fi
+
+          {
+            echo "## ❌ Aceite do CLA pendente"
+            echo
+            echo "Para que este Pull Request possa ser incorporado, marque **todas** as caixas da seção **📜 Acordo de Contribuição e Licenciamento** no corpo do PR."
+            echo
+            echo "Declarações ainda não marcadas:"
+            echo
+            for item in "${faltando[@]}"; do
+              echo "- [ ] $item"
+            done
+            echo
+            echo "### Como resolver"
+            echo
+            echo "1. Clique em **Edit** no corpo deste Pull Request."
+            echo '2. Troque `- [ ]` por `- [x]` em cada declaração da seção de licenciamento.'
+            echo "3. Salve. Esta verificação roda novamente de forma automática."
+            echo
+            echo "Se a seção não aparecer no corpo do PR, copie-a do modelo em \`.github/pull_request_template.md\`."
+            echo
+            echo "> Marcar as caixas equivale a aceitar integralmente o Acordo de Licença de Contribuição descrito em \`CONTRIBUTING.md\`. Leia-o antes de marcar."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          echo "::error::Aceite do CLA pendente: ${#faltando[@]} declaração(ões) não marcada(s) no corpo do PR. Veja o resumo desta execução."
+          exit 1

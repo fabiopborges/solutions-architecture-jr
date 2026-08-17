@@ -150,6 +150,8 @@ A aceitação se dá por **qualquer** das formas abaixo:
 
 Pull Requests sem qualquer uma dessas formas de aceitação não serão incorporados até que a aceitação seja registrada.
 
+**Verificação automática.** O fluxo `Aceite do CLA` (em `.github/workflows/cla-check.yml`) confere, a cada abertura ou edição de Pull Request, se as três declarações da seção de licenciamento estão marcadas. Enquanto não estiverem, a verificação falha e indica no resumo da execução exatamente qual declaração falta. Basta editar o corpo do PR e marcá-la — a verificação roda novamente sozinha.
+
 ---
 
 ## Dúvidas
