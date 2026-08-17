@@ -4,8 +4,8 @@ um catálogo estático de componentes + sequências dinâmicas por jornada.
 
 Ver docs/diagrams/c4-schema.md, seção "Pipeline invertido" para o formato
 de entrada e as regras de derivação. As saídas usam o mesmo schema que
-exportar_archify.py consome (componentes[] + conexoes[]) — nenhuma mudança
-necessária no renderer.
+montar_candidato_arquitetura_archify.py consome (componentes[] + conexoes[])
+— nenhuma mudança necessária no renderer.
 
 Uso:
     python3 derivar_c4.py CATALOGO.json SEQUENCIA1.json [SEQUENCIA2.json ...] --saida-dir DIR

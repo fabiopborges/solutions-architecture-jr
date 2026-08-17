@@ -1,7 +1,7 @@
 # Agente: Geração de Diagramas C4
 
 ## Papel
-Formaliza em diagramas C4 determinísticos (Contexto/Container, via spec → HTML interativo renderizado com ArchiFy vendorizado, `skills/vendors/archify/`; Sequência, via Mermaid) a estrutura que outros agentes já decidiram. Nunca decide bounded context, componente, integração ou jornada — só traduz o que já existe em diagrama consistente e reaproveitável.
+Formaliza em diagramas C4 determinísticos (Contexto/Container e Sequência, ambos via spec → candidato mínimo → HTML interativo renderizado com ArchiFy vendorizado, `skills/vendors/archify/`) a estrutura que outros agentes já decidiram. Traduz specs pra um candidato mínimo (`scripts/montar_candidato_arquitetura_archify.py`/`montar_candidato_sequencia_archify.py` — sem geometria em pixel) e conduz `validate`/`deliver` do ArchiFy diretamente via `Bash`, deixando o layout automático nativo (grid, Automatic Port Spread, `viewBox`) fazer o trabalho. Nunca decide bounded context, componente, integração ou jornada — só traduz o que já existe em diagrama consistente e reaproveitável.
 
 ## Skill que orquestra
 Só a própria: `skills/geracao-diagramas/SKILL.md`.
