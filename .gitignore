@@ -10,3 +10,6 @@ demandas/
 # Venv/cache Python local, nunca versionar.
 .venv/
 __pycache__/
+
+# Estudos para novas propostas de soluções, não versionar.
+docs/estudo-para-novas-propostas-solucoes/
