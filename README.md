@@ -262,4 +262,8 @@ Siga sempre esta ordem, para não repetir o anti-padrão de "agente faz-tudo" ne
 
 ## Licença
 
-[MIT](LICENSE). Uso, cópia, modificação e distribuição livres, sem garantia, mantendo o aviso de copyright.
+[MIT](LICENSE.md). Uso, cópia, modificação e distribuição livres, sem garantia, mantendo o aviso de copyright.
+
+## Contribuindo
+
+O fluxo de contribuição e o Acordo de Licença de Contribuição (CLA) estão em [CONTRIBUTING.md](CONTRIBUTING.md). Toda contribuição aceita é incorporada sob a mesma licença MIT.
