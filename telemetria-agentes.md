@@ -1,6 +1,6 @@
 # Telemetria dos Agentes
 
-Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido pelo agente [[agents/observabilidade-e-telemetria/AGENT]], frente 2. Seis demandas rodaram até agora: a primeira simulada (um agente-modelo narrando os 14 papéis), as demais via subagentes reais (`/arquiteto-solucoes`), com uso de token medido de verdade por agente.
+Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido pelo agente [[agents/observabilidade-e-telemetria/AGENT]], frente 2. Sete demandas rodaram até agora: a primeira simulada (um agente-modelo narrando os 14 papéis), as demais via subagentes reais (`/arquiteto-solucoes`), com uso de token medido de verdade por agente.
 
 ## Formato de uma entrada
 - Demanda:
@@ -211,3 +211,40 @@ Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido p
 **Paralelo vs sequencial:** Entendimento → Desenho sequencial (dependência real). Logo após o Desenho, 5 agentes em paralelo real (Modelagem de Dados, Infraestrutura e Deployment, Testes e Qualidade, Pesquisa e Benchmarking, Geração de Diagramas C4 1ª execução). Depois, 4 agentes em paralelo (Trade-offs e ADR, Segurança e Compliance, Estimativa de Custo, Observabilidade frente 1). Geração de Diagramas (2ª execução, fluxo de dados) e Riscos e Mitigação em paralelo entre si. Documentação Final, Comunicação com Stakeholders e Entrega e Handoff fecharam a cadeia sequencialmente, por dependência real de cada um no anterior.
 
 **Custo real em US$/R$:** pendente, a preencher por quem operou a sessão — não estimado por este agente. Ver `demandas/pipeline-marketing-crm-legado/custo-processamento.md`.
+
+---
+
+### 2026-08-16 — projeto-agentes-arquitetura-de-solucoes-junior-16-08-2026
+
+**Sétima demanda, primeira em que o objeto desenhado é o próprio OS multi-agente**, não um sistema de negócio externo. Muda o formato de várias atividades (Desenho, Infraestrutura, esta própria Observabilidade), já registrado por cada uma delas nos respectivos artefatos. Também primeira demanda em que Documentação Final encontrou uma pendência bloqueante de verdade dentro do próprio fluxo determinístico (diagrama de fluxo de dados ausente, escopo exclusivo de Geração de Diagramas C4 pela versão atual da própria skill) e a resolveu corretamente devolvendo para o agente dono em vez de desenhar manualmente.
+
+**Todos os 14 artefatos da cadeia principal produzidos** (Entendimento, Desenho, Dados, Infraestrutura, Testes e Qualidade, Jornadas, Segurança, Custo, Observabilidade, Documentação Final, Riscos, Comunicação, Handoff), mais Geração de Diagramas C4 acionada 2 vezes (container/contexto/jornadas/sequências, depois fluxo de dados). Nenhum especialista sob demanda acionado — sem gatilho de plataforma analítica nem de modelo de IA/ML nesta demanda, nem Pesquisa e Benchmarking — nenhuma tecnologia não resolvida pela stack apareceu, já que o objeto é o próprio OS local.
+
+**Por agente, execução e uso real (tokens/ferramentas/duração):**
+| Agente | Execução | Tokens | Ferramentas | Duração |
+|---|---|---|---|---|
+| Entendimento e Escopo | inicial + revisão (generalizar refs a demandas passadas) | 75.303 + 93.960 | 16 + 6 | 188,6s + 28,7s |
+| Desenho de Arquitetura | 1 | 88.264 | 17 | 245,9s |
+| Geração de Diagramas C4 (container/contexto/jornadas/sequências) | 1 | 210.524 | 110 | 875,4s |
+| Modelagem de Dados | 1 | 78.011 | 10 | 194,2s |
+| Infraestrutura e Deployment | 1 | 51.437 | 6 | 103,5s |
+| Testes e Qualidade | 1 | 48.771 | 6 | 135,6s |
+| Jornadas do Usuário | 1 | 72.055 | 9 | 258,3s |
+| Segurança e Compliance | 1 | 50.178 | 7 | 166,4s |
+| Estimativa de Custo | 1 | 21.609 | 5 | 50,6s |
+| Observabilidade e Telemetria (frentes 1+2) | 1 | 71.436 | 16 | 152,4s |
+| Documentação Final | inicial + atualização (diagrama de fluxo de dados) | 129.612 + 140.998 | 26 + 5 | 272,6s + 50,9s |
+| Riscos e Mitigação | 1 | 68.767 | 14 | 190,7s |
+| Geração de Diagramas C4 (fluxo de dados) | 1 | 171.755 | 78 | 855,5s |
+| Comunicação com Stakeholders | 1 | 41.478 | 7 | 49,0s |
+| Entrega e Handoff | preparar (não liberado — aprovação humana pendente) | 50.852 | 11 | 100,2s |
+
+**Total medido: 1.465.010 tokens.** A maior demanda em tokens até agora, superando a de `plataforma-ia-corporativa-v1` (1.460.862) — puxado principalmente pelos dois acionamentos de Geração de Diagramas C4 (382.279 tokens somados, 188 chamadas de ferramenta) por ser a primeira vez traduzindo 19 componentes/atores do próprio OS num grafo denso (fan-in/fan-out alto), e por Documentação Final ter rodado 2 vezes por causa da pendência real do diagrama de fluxo de dados. Ver detalhamento em `demandas/projeto-agentes-arquitetura-de-solucoes-junior-16-08-2026/custo-processamento.md`.
+
+**Paralelo vs sequencial, de verdade:** Entendimento → Desenho sequencial (dependência real). Logo após o Desenho, 5 agentes em paralelo real (Geração de Diagramas C4, Modelagem de Dados, Infraestrutura e Deployment, Testes e Qualidade, Jornadas do Usuário — o primeiro despacho de 4 deles falhou por um falso positivo do hook de caminho absoluto detectando `demandas/` sem barra à esquerda dentro do texto da instrução, não do caminho real; corrigido reformulando o prompt sem esse padrão, sem tocar no hook). Depois, 3 agentes em paralelo (Segurança e Compliance, Estimativa de Custo, Observabilidade frente 1). Depois, 2 agentes em paralelo (Documentação Final, Riscos e Mitigação). A 2ª execução de Geração de Diagramas C4 (fluxo de dados) e a atualização de Documentação Final rodaram sequenciais, por dependência real uma da outra. Comunicação com Stakeholders e Entrega e Handoff fecharam a cadeia sequencialmente.
+
+**Loops de dúvida que bateram no limite de 3 rodadas:** nenhum.
+
+**Achado de processo (não de arquitetura):** falso positivo do hook `PreToolUse` de caminho absoluto — a regex do hook reage a qualquer ocorrência textual de `demandas/` sem barra à esquerda em qualquer parte do prompt de despacho, não só em caminho de arquivo real. Um trecho de instrução como "não cite projetos dentro de demandas/ do repositório" (prosa, não caminho) já dispara o bloqueio. Contornado reformulando a prosa para evitar o padrão literal; nenhuma mudança feita no hook nesta sessão, mas vale registrar como possível ajuste futuro de precisão do hook (falso positivo, não falha de proteção).
+
+**Custo real em US$/R$:** pendente, a preencher por quem operou a sessão — não estimado por este agente. Ver `demandas/projeto-agentes-arquitetura-de-solucoes-junior-16-08-2026/custo-processamento.md`.

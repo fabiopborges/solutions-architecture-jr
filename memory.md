@@ -1,4 +1,4 @@
-# Memória do OS Agentes
+# Memória dos Agentes Arquiteto de Soluções Júnior
 
 **Objetivo:** Criar um conjunto de agentes que funciona como um Arquiteto de Soluções Júnior. Cada atividade específica do trabalho de arquitetura é representada por um agente próprio, e cada agente tem sua própria skill com o objetivo daquela tarefa em específico, para evitar alucinações, invenções e desvio da divisão de responsabilidades. A estrutura roda em loop, quando um agente tem dúvida sobre como seguir, ele pergunta ao agente responsável por aquela atividade específica. O conjunto cobre todas as atividades plausíveis de um arquiteto de soluções, desde o entendimento inicial da demanda até a entrega final, incluindo observabilidade, telemetria e medições. Deve economizar tokens e paralelizar ao máximo as atividades do fluxo.
 **Para quem:** Meu time interno.
