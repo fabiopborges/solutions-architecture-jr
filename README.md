@@ -1,25 +1,43 @@
-# solutions-architecture-jr-agents
+<div align="center">
 
-Um time de agentes de IA — construído sobre o [Claude Code](https://claude.com/claude-code) — que atua como um **Arquiteto de Soluções Júnior**. Em vez de um prompt genérico tentando fazer tudo de uma vez, cada atividade real do trabalho de arquitetura vira um agente próprio, com escopo estreito, uma skill dedicada e um critério claro de "isso está bem feito".
+# Arquiteto de Soluções Junior IA
 
-> **Status do projeto:** as 18 atividades + o Orquestrador estão especificadas e registradas como skill/subagentes nativos do Claude Code (`/arquiteto-solucoes`). Sete demandas já rodaram ponta a ponta via despacho real de subagente, incluindo os dois agentes mais novos (Geração de Diagramas C4 e Jornadas do Usuário) — veja [Estado atual](#estado-atual).
+**Um time de agentes de IA que trabalha como um Arquiteto de Soluções Júnior.**
+Uma atividade, um agente, um critério de pronto — e nada sai como "entregue" sem uma pessoa aprovar.
+
+[![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg)](LICENSE.md)
+[![Claude Code](https://img.shields.io/badge/roda%20em-Claude%20Code-d97757.svg)](https://claude.com/claude-code)
+[![18 agentes](https://img.shields.io/badge/agentes-18%20%2B%20orquestrador-0f766e.svg)](#os-18-agentes)
+[![ADRs](https://img.shields.io/badge/ADRs-001%E2%80%93022-475569.svg)](adrs/)
+
+</div>
+
+Construído sobre o [Claude Code](https://claude.com/claude-code). Em vez de um prompt genérico tentando fazer tudo de uma vez, cada atividade real do trabalho de arquitetura vira um agente próprio, com escopo estreito, uma skill dedicada e um critério claro de "isso está bem feito".
+
+> [!NOTE]
+> **Status do projeto:** as 18 atividades + o Orquestrador estão especificadas e registradas como skill/subagentes nativos do Claude Code (`/arquiteto-solucoes`). Sete demandas já rodaram ponta a ponta via despacho real de subagente — veja [Estado atual](#estado-atual). Os diagramas C4 deste README são a saída do próprio time rodando sobre si mesmo.
 
 ---
 
 ## Sumário
 
-### Conceitos
+**Conceitos**
 
 - [Por que isto existe](#por-que-isto-existe)
 - [Ideia central em 30 segundos](#ideia-central-em-30-segundos)
 - [Glossário rápido](#glossário-rápido)
-- [Arquitetura da workspace](#arquitetura-da-workspace)
-  - [As seis camadas do OS](#1-as-seis-camadas-do-os)
-  - [Fluxo de execução, numerado e em estilo C4](#2-fluxo-de-execução-numerado-e-em-estilo-c4)
-  - [Diagrama de sequência completo](#3-diagrama-de-sequência-completo)
-  - [Execução vs. referência no disco](#4-execução-vs-referência-no-disco)
 
-### Mão na massa
+**As vistas da arquitetura**
+
+- [1. As seis camadas do OS](#1-as-seis-camadas-do-os)
+- [2. Contexto — quem conversa com o OS](#2-contexto--quem-conversa-com-o-os)
+- [3. Containers — os 18 agentes e as fronteiras de domínio](#3-containers--os-18-agentes-e-as-fronteiras-de-domínio)
+- [4. Uma demanda ponta a ponta, no tempo](#4-uma-demanda-ponta-a-ponta-no-tempo)
+- [5. Fluxo de dados entre os agentes](#5-fluxo-de-dados-entre-os-agentes)
+- [6. Zoom em um agente: Geração de Diagramas C4](#6-zoom-em-um-agente-geração-de-diagramas-c4)
+- [7. Execução vs. referência no disco](#7-execução-vs-referência-no-disco)
+
+**Mão na massa**
 
 - [Pré-requisitos](#pré-requisitos)
 - [Quickstart](#quickstart)
@@ -69,41 +87,51 @@ Se você já usou um time real de arquitetura, a analogia é direta: em vez de u
 | **Skill** | O "manual de operação" de uma atividade: quando usar, passos, artefato de saída, critério de pronto. |
 | **Orquestrador** | Gerencia a ordem, o paralelismo e o portão de saída. Não desenha nem decide nada de arquitetura sozinho. |
 | **Demanda** | Um pedido de arquitetura específico, com nome próprio, nunca inventado pelo agente. Vira uma pasta em `demandas/`. |
+| **Bounded context** | Fronteira de domínio (DDD) que delimita o que cada agente decide. É o que define o recorte de cada componente, não a conveniência técnica. |
 | **ADR** | Architecture Decision Record. Toda decisão importante vira um ADR formal, com aprovação humana antes de valer. |
 | **Portão de saída** | Checklist obrigatório (suposições escritas, dúvidas fechadas, pacote completo, aprovação humana) antes de "entregue". |
 | **Substrato** | O conhecimento destilado (stack aprovada, padrões da casa, ADRs anteriores) que os agentes leem antes de decidir. |
 
-## Arquitetura da workspace
+---
 
-Esta seção documenta como a `solutions-architecture-jr-agents` está montada, em quatro vistas complementares: as camadas conceituais, o fluxo de execução numerado (estilo C4), o mesmo fluxo como troca de mensagens no tempo (sequência completa), e o mapeamento para o disco.
+## As vistas da arquitetura
+
+Sete vistas complementares da mesma coisa, do conceito ao disco. **As vistas 2 a 6 não foram desenhadas à mão**: são a saída do agente [Geração de Diagramas C4](agents/geracao-diagramas/AGENT.md) rodando sobre este próprio repositório como demanda — o OS aplicado a si mesmo, com `desenho.md`, `dados.md` e as jornadas do próprio time como fonte. Os specs que geraram cada imagem estão em [`docs/diagrams/archify/`](docs/diagrams/archify/).
+
+> [!TIP]
+> Todo diagrama abaixo é clicável — abra em tamanho real, alguns são largos. Os SVGs seguem o tema claro/escuro do seu sistema.
 
 ### 1. As seis camadas do OS
 
 O projeto segue a metodologia **OS Agêntico**, construída de baixo para cima: cada camada depende da que veio antes.
 
-![As seis camadas do OS, da Identidade até os Agentes](docs/diagrams/01-camadas.svg)
+[![As seis camadas do OS, da Identidade até os Agentes](docs/diagrams/01-camadas.svg)](docs/diagrams/01-camadas.svg)
 
 *Fonte editável: [`docs/diagrams/01-camadas.mmd`](docs/diagrams/01-camadas.mmd)*
 
 Tudo o que os agentes decidem, aprendem ou ainda não sabem fica registrado em [`memory.md`](memory.md), a memória viva do OS.
 
-### 2. Fluxo de execução, numerado e em estilo C4
+### 2. Contexto — quem conversa com o OS
 
-Mesma forma geométrica para o mesmo tipo de caixa — retângulo arredondado em todo lugar, cor indica o papel (sequencial, paralelo, sincronização, transversal), como num diagrama C4 de containers. Os números dentro de cada caixa são a ordem real de execução; letras (`3a`/`3b`/`3c`, `5a`/`5b`, `6a`/`6b`) marcam passos que acontecem **no mesmo estágio, em paralelo**.
+A vista mais alta: cada caixa é um **bounded context** inteiro, com os agentes daquele domínio colapsados dentro dele, e o único ator de fora é a **Pessoa Operadora** — que dispara a demanda, responde às perguntas de escopo e aprova o portão de saída. Todo o resto acontece entre os agentes.
 
-![Fluxo de execução das 18 atividades, numerado em estilo C4, do passo 1 ao 10](docs/diagrams/02-fluxo.svg)
+[![Diagrama de contexto C4: bounded contexts do OS e os atores externos](docs/diagrams/archify/c4-contexto.svg)](docs/diagrams/archify/c4-contexto.svg)
 
-*Fonte editável: [`docs/diagrams/02-fluxo.mmd`](docs/diagrams/02-fluxo.mmd)*
+### 3. Containers — os 18 agentes e as fronteiras de domínio
 
-| Cor | Significa |
+Cada agente é um container, e cada moldura tracejada é um **bounded context** (DDD) derivado de uma capacidade de negócio (TOGAF) — os limites dos componentes seguem os limites do domínio, nunca a conveniência técnica.
+
+[![Diagrama de containers C4: os 18 agentes agrupados por bounded context](docs/diagrams/archify/c4-container.svg)](docs/diagrams/archify/c4-container.svg)
+
+| Elemento | Significa |
 | --- | --- |
-| 🟦 Azul escuro | Passo sequencial obrigatório (espera o anterior terminar) |
-| 🟦 Azul claro | Ramo paralelo (não depende dos outros do mesmo estágio) |
-| ⬜ Cinza tracejado | Sob demanda — só entra se o gatilho específico bater |
-| 🟧 Laranja | Ponto de sincronização (espera **todos** os ramos que apontam para ele) |
-| 🟥 Vermelho | Portão de saída (gate) |
-| 🟩 Verde | Entregue (fim) |
-| ⬜ Tracejado fino | Transversal — Trade-offs/ADR, Geração de Diagramas C4 e Orquestrador atuam o tempo todo, não são um passo numerado |
+| 🟩 Caixa verde | Agente do time (container interno) |
+| ⬜ Caixa cinza | Ator de fora do time — aqui, só a Pessoa Operadora |
+| 🟧 Moldura tracejada | Bounded context — a fronteira de domínio que o agente serve |
+| ➡️ Seta cheia | Despacho ou leitura que **espera** o outro lado terminar |
+| ⇢ Seta tracejada | Despacho em paralelo, que não bloqueia quem chamou |
+
+A ordem real de execução, com o que roda em paralelo:
 
 1. Entendimento e Escopo
 2. Desenho de Arquitetura (aciona Geração de Diagramas C4 assim que a estrutura fecha)
@@ -116,19 +144,34 @@ Mesma forma geométrica para o mesmo tipo de caixa — retângulo arredondado em
 9. Portão de saída (suposições, dúvidas fechadas, pacote completo, aprovação humana)
 10. Entregue
 
-### 3. Diagrama de sequência completo
+Trade-offs e ADR, Geração de Diagramas C4 e o Orquestrador são **transversais**: atuam o tempo todo, não são um passo numerado.
 
-O mesmo fluxo acima, mas como troca de mensagens no tempo — cada um dos 18 agentes aparece individualmente, com o Orquestrador e a Pessoa aprovadora nas pontas. A numeração é automática (`autonumber`), uma por mensagem trocada, então o número aqui é o da mensagem, não o do estágio da vista anterior.
+### 4. Uma demanda ponta a ponta, no tempo
 
-![Diagrama de sequência completo, com os 18 agentes, o Orquestrador e a aprovação humana](docs/diagrams/04-sequencia.svg)
+O mesmo fluxo, agora como troca de mensagens: dá para ver onde o Orquestrador solta quatro despachos em paralelo e onde ele volta a segurar tudo até a consolidação final.
 
-*Fonte editável: [`docs/diagrams/04-sequencia.mmd`](docs/diagrams/04-sequencia.mmd)*
+[![Diagrama de sequência de uma demanda completa, do pedido à liberação do pacote](docs/diagrams/archify/sequencia-demanda-processada-e-pacote-entregue.svg)](docs/diagrams/archify/sequencia-demanda-processada-e-pacote-entregue.svg)
 
-### 4. Execução vs. referência no disco
+### 5. Fluxo de dados entre os agentes
+
+Que artefato cada agente produz e quem lê o quê. É esta vista que mostra por que a cadeia tem a ordem que tem: `desenho.md` precisa estar pronto antes de qualquer modelagem, `dados.md` antes de segurança, tudo antes da consolidação final. É também a única vista onde aparece o **Claude Code Runtime**, que executa cada subagente como processo isolado.
+
+[![Diagrama de fluxo de dados entre os agentes, com os artefatos trocados](docs/diagrams/archify/c4-fluxo-dados.svg)](docs/diagrams/archify/c4-fluxo-dados.svg)
+
+> [!NOTE]
+> Esta vista omite algumas relações "todo agente → um agente" (telemetria, leitura do compêndio) por limitação de roteamento do gerador, não por decisão de conteúdo. A descrição completa continua em `dados.md`, dentro da demanda.
+
+### 6. Zoom em um agente: Geração de Diagramas C4
+
+Um nível abaixo do container, para mostrar como um agente é montado por dentro — aqui, o que traduz decisão já tomada em diagrama, sem nunca decidir arquitetura.
+
+[![Diagrama de componentes do agente de Geração de Diagramas C4](docs/diagrams/archify/c4-componente-geracao-diagramas.svg)](docs/diagrams/archify/c4-componente-geracao-diagramas.svg)
+
+### 7. Execução vs. referência no disco
 
 Este repositório é a raiz de um projeto Claude Code, o que cria duas camadas lado a lado que não devem ser confundidas: uma versão **enxuta e invocável** dentro de `.claude/`, e a **documentação de referência completa** que essa versão enxuta consulta antes de agir.
 
-![Camada de execução em .claude/ apontando para a camada de referência na raiz](docs/diagrams/03-execucao-referencia.svg)
+[![Camada de execução em .claude/ apontando para a camada de referência na raiz](docs/diagrams/03-execucao-referencia.svg)](docs/diagrams/03-execucao-referencia.svg)
 
 *Fonte editável: [`docs/diagrams/03-execucao-referencia.mmd`](docs/diagrams/03-execucao-referencia.mmd)*
 
@@ -144,11 +187,13 @@ Os arquivos de execução apontam para os de referência em vez de duplicar cont
 ├── tools.md                # Conexões externas (camada 5), hoje nenhuma ligada
 ├── telemetria-agentes.md   # Registro contínuo de tempo/tokens gastos, entre demandas
 ├── adrs/                   # ADRs formais, aprovados, globais, reaproveitáveis
-├── demandas/                # Uma pasta por demanda real (local, não versionado)
+├── demandas/               # Uma pasta por demanda real (local, não versionado)
 │   └── <nome-da-demanda>/
+├── docs/diagrams/          # Vistas do próprio OS (Mermaid à mão + C4 gerado pelo pipeline)
 ├── rules/
 │   ├── always.md           # O que todo agente sempre faz + hooks
 │   └── never.md            # Paradas duras
+├── scripts/                # Pipeline de diagramas C4 (spec → candidato → SVG)
 ├── substrate/
 │   ├── compendium.md       # Referência destilada que os agentes leem antes de decidir
 │   └── sources.md          # De onde esse conhecimento vem
@@ -164,6 +209,7 @@ Cada atividade tem a mesma pasta em `skills/` e `agents/` (mesmo nome), para ser
 
 - [Claude Code](https://claude.com/claude-code) instalado.
 - Nenhuma dependência externa, chave de API ou etapa de build. `tools.md` documenta conexões futuras opcionais (repositório de docs, backlog, observabilidade), todas ainda desligadas.
+- Só para **regerar** os diagramas C4: Python 3 (stdlib) e Node.js ≥18 — o ArchiFy já vem vendorizado em `skills/vendors/archify/`. Ver [`scripts/README.md`](scripts/README.md).
 
 ## Quickstart
 
@@ -176,6 +222,7 @@ cd solutions-architecture-jr-agents
 claude   # sempre abra a CLI a partir daqui, não de uma subpasta
 ```
 
+> [!IMPORTANT]
 > Por que a partir da raiz? O Claude Code carrega `.claude/settings.json` a partir do diretório onde a sessão foi iniciada, não da raiz do git. Abrir de uma subpasta faz o hook de caminho absoluto (ver [Regras e governança](#regras-e-governança)) simplesmente não carregar, sem aviso de erro. Confira com `/hooks` que `PreToolUse` aparece listado.
 
 **2. Dispare uma demanda nova.**
@@ -187,7 +234,7 @@ claude   # sempre abra a CLI a partir daqui, não de uma subpasta
 A primeira coisa que o time faz é confirmar o **nome da demanda** com você — esse nome nunca é inventado por um agente (ver [rules/never.md](rules/never.md)). É esse nome exato que vira a pasta `demandas/<nome-da-demanda>/`.
 
 **3. Deixe o time trabalhar.**
-A skill de entrada despacha os 18 agentes na ordem e no paralelismo do [fluxo](#2-fluxo-de-execução-numerado-e-em-estilo-c4), até o portão de saída — que inclui aprovação humana obrigatória — e a liberação final em `demandas/<nome-da-demanda>/handoff.md`.
+A skill de entrada despacha os 18 agentes na ordem e no paralelismo da [vista de containers](#3-containers--os-18-agentes-e-as-fronteiras-de-domínio), até o portão de saída — que inclui aprovação humana obrigatória — e a liberação final em `demandas/<nome-da-demanda>/handoff.md`.
 
 **4. Acompanhe sem interromper, a qualquer momento.**
 
@@ -204,6 +251,7 @@ Nada sai como "entregue" sem uma pessoa do time confirmar — mesmo que todos os
 
 O nome da demanda **nunca é inventado por um agente**. Quem pede informa o nome explicitamente ao agente de Entendimento e Escopo (ou o agente pergunta e espera a resposta). Esse nome vira a pasta `demandas/<nome-da-demanda>/`, e cada atividade grava um arquivo lá (`entendimento.md`, `desenho.md`, `dados.md`, etc.), em vez de espalhar arquivos soltos na raiz. Duas exceções ficam fora de `demandas/`: `adrs/` (decisões reaproveitáveis por demandas futuras) e `telemetria-agentes.md` (registro contínuo entre demandas).
 
+> [!WARNING]
 > `demandas/` está em `.gitignore`, não faz parte deste repositório público: os artefatos de cada demanda ficam só no seu clone local. As demandas usadas para validar a cadeia durante o desenvolvimento deste OS foram todas sintéticas (empresa, SDR, orçamento e decisões fictícios), e por isso não foram publicadas — mantenha o mesmo cuidado com as suas.
 
 ## Os 18 agentes
@@ -235,9 +283,28 @@ O nome da demanda **nunca é inventado por um agente**. Quem pede informa o nome
 - **Nunca** ([`rules/never.md`](rules/never.md)): um agente decide fora do próprio escopo; uma dúvida entre agentes passa de 3 rodadas sem se resolver (na 4ª, escala para revisão humana); uma entrega sai sem suposições/trade-offs escritos; um agente reaproveita contexto de uma demanda anterior.
 - **Sempre** ([`rules/always.md`](rules/always.md)): expor suposições e trade-offs; perguntar ao dono da atividade em caso de dúvida; paralelizar quando possível; registrar tempo/tokens gastos.
 - **Hook real de caminho absoluto**: `.claude/settings.json` bloqueia (`PreToolUse`, `permissionDecision: deny`) qualquer despacho de subagente cujo prompt referencie `demandas/...` sem caminho absoluto. É reforço de verdade do harness, não só descrição de comportamento — só funciona se a sessão for aberta a partir da raiz do repo (ver [Quickstart](#quickstart)).
-- **Decisões importantes viram ADR** ([`adrs/`](adrs/)), formalizadas pelo agente [Trade-offs e ADR](agents/trade-offs-e-adr/AGENT.md), com portão de aprovação humana obrigatório antes de valer como decisão oficial.
 - **Cloud é agnóstica de provedor** ([ADR 001](adrs/adr-001-cloud-agnostica-por-criterio-de-negocio.md)): a escolha é por critério de negócio a cada demanda, não fixada em um provedor.
 - **Microsserviços seguem os limites de domínio** ([ADR 002](adrs/adr-002-microsservicos-como-consequencia-de-ddd.md)): TOGAF (Business Architecture) mapeia capacidades de negócio, DDD traduz isso em bounded contexts.
+
+Duas dessas regras são fluxos próprios, com diagrama gerado pelo mesmo pipeline:
+
+<details>
+<summary><strong>Toda decisão importante vira um ADR aprovado por uma pessoa</strong></summary>
+
+[![Sequência: decisão importante formalizada como ADR e aprovada por uma pessoa](docs/diagrams/archify/sequencia-adr-aprovado-para-decisao-importante.svg)](docs/diagrams/archify/sequencia-adr-aprovado-para-decisao-importante.svg)
+
+O ADR só entra no compêndio de conhecimento — e só passa a valer para demandas futuras — depois da aprovação explícita.
+
+</details>
+
+<details>
+<summary><strong>Dúvida que não fecha em 3 rodadas escala para revisão humana</strong></summary>
+
+[![Sequência: dúvida entre agentes escalada para revisão humana na quarta rodada](docs/diagrams/archify/sequencia-duvida-escalada-revisao-humana.svg)](docs/diagrams/archify/sequencia-duvida-escalada-revisao-humana.svg)
+
+Um agente nunca "resolve" a dúvida chutando no lugar do dono da outra atividade: ou fecha em até 3 rodadas, ou vira pergunta para uma pessoa.
+
+</details>
 
 ## Estado atual
 
@@ -246,7 +313,7 @@ Veja [`memory.md`](memory.md) para o histórico completo de decisões. Resumo ho
 - As seis camadas do OS estão sólidas, o roteiro de 18 atividades está fechado, sete demandas reais já rodaram ponta a ponta via `/arquiteto-solucoes` de verdade (despacho por subagente, não simulação), com custo de processamento medido em tokens reais — ver `telemetria-agentes.md`.
 - **Os subagentes e a skill de entrada estão registrados** em `.claude/agents/` e `.claude/skills/arquiteto-solucoes/`, seguindo o padrão nativo do Claude Code, e já foram exercitados de ponta a ponta em execuções reais.
 - **Dois agentes novos (Geração de Diagramas C4 e Jornadas do Usuário) foram adicionados em 2026-08-15** (ver `memory.md`) para resolver diagramas ASCII dessincronizados entre `desenho.md`/`documentacao-final.md` e para dar um roteiro de sequência a partir dos requisitos. Já rodaram de ponta a ponta em várias demandas reais desde então, incluindo a geração de diagramas de sequência via ArchiFy e a correção que tornou `jornadas.md` sempre determinístico (veredito explícito, nunca ausência silenciosa).
-- **Dos dois especialistas sob demanda, só o de IA/ML já foi acionado de verdade** (`demandas/plataforma-ia-corporativa-v1/`, confirmando que o gatilho dispara quando deveria, depois de três demandas seguidas confirmando só o caminho de não disparar à toa). **O Especialista em Dados e Analytics nunca foi acionado** — nenhuma demanda real até agora teve decisão de plataforma analítica de verdade.
+- **Dos dois especialistas sob demanda, só o de IA/ML já foi acionado de verdade** (`demandas/plataforma-ia-corporativa-v1/`, confirmando que o gatilho dispara quando deveria, depois de três demandas seguidas confirmando só o caminho de não disparar à toa). **O Especialista em Dados e Analytics nunca foi acionado** — nenhuma demanda real até agora teve decisão de plataforma analítica de verdade. Por isso ele não aparece em nenhuma das vistas geradas: nenhuma jornada real o exercita.
 - `tools.md` lista três conexões externas úteis, nenhuma ligada ainda.
 - ADRs 001 a 022 registrados em `adrs/`, com aprovação humana explícita registrada em cada um antes de valer como oficial.
 

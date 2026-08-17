@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "ADR aprovado para uma decisão arquitetural importante",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [
+      944,
+      590
+    ]
+  },
+  "participants": [
+    {
+      "id": "c2_desenho_arquitetura",
+      "type": "backend",
+      "label": "C2",
+      "sublabel": "Desenho de Arquitetura"
+    },
+    {
+      "id": "c11_trade_offs_adr",
+      "type": "backend",
+      "label": "C11",
+      "sublabel": "Trade-offs e ADR"
+    },
+    {
+      "id": "ator_pessoa_operadora",
+      "type": "external",
+      "label": "ator_pessoa_operadora",
+      "sublabel": "Pessoa Operadora"
+    },
+    {
+      "id": "c19_substrato_conhecimento",
+      "type": "backend",
+      "label": "C19",
+      "sublabel": "Substrato de Conhecimento"
+    }
+  ],
+  "messages": [
+    {
+      "id": "m1",
+      "from": "c2_desenho_arquitetura",
+      "to": "c11_trade_offs_adr",
+      "y": 160,
+      "label": "Leva uma decisão arquitetural importante para formalizar como ADR",
+      "variant": "default"
+    },
+    {
+      "id": "m3",
+      "from": "c11_trade_offs_adr",
+      "to": "ator_pessoa_operadora",
+      "y": 230,
+      "label": "Solicita aprovação humana do ADR, portão próprio e distinto",
+      "variant": "default",
+      "note": "[passo interno] Formaliza a decisão como ADR, com contexto, alternativas descartadas e trade-offs aceitos"
+    },
+    {
+      "id": "m4",
+      "from": "ator_pessoa_operadora",
+      "to": "c11_trade_offs_adr",
+      "y": 300,
+      "label": "Aprova (ou não) o ADR explicitamente",
+      "variant": "return"
+    },
+    {
+      "id": "m5",
+      "from": "c11_trade_offs_adr",
+      "to": "c19_substrato_conhecimento",
+      "y": 370,
+      "label": "Registra o ADR aprovado, resumido, no compêndio de conhecimento reaproveitável",
+      "variant": "dashed"
+    }
+  ]
+}

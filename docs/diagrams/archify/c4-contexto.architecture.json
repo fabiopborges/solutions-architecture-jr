@@ -1,0 +1,486 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "OS multi-agente Arquiteto de Soluções Júnior — Contexto — geral",
+    "output": "c4-contexto.html",
+    "quality_profile": "showcase",
+    "viewBox": [
+      5111,
+      1361
+    ]
+  },
+  "components": [
+    {
+      "id": "ator_pessoa_operadora",
+      "type": "external",
+      "label": "Pessoa Operadora",
+      "sublabel": "Dispara demandas, confirma nomes e aprova portões.",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        2280.0,
+        80
+      ]
+    },
+    {
+      "id": "sistema_bc13",
+      "type": "external",
+      "label": "BC-13 — Geração Determinística de Diagramas",
+      "sublabel": "Colapso de 1 componente(s) de BC-13 — Geração Determinística de Diagramas",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        2080.0,
+        872
+      ]
+    },
+    {
+      "id": "sistema_bc02",
+      "type": "external",
+      "label": "BC-02 — Desenho de Domínio e Componentes",
+      "sublabel": "Colapso de 1 componente(s) de BC-02 — Desenho de Domínio e Componentes",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        60.0,
+        608
+      ]
+    },
+    {
+      "id": "sistema_bc05",
+      "type": "external",
+      "label": "BC-05 — Segurança e Compliance",
+      "sublabel": "Colapso de 1 componente(s) de BC-05 — Segurança e Compliance",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        430.0,
+        608
+      ]
+    },
+    {
+      "id": "sistema_bc04",
+      "type": "external",
+      "label": "BC-04 — Modelagem de Dados por Domínio",
+      "sublabel": "Colapso de 1 componente(s) de BC-04 — Modelagem de Dados por Domínio",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        800.0,
+        608
+      ]
+    },
+    {
+      "id": "sistema_bc18",
+      "type": "external",
+      "label": "BC-18 — Orquestração e Portão de Saída",
+      "sublabel": "Colapso de 1 componente(s) de BC-18 — Orquestração e Portão de Saída",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        2280.0,
+        344
+      ]
+    },
+    {
+      "id": "sistema_bc08",
+      "type": "external",
+      "label": "BC-08 — Observabilidade e Telemetria",
+      "sublabel": "Colapso de 1 componente(s) de BC-08 — Observabilidade e Telemetria",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        1170.0,
+        608
+      ]
+    },
+    {
+      "id": "sistema_bc07",
+      "type": "external",
+      "label": "BC-07 — Estimativa de Custo",
+      "sublabel": "Colapso de 1 componente(s) de BC-07 — Estimativa de Custo",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        1540.0,
+        608
+      ]
+    },
+    {
+      "id": "sistema_bc12",
+      "type": "external",
+      "label": "BC-12 — Consolidação do Pacote Final",
+      "sublabel": "Colapso de 1 componente(s) de BC-12 — Consolidação do Pacote Final",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        1910.0,
+        608
+      ]
+    },
+    {
+      "id": "sistema_bc14",
+      "type": "external",
+      "label": "BC-14 — Gestão e Priorização de Riscos",
+      "sublabel": "Colapso de 1 componente(s) de BC-14 — Gestão e Priorização de Riscos",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        2280.0,
+        608
+      ]
+    },
+    {
+      "id": "sistema_bc16",
+      "type": "external",
+      "label": "BC-16 — Entrega e Handoff Formal",
+      "sublabel": "Colapso de 1 componente(s) de BC-16 — Entrega e Handoff Formal",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        2650.0,
+        608
+      ]
+    },
+    {
+      "id": "sistema_bc10",
+      "type": "external",
+      "label": "BC-10 — Jornadas do Usuário Final",
+      "sublabel": "Colapso de 1 componente(s) de BC-10 — Jornadas do Usuário Final",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        3020.0,
+        608
+      ]
+    },
+    {
+      "id": "sistema_bc19",
+      "type": "external",
+      "label": "BC-19 — Substrato de Conhecimento e Regras",
+      "sublabel": "Colapso de 1 componente(s) de BC-19 — Substrato de Conhecimento e Regras",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        2280.0,
+        1136
+      ]
+    },
+    {
+      "id": "sistema_bc09",
+      "type": "external",
+      "label": "BC-09 — Validação de Qualidade do Desenho",
+      "sublabel": "Colapso de 1 componente(s) de BC-09 — Validação de Qualidade do Desenho",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        3390.0,
+        608
+      ]
+    },
+    {
+      "id": "sistema_bc15",
+      "type": "external",
+      "label": "BC-15 — Comunicação com Stakeholders",
+      "sublabel": "Colapso de 1 componente(s) de BC-15 — Comunicação com Stakeholders",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        3760.0,
+        608
+      ]
+    },
+    {
+      "id": "sistema_bc06",
+      "type": "external",
+      "label": "BC-06 — Infraestrutura e Deployment",
+      "sublabel": "Colapso de 1 componente(s) de BC-06 — Infraestrutura e Deployment",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        4130.0,
+        608
+      ]
+    },
+    {
+      "id": "sistema_bc11",
+      "type": "external",
+      "label": "BC-11 — Governança de Decisões Arquiteturais",
+      "sublabel": "Colapso de 1 componente(s) de BC-11 — Governança de Decisões Arquiteturais",
+      "tag": "REUSO",
+      "size": [
+        310,
+        64
+      ],
+      "pos": [
+        2450.0,
+        872
+      ]
+    },
+    {
+      "id": "sistema_bc01",
+      "type": "external",
+      "label": "BC-01 — Captação e Escopo de Demanda",
+      "sublabel": "Colapso de 1 componente(s) de BC-01 — Captação e Escopo de Demanda",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        4500.0,
+        608
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c0",
+      "from": "ator_pessoa_operadora",
+      "to": "sistema_bc18",
+      "label": "Dispara o pedido de arquitetura",
+      "labelDy": 46,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c1",
+      "from": "sistema_bc18",
+      "to": "sistema_bc01",
+      "label": "Despacha Entendimento e Escopo",
+      "labelDy": -22,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c2",
+      "from": "sistema_bc18",
+      "to": "sistema_bc02",
+      "label": "Despacha Desenho de Arquitetura",
+      "labelDy": -48,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c3",
+      "from": "sistema_bc02",
+      "to": "sistema_bc13",
+      "label": "Aciona geração de diagrama assim que a estrutura fecha",
+      "labelDy": -22,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c4",
+      "from": "sistema_bc18",
+      "to": "sistema_bc04",
+      "label": "Despacha Modelagem de Dados em paralelo",
+      "labelDy": -74,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c5",
+      "from": "sistema_bc18",
+      "to": "sistema_bc06",
+      "label": "Despacha Infraestrutura e Deployment em paralelo",
+      "labelDy": -100,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c6",
+      "from": "sistema_bc18",
+      "to": "sistema_bc09",
+      "label": "Despacha Testes e Qualidade em paralelo",
+      "labelDy": -22,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c7",
+      "from": "sistema_bc18",
+      "to": "sistema_bc10",
+      "label": "Despacha Jornadas do Usuário em paralelo",
+      "labelDy": -152,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c8",
+      "from": "sistema_bc18",
+      "to": "sistema_bc05",
+      "label": "Despacha Segurança e Compliance após Desenho e Modelagem de Dados",
+      "labelDy": -178,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c9",
+      "from": "sistema_bc18",
+      "to": "sistema_bc07",
+      "label": "Despacha Estimativa de Custo após Infraestrutura",
+      "labelDy": -204,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c10",
+      "from": "sistema_bc18",
+      "to": "sistema_bc08",
+      "label": "Despacha Observabilidade e Telemetria em paralelo com Estimativa de Custo",
+      "labelDy": -230,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c11",
+      "from": "sistema_bc18",
+      "to": "sistema_bc12",
+      "label": "Sincroniza os ramos paralelos num pacote único",
+      "labelDy": -256,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c12",
+      "from": "sistema_bc18",
+      "to": "sistema_bc14",
+      "label": "Despacha Riscos e Mitigação em paralelo com Documentação Final",
+      "labelDy": 142,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c13",
+      "from": "sistema_bc18",
+      "to": "sistema_bc15",
+      "label": "Despacha Comunicação com Stakeholders, traduzindo o pacote sem jargão",
+      "labelDy": -308,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c14",
+      "from": "sistema_bc18",
+      "to": "ator_pessoa_operadora",
+      "label": "Apresenta o portão de saída e pede aprovação humana",
+      "fromSide": "right",
+      "toSide": "right",
+      "via": [
+        [
+          4850.0,
+          376.0
+        ],
+        [
+          4850.0,
+          112.0
+        ]
+      ]
+    },
+    {
+      "id": "c15",
+      "from": "sistema_bc18",
+      "to": "sistema_bc16",
+      "label": "Confirma o portão de saída e libera o pacote",
+      "labelDy": -334,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c16",
+      "from": "sistema_bc02",
+      "to": "sistema_bc11",
+      "label": "Leva uma decisão arquitetural importante para formalizar como ADR",
+      "labelDy": -48,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c17",
+      "from": "sistema_bc11",
+      "to": "ator_pessoa_operadora",
+      "label": "Solicita aprovação humana do ADR, portão próprio e distinto",
+      "fromSide": "right",
+      "toSide": "top",
+      "via": [
+        [
+          5070.0,
+          904.0
+        ],
+        [
+          5070.0,
+          50
+        ],
+        [
+          2420.0,
+          50
+        ]
+      ]
+    },
+    {
+      "id": "c18",
+      "from": "sistema_bc11",
+      "to": "sistema_bc19",
+      "label": "Registra o ADR aprovado, resumido, no compêndio de conhecimento reaproveitável",
+      "labelDy": -22,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ]
+}

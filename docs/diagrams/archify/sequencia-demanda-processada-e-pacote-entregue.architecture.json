@@ -1,0 +1,266 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Demanda de arquitetura processada do pedido ao pacote entregue e aprovado",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [
+      3284,
+      1640
+    ]
+  },
+  "participants": [
+    {
+      "id": "ator_pessoa_operadora",
+      "type": "external",
+      "label": "ator_pessoa_operadora",
+      "sublabel": "Pessoa Operadora"
+    },
+    {
+      "id": "c18_orquestrador",
+      "type": "backend",
+      "label": "C18",
+      "sublabel": "Orquestrador"
+    },
+    {
+      "id": "c1_entendimento_escopo",
+      "type": "backend",
+      "label": "C1",
+      "sublabel": "Entendimento e Escopo"
+    },
+    {
+      "id": "c2_desenho_arquitetura",
+      "type": "backend",
+      "label": "C2",
+      "sublabel": "Desenho de Arquitetura"
+    },
+    {
+      "id": "c13_geracao_diagramas",
+      "type": "backend",
+      "label": "C13",
+      "sublabel": "Geração de Diagramas C4"
+    },
+    {
+      "id": "c4_modelagem_dados",
+      "type": "backend",
+      "label": "C4",
+      "sublabel": "Modelagem de Dados"
+    },
+    {
+      "id": "c6_infraestrutura_deployment",
+      "type": "backend",
+      "label": "C6",
+      "sublabel": "Infraestrutura e Deployment"
+    },
+    {
+      "id": "c9_testes_qualidade",
+      "type": "backend",
+      "label": "C9",
+      "sublabel": "Testes e Qualidade"
+    },
+    {
+      "id": "c10_jornadas_usuario",
+      "type": "backend",
+      "label": "C10",
+      "sublabel": "Jornadas do Usuário"
+    },
+    {
+      "id": "c5_seguranca_compliance",
+      "type": "backend",
+      "label": "C5",
+      "sublabel": "Segurança e Compliance"
+    },
+    {
+      "id": "c7_estimativa_custo",
+      "type": "backend",
+      "label": "C7",
+      "sublabel": "Estimativa de Custo"
+    },
+    {
+      "id": "c8_observabilidade_telemetria",
+      "type": "backend",
+      "label": "C8",
+      "sublabel": "Observabilidade e Telemetria"
+    },
+    {
+      "id": "c12_documentacao_final",
+      "type": "backend",
+      "label": "C12",
+      "sublabel": "Documentação Final"
+    },
+    {
+      "id": "c14_riscos_mitigacao",
+      "type": "backend",
+      "label": "C14",
+      "sublabel": "Riscos e Mitigação"
+    },
+    {
+      "id": "c15_comunicacao_stakeholders",
+      "type": "backend",
+      "label": "C15",
+      "sublabel": "Comunicação com Stakeholders"
+    },
+    {
+      "id": "c16_entrega_handoff",
+      "type": "backend",
+      "label": "C16",
+      "sublabel": "Entrega e Handoff"
+    }
+  ],
+  "messages": [
+    {
+      "id": "m1",
+      "from": "ator_pessoa_operadora",
+      "to": "c18_orquestrador",
+      "y": 160,
+      "label": "Dispara o pedido de arquitetura",
+      "variant": "default"
+    },
+    {
+      "id": "m2",
+      "from": "c18_orquestrador",
+      "to": "c1_entendimento_escopo",
+      "y": 230,
+      "label": "Despacha Entendimento e Escopo",
+      "variant": "default"
+    },
+    {
+      "id": "m4",
+      "from": "c1_entendimento_escopo",
+      "to": "c18_orquestrador",
+      "y": 300,
+      "label": "Retorna entendimento.md",
+      "variant": "return",
+      "note": "[passo interno] Confirma explicitamente o nome da demanda com quem pediu"
+    },
+    {
+      "id": "m5",
+      "from": "c18_orquestrador",
+      "to": "c2_desenho_arquitetura",
+      "y": 370,
+      "label": "Despacha Desenho de Arquitetura",
+      "variant": "default"
+    },
+    {
+      "id": "m6",
+      "from": "c2_desenho_arquitetura",
+      "to": "c13_geracao_diagramas",
+      "y": 440,
+      "label": "Aciona geração de diagrama assim que a estrutura fecha",
+      "variant": "default"
+    },
+    {
+      "id": "m7",
+      "from": "c18_orquestrador",
+      "to": "c4_modelagem_dados",
+      "y": 510,
+      "label": "Despacha Modelagem de Dados em paralelo",
+      "variant": "dashed"
+    },
+    {
+      "id": "m8",
+      "from": "c18_orquestrador",
+      "to": "c6_infraestrutura_deployment",
+      "y": 580,
+      "label": "Despacha Infraestrutura e Deployment em paralelo",
+      "variant": "dashed"
+    },
+    {
+      "id": "m9",
+      "from": "c18_orquestrador",
+      "to": "c9_testes_qualidade",
+      "y": 650,
+      "label": "Despacha Testes e Qualidade em paralelo",
+      "variant": "dashed"
+    },
+    {
+      "id": "m10",
+      "from": "c18_orquestrador",
+      "to": "c10_jornadas_usuario",
+      "y": 720,
+      "label": "Despacha Jornadas do Usuário em paralelo",
+      "variant": "dashed"
+    },
+    {
+      "id": "m11",
+      "from": "c18_orquestrador",
+      "to": "c5_seguranca_compliance",
+      "y": 790,
+      "label": "Despacha Segurança e Compliance após Desenho e Modelagem de Dados",
+      "variant": "default"
+    },
+    {
+      "id": "m12",
+      "from": "c18_orquestrador",
+      "to": "c7_estimativa_custo",
+      "y": 860,
+      "label": "Despacha Estimativa de Custo após Infraestrutura",
+      "variant": "default"
+    },
+    {
+      "id": "m13",
+      "from": "c18_orquestrador",
+      "to": "c8_observabilidade_telemetria",
+      "y": 930,
+      "label": "Despacha Observabilidade e Telemetria em paralelo com Estimativa de Custo",
+      "variant": "dashed"
+    },
+    {
+      "id": "m14",
+      "from": "c18_orquestrador",
+      "to": "c12_documentacao_final",
+      "y": 1000,
+      "label": "Sincroniza os ramos paralelos num pacote único",
+      "variant": "default"
+    },
+    {
+      "id": "m15",
+      "from": "c12_documentacao_final",
+      "to": "c13_geracao_diagramas",
+      "y": 1070,
+      "label": "Aciona de novo para consolidar os diagramas finais",
+      "variant": "default"
+    },
+    {
+      "id": "m16",
+      "from": "c18_orquestrador",
+      "to": "c14_riscos_mitigacao",
+      "y": 1140,
+      "label": "Despacha Riscos e Mitigação em paralelo com Documentação Final",
+      "variant": "dashed"
+    },
+    {
+      "id": "m17",
+      "from": "c18_orquestrador",
+      "to": "c15_comunicacao_stakeholders",
+      "y": 1210,
+      "label": "Despacha Comunicação com Stakeholders, traduzindo o pacote sem jargão",
+      "variant": "default"
+    },
+    {
+      "id": "m18",
+      "from": "c18_orquestrador",
+      "to": "ator_pessoa_operadora",
+      "y": 1280,
+      "label": "Apresenta o portão de saída e pede aprovação humana",
+      "variant": "default"
+    },
+    {
+      "id": "m19",
+      "from": "ator_pessoa_operadora",
+      "to": "c18_orquestrador",
+      "y": 1350,
+      "label": "Aprova explicitamente o pacote de arquitetura",
+      "variant": "return"
+    },
+    {
+      "id": "m20",
+      "from": "c18_orquestrador",
+      "to": "c16_entrega_handoff",
+      "y": 1420,
+      "label": "Confirma o portão de saída e libera o pacote",
+      "variant": "default"
+    }
+  ]
+}

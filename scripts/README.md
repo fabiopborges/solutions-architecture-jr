@@ -1,6 +1,6 @@
 # Gerador de diagramas C4
 
-Três scripts. `derivar_c4.py` (MVP 7) monta um spec de Container/Contexto automaticamente a partir de um catálogo estático + sequências por jornada, em vez de alguém traduzir `desenho.md` à mão — ver `../c4-schema.md`, seção "Pipeline invertido", para o porquê. `montar_candidato_arquitetura_archify.py` e `montar_candidato_sequencia_archify.py` traduzem esses specs para candidatos MÍNIMOS no formato nativo do ArchiFy (vendorizado em `skills/vendors/archify/`) — sem geometria em pixel, sem chamar o CLI. Quem chama `archify.mjs validate`/`deliver` sobre o candidato e conduz o loop de reparo pontual é o agente `geracao-diagramas`, via `Bash`, direto — não um script Python.
+Quatro scripts. `derivar_c4.py` (MVP 7) monta um spec de Container/Contexto automaticamente a partir de um catálogo estático + sequências por jornada, em vez de alguém traduzir `desenho.md` à mão — ver `../c4-schema.md`, seção "Pipeline invertido", para o porquê. `montar_candidato_arquitetura_archify.py` e `montar_candidato_sequencia_archify.py` traduzem esses specs para candidatos MÍNIMOS no formato nativo do ArchiFy (vendorizado em `skills/vendors/archify/`) — sem geometria em pixel, sem chamar o CLI. Quem chama `archify.mjs validate`/`deliver` sobre o candidato e conduz o loop de reparo pontual é o agente `geracao-diagramas`, via `Bash`, direto — não um script Python. `exportar_svg_do_html_archify.py` fecha o ciclo do outro lado: extrai do HTML já entregue um SVG standalone, leve o bastante para ser versionado e embutido em documentação.
 
 > **Pipeline nativo ArchiFy (2026-08-XX).** Substitui a geração anterior, em que `exportar_archify.py`/`exportar_sequencia_archify.py` calculavam toda a geometria (camadas, barycenter, posição em pixel, roteamento de conexão, `viewBox`) em Python e só entregavam ao ArchiFy um `.architecture.json` já 100% posicionado — isso contornava o `layout: {mode:"grid"}` nativo e o Automatic Port Spread do próprio ArchiFy. Ver `memory.md`, entrada de 2026-08-16, para o raciocínio completo da migração.
 
@@ -69,9 +69,22 @@ node skills/vendors/archify/archify/bin/archify.mjs deliver architecture SAIDA.a
 
 `visual-check` (screenshots de containment em 4 resoluções) roda uma vez por HTML **consolidado**, na atividade de Documentação Final — não em cada diagrama intermediário (custo de Chrome/DevTools por diagrama). Ver `references/delivery-contract.md`.
 
+## Uso — `exportar_svg_do_html_archify.py` (HTML entregue → SVG standalone)
+
+```bash
+python3 exportar_svg_do_html_archify.py ENTRADA.html SAIDA.svg
+python3 exportar_svg_do_html_archify.py --lote DIR_SAIDA ENTRADA1.html ENTRADA2.html ...
+```
+
+O HTML que o `deliver` grava é o entregável de revisão — autocontido, interativo, e pesado demais (centenas de KB) pra entrar num README ou num PR. Este script tira de dentro dele só o `<svg>` já renderizado e as regras de CSS que esse SVG usa, e grava um `.svg` standalone de algumas dezenas de KB, com tema claro/escuro por `prefers-color-scheme` (o HTML resolve tema por `data-theme` no `<html>`, que não existe num SVG solto).
+
+- **Não desenha nada.** Toda a geometria já foi decidida pelo ArchiFy; a extração é mecânica, não escolhe layout, cor nem conteúdo. Rode sempre *depois* do `deliver` convergir, nunca no lugar dele.
+- O que se perde no caminho: navegação guiada (`meta.views`), `cards[]`, zoom e níveis de detalhe — tudo isso vive na camada HTML. Para revisar um diagrama a fundo, use o HTML; o SVG é para publicar.
+- Usado para gerar `docs/diagrams/archify/*.svg`, os diagramas que ilustram o `README.md` do repositório (ver `docs/diagrams/archify/README.md`).
+
 ## Dependências
 
-- Python 3 (stdlib apenas, sem pacote externo) para os três scripts.
+- Python 3 (stdlib apenas, sem pacote externo) para os quatro scripts.
 - Node.js (`node --version`, qualquer ≥18) + o ArchiFy vendorizado em `skills/vendors/archify/archify/` para os comandos `validate`/`deliver`/`visual-check` do agente. Sem instalação adicional — `node skills/vendors/archify/archify/bin/archify.mjs doctor` confirma que está pronto.
 
 ## Testes — `derivar_c4.py` (MVP 7)
@@ -93,7 +106,7 @@ python3 montar_candidato_sequencia_archify.py SEQUENCIA_SPEC.json CATALOGO.json 
 - `CATALOGO.json`: `catalogo-componentes.json` da mesma demanda — usado só pra resolver nome/tipo de cada participante, nunca pra decidir estrutura.
 - `ordem` vira posição Y determinística (passo fixo de 70px) — geometria de domínio (ordem temporal), não router genérico. Nomes do catálogo no formato `"C1 — Descrição"` são separados em `label` curto + `sublabel` completo (o renderer de sequência do ArchiFy tem um teto de 190px pro `label`, sem encolhimento de fonte — só o `sublabel` encolhe). Mensagens `tipo: "self"` (de==para) não têm primitiva no ArchiFy — viram `note` anexada à mensagem real mais próxima do mesmo participante; o script imprime `[SELF-COMO-NOTA]` no stderr pra cada uma, nunca descarta silenciosamente.
 - **Diferente de `architecture`, o `viewBox` de sequência NÃO é automático** (o renderer usa um valor fixo `[920, 760]` quando `meta.viewBox` é omitido — ver `renderers/sequence/render-sequence.mjs`). Por isso este script calcula um `viewBox` inicial a partir do número de participantes e do `y` da última mensagem — dimensionamento por conteúdo, não escolha de rota.
-- Renderer padrão pra diagrama de sequência desde 2026-08-16, substituindo o Mermaid manual (`docs/diagrams/04-sequencia.mmd` fica só como registro histórico do padrão anterior, não é mais gerado).
+- Renderer padrão pra diagrama de sequência desde 2026-08-16, substituindo o Mermaid manual (o antigo `docs/diagrams/04-sequencia.mmd` foi removido do repositório em 2026-08-17, quando o README passou a usar os SVGs exportados do ArchiFy).
 - Testado contra as duas jornadas de `integracao-crm-oci-whatsapp` (`lead-notificado` e `alerta-falha-permanente`) — ambas convergiram em `showcase` 9/9 direto, sem reparo adicional do agente, com o `viewBox` calculado por conteúdo e `activations[]` geradas automaticamente (barras de ativação corretas por inspeção visual em `visual-check`).
 
 ## Diagrama de fluxo de dados — sem script dedicado, reusa `montar_candidato_arquitetura_archify.py`

@@ -1,0 +1,520 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Geração de Diagramas C4 — C3 Componentes internos (c13_geracao_diagramas)",
+    "output": "c4-componente-geracao-diagramas.html",
+    "quality_profile": "showcase",
+    "subtitle": "Decomposto de desenho-c3-geracao-diagramas.md",
+    "viewBox": [
+      2141,
+      2711
+    ]
+  },
+  "components": [
+    {
+      "id": "ator_c13_7_archify_vendorizado",
+      "type": "external",
+      "label": "ArchiFy — Vendorizado",
+      "sublabel": "Valida qualidade visual e renderiza o HTML final",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        72.5,
+        80
+      ]
+    },
+    {
+      "id": "ator_c2_desenho_arquitetura",
+      "type": "external",
+      "label": "C2 — Desenho de Arquitetura",
+      "sublabel": "Decide bounded contexts e envia desenho.md",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        60.0,
+        2192
+      ]
+    },
+    {
+      "id": "ator_c10_jornadas_usuario",
+      "type": "external",
+      "label": "C10 — Jornadas do Usuário",
+      "sublabel": "Decide jornadas e envia sequências por journey",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        430.0,
+        2192
+      ]
+    },
+    {
+      "id": "ator_c4_modelagem_dados",
+      "type": "external",
+      "label": "C4 — Modelagem de Dados",
+      "sublabel": "Decide entidades e envia dados.md",
+      "size": [
+        255,
+        64
+      ],
+      "pos": [
+        442.5,
+        80
+      ]
+    },
+    {
+      "id": "ator_c12_documentacao_final",
+      "type": "external",
+      "label": "C12 — Documentação Final",
+      "sublabel": "Pede consolidação e recebe artefatos finais",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        245.0,
+        608
+      ]
+    },
+    {
+      "id": "c13_1_camada_decisao",
+      "type": "backend",
+      "label": "C13.1 — Camada de Decisão",
+      "sublabel": "Decide qual passo do pipeline rodar",
+      "tag": "REUSO",
+      "size": [
+        269,
+        64
+      ],
+      "pos": [
+        250.5,
+        872
+      ]
+    },
+    {
+      "id": "c13_2_schema_contrato",
+      "type": "database",
+      "label": "C13.2 — Schema e Contrato do Spec",
+      "sublabel": "Define formato do catálogo e specs derivados",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        60.0,
+        1136
+      ]
+    },
+    {
+      "id": "c13_3_catalogo_estatico",
+      "type": "database",
+      "label": "C13.3 — Catálogo Estático de Componentes",
+      "sublabel": "Guarda atores, fronteiras e componentes sem conexões",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        430.0,
+        1136
+      ]
+    },
+    {
+      "id": "c13_4_derivar_c4",
+      "type": "backend",
+      "label": "C13.4 — Script de Derivação Container/Contexto",
+      "sublabel": "Combina catálogo e sequências em specs derivados",
+      "tag": "REUSO",
+      "size": [
+        324,
+        64
+      ],
+      "pos": [
+        223.0,
+        1400
+      ]
+    },
+    {
+      "id": "c13_5_exportar_archify",
+      "type": "backend",
+      "label": "C13.5 — Renderer de Arquitetura",
+      "sublabel": "Calcula geometria e chama o ArchiFy",
+      "tag": "REUSO",
+      "size": [
+        269,
+        64
+      ],
+      "pos": [
+        250.5,
+        1664
+      ]
+    },
+    {
+      "id": "c13_6_exportar_sequencia_archify",
+      "type": "backend",
+      "label": "C13.6 — Renderer de Sequência",
+      "sublabel": "Traduz sequência e catálogo para diagrama",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        245.0,
+        2456
+      ]
+    },
+    {
+      "id": "c13_8_relatorios_nao_silenciaveis",
+      "type": "backend",
+      "label": "C13.8 — Relatórios de Tensão e Violação",
+      "sublabel": "Sinaliza órfão, falta de catálogo e limite excedido",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        60.0,
+        1928
+      ]
+    },
+    {
+      "id": "c13_9_gate_12_palavras",
+      "type": "backend",
+      "label": "C13.9 — Gate de Doze Palavras",
+      "sublabel": "Bloqueia renderização se texto passar do limite",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        430.0,
+        1928
+      ]
+    },
+    {
+      "id": "c13_10_artefatos_saida",
+      "type": "backend",
+      "label": "C13.10 — Artefatos Finais Gravados",
+      "sublabel": "Grava specs, HTML e JSON de arquitetura",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        245.0,
+        344
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c0",
+      "from": "ator_c2_desenho_arquitetura",
+      "to": "c13_1_camada_decisao",
+      "label": "Envia desenho.md com estrutura decidida",
+      "fromSide": "bottom",
+      "toSide": "right",
+      "via": [
+        [
+          200.0,
+          2286
+        ],
+        [
+          1440.0,
+          2286
+        ],
+        [
+          1440.0,
+          904.0
+        ]
+      ]
+    },
+    {
+      "id": "c1",
+      "from": "ator_c4_modelagem_dados",
+      "to": "c13_1_camada_decisao",
+      "label": "Envia dados.md com fluxo de dados",
+      "fromSide": "right",
+      "toSide": "top",
+      "via": [
+        [
+          1000.0,
+          112.0
+        ],
+        [
+          1000.0,
+          842
+        ],
+        [
+          385.0,
+          842
+        ]
+      ]
+    },
+    {
+      "id": "c2",
+      "from": "ator_c12_documentacao_final",
+      "to": "c13_1_camada_decisao",
+      "label": "Pede consolidação de diagramas do pacote",
+      "labelDy": 46,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c3",
+      "from": "ator_c10_jornadas_usuario",
+      "to": "c13_4_derivar_c4",
+      "label": "Envia sequências de jornadas por journey",
+      "fromSide": "right",
+      "toSide": "right",
+      "via": [
+        [
+          1220.0,
+          2224.0
+        ],
+        [
+          1220.0,
+          1432.0
+        ]
+      ]
+    },
+    {
+      "id": "c4",
+      "from": "ator_c10_jornadas_usuario",
+      "to": "c13_6_exportar_sequencia_archify",
+      "label": "Envia sequência da jornada para diagrama",
+      "labelDy": -22,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c5",
+      "from": "c13_1_camada_decisao",
+      "to": "c13_2_schema_contrato",
+      "label": "Aplica contrato de schema do spec",
+      "labelDy": -22,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c6",
+      "from": "c13_1_camada_decisao",
+      "to": "c13_3_catalogo_estatico",
+      "label": "Traduz desenho.md para catálogo estático",
+      "labelDy": 46,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c7",
+      "from": "c13_3_catalogo_estatico",
+      "to": "c13_4_derivar_c4",
+      "label": "Fornece catálogo para a derivação",
+      "labelDy": -22,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c8",
+      "from": "c13_1_camada_decisao",
+      "to": "c13_4_derivar_c4",
+      "label": "Aciona derivação quando existem sequências",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "via": [
+        [
+          385.0,
+          966
+        ],
+        [
+          780.0,
+          966
+        ],
+        [
+          780.0,
+          1370
+        ],
+        [
+          385.0,
+          1370
+        ]
+      ]
+    },
+    {
+      "id": "c9",
+      "from": "c13_4_derivar_c4",
+      "to": "c13_5_exportar_archify",
+      "label": "Entrega spec derivado de Container ou Contexto",
+      "labelDy": 94,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c10",
+      "from": "c13_3_catalogo_estatico",
+      "to": "c13_6_exportar_sequencia_archify",
+      "label": "Resolve nome e tipo do participante",
+      "fromSide": "right",
+      "toSide": "right",
+      "via": [
+        [
+          1660.0,
+          1168.0
+        ],
+        [
+          1660.0,
+          2488.0
+        ]
+      ]
+    },
+    {
+      "id": "c11",
+      "from": "c13_5_exportar_archify",
+      "to": "c13_9_gate_12_palavras",
+      "label": "Verifica limite de doze palavras",
+      "fromSide": "right",
+      "toSide": "right",
+      "via": [
+        [
+          1000.0,
+          1696.0
+        ],
+        [
+          1000.0,
+          1960.0
+        ]
+      ]
+    },
+    {
+      "id": "c12",
+      "from": "c13_5_exportar_archify",
+      "to": "ator_c13_7_archify_vendorizado",
+      "label": "Chama validação e entrega via ArchiFy",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "via": [
+        [
+          385.0,
+          1758
+        ],
+        [
+          1880.0,
+          1758
+        ],
+        [
+          1880.0,
+          50
+        ],
+        [
+          212.5,
+          50
+        ]
+      ]
+    },
+    {
+      "id": "c13",
+      "from": "c13_4_derivar_c4",
+      "to": "c13_8_relatorios_nao_silenciaveis",
+      "label": "Imprime relatório de órfão e falta catálogo",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "via": [
+        [
+          385.0,
+          1494
+        ],
+        [
+          1000.0,
+          1494
+        ],
+        [
+          1000.0,
+          1898
+        ],
+        [
+          200.0,
+          1898
+        ]
+      ]
+    },
+    {
+      "id": "c14",
+      "from": "c13_5_exportar_archify",
+      "to": "c13_8_relatorios_nao_silenciaveis",
+      "label": "Imprime erro de limite de palavras",
+      "labelDy": -48,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c15",
+      "from": "c13_8_relatorios_nao_silenciaveis",
+      "to": "ator_c2_desenho_arquitetura",
+      "label": "Repassa tensão entre catálogo e jornada",
+      "labelDy": 142,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c16",
+      "from": "c13_8_relatorios_nao_silenciaveis",
+      "to": "ator_c10_jornadas_usuario",
+      "label": "Repassa tensão entre catálogo e jornada",
+      "labelDy": 70,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c17",
+      "from": "ator_c13_7_archify_vendorizado",
+      "to": "c13_10_artefatos_saida",
+      "label": "Entrega HTML final validado em showcase",
+      "labelDy": -22,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c18",
+      "from": "c13_6_exportar_sequencia_archify",
+      "to": "c13_10_artefatos_saida",
+      "label": "Grava HTML de sequência e JSON",
+      "fromSide": "bottom",
+      "toSide": "right",
+      "via": [
+        [
+          385.0,
+          2550
+        ],
+        [
+          2100.0,
+          2550
+        ],
+        [
+          2100.0,
+          376.0
+        ]
+      ]
+    },
+    {
+      "id": "c19",
+      "from": "c13_10_artefatos_saida",
+      "to": "ator_c12_documentacao_final",
+      "label": "Entrega artefatos finais para o pacote",
+      "labelDy": 46,
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ]
+}

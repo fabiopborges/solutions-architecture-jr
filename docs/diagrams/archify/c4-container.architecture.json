@@ -1,0 +1,608 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "OS multi-agente Arquiteto de Soluções Júnior — Container — geral",
+    "output": "c4-container.html",
+    "quality_profile": "showcase",
+    "subtitle": "união de todas as jornadas",
+    "viewBox": [
+      5111,
+      1361
+    ]
+  },
+  "components": [
+    {
+      "id": "ator_pessoa_operadora",
+      "type": "external",
+      "label": "Pessoa Operadora",
+      "sublabel": "Dispara demandas, confirma nomes e aprova portões.",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        2280.0,
+        80
+      ]
+    },
+    {
+      "id": "c13_geracao_diagramas",
+      "type": "backend",
+      "label": "C13 — Geração de Diagramas C4",
+      "sublabel": "Traduz estrutura decidida em diagramas C4 determinísticos.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        2095.0,
+        872
+      ]
+    },
+    {
+      "id": "c2_desenho_arquitetura",
+      "type": "backend",
+      "label": "C2 — Desenho de Arquitetura",
+      "sublabel": "Traduz capacidades de negócio em bounded contexts e componentes.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        60.0,
+        608
+      ]
+    },
+    {
+      "id": "c5_seguranca_compliance",
+      "type": "backend",
+      "label": "C5 — Segurança e Compliance",
+      "sublabel": "Define autenticação, autorização e tratamento de dado sensível.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        430.0,
+        608
+      ]
+    },
+    {
+      "id": "c4_modelagem_dados",
+      "type": "backend",
+      "label": "C4 — Modelagem de Dados",
+      "sublabel": "Define entidades, donos e fluxo de dados entre serviços.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        800.0,
+        608
+      ]
+    },
+    {
+      "id": "c18_orquestrador",
+      "type": "backend",
+      "label": "C18 — Orquestrador",
+      "sublabel": "Decide ordem e paralelismo, despacha subagentes e segura o portão de saída.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        2280.0,
+        344
+      ]
+    },
+    {
+      "id": "c8_observabilidade_telemetria",
+      "type": "backend",
+      "label": "C8 — Observabilidade e Telemetria",
+      "sublabel": "Define observabilidade da solução e telemetria do próprio time.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        1170.0,
+        608
+      ]
+    },
+    {
+      "id": "c7_estimativa_custo",
+      "type": "backend",
+      "label": "C7 — Estimativa de Custo",
+      "sublabel": "Quebra custo por componente após infraestrutura estar definida.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        1540.0,
+        608
+      ]
+    },
+    {
+      "id": "c12_documentacao_final",
+      "type": "backend",
+      "label": "C12 — Documentação Final",
+      "sublabel": "Sincroniza todos os ramos paralelos num pacote único.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        1910.0,
+        608
+      ]
+    },
+    {
+      "id": "c14_riscos_mitigacao",
+      "type": "backend",
+      "label": "C14 — Riscos e Mitigação",
+      "sublabel": "Herda e prioriza riscos técnicos e de negócio.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        2280.0,
+        608
+      ]
+    },
+    {
+      "id": "c16_entrega_handoff",
+      "type": "backend",
+      "label": "C16 — Entrega e Handoff",
+      "sublabel": "Organiza o pacote final e libera a entrega após aprovação.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        2650.0,
+        608
+      ]
+    },
+    {
+      "id": "c10_jornadas_usuario",
+      "type": "backend",
+      "label": "C10 — Jornadas do Usuário",
+      "sublabel": "Produz o roteiro de jornada a partir dos requisitos funcionais.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        3020.0,
+        608
+      ]
+    },
+    {
+      "id": "c19_substrato_conhecimento",
+      "type": "backend",
+      "label": "C19 — Substrato de Conhecimento",
+      "sublabel": "Referência somente leitura de stack, padrões e regras da casa.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        2280.0,
+        1136
+      ]
+    },
+    {
+      "id": "c9_testes_qualidade",
+      "type": "backend",
+      "label": "C9 — Testes e Qualidade",
+      "sublabel": "Valida o desenho contra cada requisito não funcional.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        3390.0,
+        608
+      ]
+    },
+    {
+      "id": "c15_comunicacao_stakeholders",
+      "type": "backend",
+      "label": "C15 — Comunicação com Stakeholders",
+      "sublabel": "Traduz o pacote final para linguagem sem jargão técnico.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        3760.0,
+        608
+      ]
+    },
+    {
+      "id": "c6_infraestrutura_deployment",
+      "type": "backend",
+      "label": "C6 — Infraestrutura e Deployment",
+      "sublabel": "Escolhe hospedagem por componente e descreve escala e disponibilidade.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        4130.0,
+        608
+      ]
+    },
+    {
+      "id": "c11_trade_offs_adr",
+      "type": "backend",
+      "label": "C11 — Trade-offs e ADR",
+      "sublabel": "Formaliza decisões arquiteturais com contexto, alternativas e trade-offs.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        2465.0,
+        872
+      ]
+    },
+    {
+      "id": "c1_entendimento_escopo",
+      "type": "backend",
+      "label": "C1 — Entendimento e Escopo",
+      "sublabel": "Captura o pedido e produz entendimento.md com escopo confirmado.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        4500.0,
+        608
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c0",
+      "from": "ator_pessoa_operadora",
+      "to": "c18_orquestrador",
+      "label": "Dispara o pedido de arquitetura",
+      "labelDy": 46,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c1",
+      "from": "c18_orquestrador",
+      "to": "c1_entendimento_escopo",
+      "label": "Despacha Entendimento e Escopo",
+      "labelDy": -22,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c2",
+      "from": "c18_orquestrador",
+      "to": "c2_desenho_arquitetura",
+      "label": "Despacha Desenho de Arquitetura",
+      "labelDy": -48,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c3",
+      "from": "c2_desenho_arquitetura",
+      "to": "c13_geracao_diagramas",
+      "label": "Aciona geração de diagrama assim que a estrutura fecha",
+      "labelDy": -22,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c4",
+      "from": "c18_orquestrador",
+      "to": "c4_modelagem_dados",
+      "label": "Despacha Modelagem de Dados em paralelo",
+      "labelDy": -74,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c5",
+      "from": "c18_orquestrador",
+      "to": "c6_infraestrutura_deployment",
+      "label": "Despacha Infraestrutura e Deployment em paralelo",
+      "labelDy": -100,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c6",
+      "from": "c18_orquestrador",
+      "to": "c9_testes_qualidade",
+      "label": "Despacha Testes e Qualidade em paralelo",
+      "labelDy": -22,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c7",
+      "from": "c18_orquestrador",
+      "to": "c10_jornadas_usuario",
+      "label": "Despacha Jornadas do Usuário em paralelo",
+      "labelDy": -152,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c8",
+      "from": "c18_orquestrador",
+      "to": "c5_seguranca_compliance",
+      "label": "Despacha Segurança e Compliance após Desenho e Modelagem de Dados",
+      "labelDy": -178,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c9",
+      "from": "c18_orquestrador",
+      "to": "c7_estimativa_custo",
+      "label": "Despacha Estimativa de Custo após Infraestrutura",
+      "labelDy": -204,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c10",
+      "from": "c18_orquestrador",
+      "to": "c8_observabilidade_telemetria",
+      "label": "Despacha Observabilidade e Telemetria em paralelo com Estimativa de Custo",
+      "labelDy": -230,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c11",
+      "from": "c18_orquestrador",
+      "to": "c12_documentacao_final",
+      "label": "Sincroniza os ramos paralelos num pacote único",
+      "labelDy": -256,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c12",
+      "from": "c18_orquestrador",
+      "to": "c14_riscos_mitigacao",
+      "label": "Despacha Riscos e Mitigação em paralelo com Documentação Final",
+      "labelDy": 142,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c13",
+      "from": "c18_orquestrador",
+      "to": "c15_comunicacao_stakeholders",
+      "label": "Despacha Comunicação com Stakeholders, traduzindo o pacote sem jargão",
+      "labelDy": -308,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c14",
+      "from": "c18_orquestrador",
+      "to": "ator_pessoa_operadora",
+      "label": "Apresenta o portão de saída e pede aprovação humana",
+      "fromSide": "right",
+      "toSide": "right",
+      "via": [
+        [
+          4850.0,
+          376.0
+        ],
+        [
+          4850.0,
+          112.0
+        ]
+      ]
+    },
+    {
+      "id": "c15",
+      "from": "c18_orquestrador",
+      "to": "c16_entrega_handoff",
+      "label": "Confirma o portão de saída e libera o pacote",
+      "labelDy": -334,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c16",
+      "from": "c2_desenho_arquitetura",
+      "to": "c11_trade_offs_adr",
+      "label": "Leva uma decisão arquitetural importante para formalizar como ADR",
+      "labelDy": -48,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c17",
+      "from": "c11_trade_offs_adr",
+      "to": "ator_pessoa_operadora",
+      "label": "Solicita aprovação humana do ADR, portão próprio e distinto",
+      "fromSide": "right",
+      "toSide": "top",
+      "via": [
+        [
+          5070.0,
+          904.0
+        ],
+        [
+          5070.0,
+          50
+        ],
+        [
+          2420.0,
+          50
+        ]
+      ]
+    },
+    {
+      "id": "c18",
+      "from": "c11_trade_offs_adr",
+      "to": "c19_substrato_conhecimento",
+      "label": "Registra o ADR aprovado, resumido, no compêndio de conhecimento reaproveitável",
+      "labelDy": -22,
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "BC-01 — Captação e Escopo de Demanda",
+      "wraps": [
+        "c1_entendimento_escopo"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-02 — Desenho de Domínio e Componentes",
+      "wraps": [
+        "c2_desenho_arquitetura"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-04 — Modelagem de Dados por Domínio",
+      "wraps": [
+        "c4_modelagem_dados"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-05 — Segurança e Compliance",
+      "wraps": [
+        "c5_seguranca_compliance"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-06 — Infraestrutura e Deployment",
+      "wraps": [
+        "c6_infraestrutura_deployment"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-07 — Estimativa de Custo",
+      "wraps": [
+        "c7_estimativa_custo"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-08 — Observabilidade e Telemetria",
+      "wraps": [
+        "c8_observabilidade_telemetria"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-09 — Validação de Qualidade do Desenho",
+      "wraps": [
+        "c9_testes_qualidade"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-10 — Jornadas do Usuário Final",
+      "wraps": [
+        "c10_jornadas_usuario"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-11 — Governança de Decisões Arquiteturais",
+      "wraps": [
+        "c11_trade_offs_adr"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-12 — Consolidação do Pacote Final",
+      "wraps": [
+        "c12_documentacao_final"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-13 — Geração Determinística de Diagramas",
+      "wraps": [
+        "c13_geracao_diagramas"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-14 — Gestão e Priorização de Riscos",
+      "wraps": [
+        "c14_riscos_mitigacao"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-15 — Comunicação com Stakeholders",
+      "wraps": [
+        "c15_comunicacao_stakeholders"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-16 — Entrega e Handoff Formal",
+      "wraps": [
+        "c16_entrega_handoff"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-18 — Orquestração e Portão de Saída",
+      "wraps": [
+        "c18_orquestrador"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "BC-19 — Substrato de Conhecimento e Regras",
+      "wraps": [
+        "c19_substrato_conhecimento"
+      ]
+    }
+  ]
+}

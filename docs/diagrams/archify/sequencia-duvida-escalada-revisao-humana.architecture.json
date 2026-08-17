@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Dúvida entre agentes escalada para revisão humana (exceção)",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [
+      620,
+      480
+    ]
+  },
+  "participants": [
+    {
+      "id": "c18_orquestrador",
+      "type": "backend",
+      "label": "C18",
+      "sublabel": "Orquestrador"
+    },
+    {
+      "id": "ator_pessoa_operadora",
+      "type": "external",
+      "label": "ator_pessoa_operadora",
+      "sublabel": "Pessoa Operadora"
+    }
+  ],
+  "messages": [
+    {
+      "id": "m2",
+      "from": "c18_orquestrador",
+      "to": "ator_pessoa_operadora",
+      "y": 160,
+      "label": "Escala a dúvida para revisão humana após 3 rodadas",
+      "variant": "default",
+      "note": "[passo interno] Identifica dúvida entre agentes e intermedia até 3 rodadas"
+    }
+  ]
+}

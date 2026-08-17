@@ -1,0 +1,652 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "OS multi-agente Arquiteto de Soluções Júnior — Fluxo de Dados",
+    "output": "c4-fluxo-dados.html",
+    "quality_profile": "showcase",
+    "subtitle": "Fluxo de dados entre componentes (evento vs. consulta), fonte: dados.md",
+    "viewBox": [
+      2661,
+      2153
+    ]
+  },
+  "components": [
+    {
+      "id": "ator_pessoa_operadora",
+      "type": "external",
+      "label": "Pessoa Operadora",
+      "sublabel": "Dispara demandas, confirma nomes e aprova portões.",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        615.0,
+        1928
+      ]
+    },
+    {
+      "id": "ator_claude_code_runtime",
+      "type": "external",
+      "label": "Claude Code Runtime",
+      "sublabel": "Executa cada subagente como processo, fora do domínio.",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        985.0,
+        344
+      ]
+    },
+    {
+      "id": "c1_entendimento_escopo",
+      "type": "backend",
+      "label": "C1 — Entendimento e Escopo",
+      "sublabel": "Captura o pedido e produz entendimento.md com escopo confirmado.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        245.0,
+        80
+      ]
+    },
+    {
+      "id": "c2_desenho_arquitetura",
+      "type": "backend",
+      "label": "C2 — Desenho de Arquitetura",
+      "sublabel": "Traduz capacidades de negócio em bounded contexts e componentes.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        615.0,
+        344
+      ]
+    },
+    {
+      "id": "c4_modelagem_dados",
+      "type": "backend",
+      "label": "C4 — Modelagem de Dados",
+      "sublabel": "Define entidades, donos e fluxo de dados entre serviços.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        60.0,
+        608
+      ]
+    },
+    {
+      "id": "c5_seguranca_compliance",
+      "type": "backend",
+      "label": "C5 — Segurança e Compliance",
+      "sublabel": "Define autenticação, autorização e tratamento de dado sensível.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        60.0,
+        872
+      ]
+    },
+    {
+      "id": "c6_infraestrutura_deployment",
+      "type": "backend",
+      "label": "C6 — Infraestrutura e Deployment",
+      "sublabel": "Escolhe hospedagem por componente e descreve escala e disponibilidade.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        800.0,
+        608
+      ]
+    },
+    {
+      "id": "c7_estimativa_custo",
+      "type": "backend",
+      "label": "C7 — Estimativa de Custo",
+      "sublabel": "Quebra custo por componente após infraestrutura estar definida.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        800.0,
+        872
+      ]
+    },
+    {
+      "id": "c8_observabilidade_telemetria",
+      "type": "backend",
+      "label": "C8 — Observabilidade e Telemetria",
+      "sublabel": "Define observabilidade da solução e telemetria do próprio time.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        1170.0,
+        872
+      ]
+    },
+    {
+      "id": "c9_testes_qualidade",
+      "type": "backend",
+      "label": "C9 — Testes e Qualidade",
+      "sublabel": "Valida o desenho contra cada requisito não funcional.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        430.0,
+        608
+      ]
+    },
+    {
+      "id": "c10_jornadas_usuario",
+      "type": "backend",
+      "label": "C10 — Jornadas do Usuário",
+      "sublabel": "Produz o roteiro de jornada a partir dos requisitos funcionais.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        1170.0,
+        608
+      ]
+    },
+    {
+      "id": "c11_trade_offs_adr",
+      "type": "backend",
+      "label": "C11 — Trade-offs e ADR",
+      "sublabel": "Formaliza decisões arquiteturais com contexto, alternativas e trade-offs.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        615.0,
+        80
+      ]
+    },
+    {
+      "id": "c12_documentacao_final",
+      "type": "backend",
+      "label": "C12 — Documentação Final",
+      "sublabel": "Sincroniza todos os ramos paralelos num pacote único.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        430.0,
+        872
+      ]
+    },
+    {
+      "id": "c13_geracao_diagramas",
+      "type": "backend",
+      "label": "C13 — Geração de Diagramas C4",
+      "sublabel": "Traduz estrutura decidida em diagramas C4 determinísticos.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        430.0,
+        1136
+      ]
+    },
+    {
+      "id": "c14_riscos_mitigacao",
+      "type": "backend",
+      "label": "C14 — Riscos e Mitigação",
+      "sublabel": "Herda e prioriza riscos técnicos e de negócio.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        800.0,
+        1136
+      ]
+    },
+    {
+      "id": "c15_comunicacao_stakeholders",
+      "type": "backend",
+      "label": "C15 — Comunicação com Stakeholders",
+      "sublabel": "Traduz o pacote final para linguagem sem jargão técnico.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        615.0,
+        1400
+      ]
+    },
+    {
+      "id": "c16_entrega_handoff",
+      "type": "backend",
+      "label": "C16 — Entrega e Handoff",
+      "sublabel": "Organiza o pacote final e libera a entrega após aprovação.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        615.0,
+        1664
+      ]
+    },
+    {
+      "id": "c18_orquestrador",
+      "type": "backend",
+      "label": "C18 — Orquestrador",
+      "sublabel": "Decide ordem e paralelismo, despacha subagentes e segura o portão de saída.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        245.0,
+        344
+      ]
+    },
+    {
+      "id": "c19_substrato_conhecimento",
+      "type": "backend",
+      "label": "C19 — Substrato de Conhecimento",
+      "sublabel": "Referência somente leitura de stack, padrões e regras da casa.",
+      "tag": "REUSO",
+      "size": [
+        280,
+        64
+      ],
+      "pos": [
+        985.0,
+        80
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c0",
+      "from": "c1_entendimento_escopo",
+      "to": "c18_orquestrador",
+      "label": "Confirma nome e status da demanda",
+      "labelDy": -70,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c1",
+      "from": "c1_entendimento_escopo",
+      "to": "c2_desenho_arquitetura",
+      "label": "Lê entendimento.md completo antes de desenhar",
+      "labelDy": -48,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c2",
+      "from": "c2_desenho_arquitetura",
+      "to": "c4_modelagem_dados",
+      "label": "Lê desenho.md antes de modelar dados",
+      "labelDy": -22,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c3",
+      "from": "c2_desenho_arquitetura",
+      "to": "c5_seguranca_compliance",
+      "label": "Lê desenho.md antes de definir segurança",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "via": [
+        [
+          755.0,
+          438
+        ],
+        [
+          1740.0,
+          438
+        ],
+        [
+          1740.0,
+          842
+        ],
+        [
+          200.0,
+          842
+        ]
+      ]
+    },
+    {
+      "id": "c4",
+      "from": "c2_desenho_arquitetura",
+      "to": "c6_infraestrutura_deployment",
+      "label": "Lê desenho.md antes de definir infraestrutura",
+      "labelDy": 94,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c5",
+      "from": "c2_desenho_arquitetura",
+      "to": "c9_testes_qualidade",
+      "label": "Lê desenho.md antes de validar qualidade",
+      "labelDy": 94,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c6",
+      "from": "c2_desenho_arquitetura",
+      "to": "c10_jornadas_usuario",
+      "label": "Lê desenho.md antes de desenhar jornadas",
+      "labelDy": -22,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c7",
+      "from": "c4_modelagem_dados",
+      "to": "c5_seguranca_compliance",
+      "label": "Lê dados.md antes de tratar segurança",
+      "labelDy": 142,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c8",
+      "from": "c4_modelagem_dados",
+      "to": "c12_documentacao_final",
+      "label": "Lê dados.md na consolidação final",
+      "labelDy": -48,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c9",
+      "from": "c6_infraestrutura_deployment",
+      "to": "c7_estimativa_custo",
+      "label": "Lê infraestrutura.md antes de estimar custo",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "via": [
+        [
+          940.0,
+          702
+        ],
+        [
+          1740.0,
+          702
+        ],
+        [
+          1740.0,
+          842
+        ],
+        [
+          940.0,
+          842
+        ]
+      ]
+    },
+    {
+      "id": "c10",
+      "from": "c6_infraestrutura_deployment",
+      "to": "c8_observabilidade_telemetria",
+      "label": "Lê infraestrutura.md antes de definir observabilidade",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "via": [
+        [
+          940.0,
+          702
+        ],
+        [
+          1960.0,
+          702
+        ],
+        [
+          1960.0,
+          842
+        ],
+        [
+          1310.0,
+          842
+        ]
+      ]
+    },
+    {
+      "id": "c11",
+      "from": "c9_testes_qualidade",
+      "to": "c14_riscos_mitigacao",
+      "label": "Lê qualidade.md antes de priorizar riscos",
+      "fromSide": "bottom",
+      "toSide": "right",
+      "via": [
+        [
+          570.0,
+          702
+        ],
+        [
+          1960.0,
+          702
+        ],
+        [
+          1960.0,
+          1168.0
+        ]
+      ]
+    },
+    {
+      "id": "c12",
+      "from": "c9_testes_qualidade",
+      "to": "c12_documentacao_final",
+      "label": "Lê qualidade.md na consolidação final",
+      "labelDy": 70,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c13",
+      "from": "c10_jornadas_usuario",
+      "to": "c13_geracao_diagramas",
+      "label": "Lê jornadas.md para gerar visões filtradas",
+      "fromSide": "right",
+      "toSide": "top",
+      "via": [
+        [
+          2180.0,
+          640.0
+        ],
+        [
+          2180.0,
+          1106
+        ],
+        [
+          570.0,
+          1106
+        ]
+      ]
+    },
+    {
+      "id": "c14",
+      "from": "c11_trade_offs_adr",
+      "to": "ator_pessoa_operadora",
+      "label": "Publica ADR para aprovação humana",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "right",
+      "via": [
+        [
+          755.0,
+          174
+        ],
+        [
+          2620.0,
+          174
+        ],
+        [
+          2620.0,
+          1960.0
+        ]
+      ]
+    },
+    {
+      "id": "c15",
+      "from": "c12_documentacao_final",
+      "to": "c14_riscos_mitigacao",
+      "label": "Aciona riscos em paralelo na consolidação",
+      "labelDy": -22,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c16",
+      "from": "c12_documentacao_final",
+      "to": "c15_comunicacao_stakeholders",
+      "label": "Envia pacote para comunicação com stakeholders",
+      "fromSide": "bottom",
+      "toSide": "right",
+      "via": [
+        [
+          570.0,
+          966
+        ],
+        [
+          2400.0,
+          966
+        ],
+        [
+          2400.0,
+          1432.0
+        ]
+      ]
+    },
+    {
+      "id": "c17",
+      "from": "c12_documentacao_final",
+      "to": "c13_geracao_diagramas",
+      "label": "Aciona segunda chamada de diagramas",
+      "labelDy": 142,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c18",
+      "from": "c13_geracao_diagramas",
+      "to": "c12_documentacao_final",
+      "label": "Publica diagramas finais consolidados",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "via": [
+        [
+          570.0,
+          1230
+        ],
+        [
+          1520.0,
+          1230
+        ],
+        [
+          1520.0,
+          842
+        ],
+        [
+          570.0,
+          842
+        ]
+      ]
+    },
+    {
+      "id": "c19",
+      "from": "c14_riscos_mitigacao",
+      "to": "c15_comunicacao_stakeholders",
+      "label": "Lê riscos.md antes de comunicar",
+      "labelDy": -22,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c20",
+      "from": "c14_riscos_mitigacao",
+      "to": "c16_entrega_handoff",
+      "label": "Lê riscos.md antes do handoff",
+      "fromSide": "bottom",
+      "toSide": "right",
+      "via": [
+        [
+          940.0,
+          1230
+        ],
+        [
+          1740.0,
+          1230
+        ],
+        [
+          1740.0,
+          1696.0
+        ]
+      ]
+    },
+    {
+      "id": "c21",
+      "from": "c15_comunicacao_stakeholders",
+      "to": "c16_entrega_handoff",
+      "label": "Lê comunicacao.md antes do handoff",
+      "labelDy": 46,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c22",
+      "from": "c16_entrega_handoff",
+      "to": "ator_pessoa_operadora",
+      "label": "Aguarda aprovação humana do handoff",
+      "labelDy": 46,
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c23",
+      "from": "c19_substrato_conhecimento",
+      "to": "ator_claude_code_runtime",
+      "label": "Bloqueia despacho com caminho relativo",
+      "labelDy": -74,
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ]
+}

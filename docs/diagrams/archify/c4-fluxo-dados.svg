@@ -1,0 +1,526 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2661" height="2153" viewBox="0 0 2661 2153" role="img" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="standard">
+  <style>
+    svg {
+--bg: #020617;
+      --grid: #1e293b;
+      --text: #ffffff;
+      --text-muted: #94a3b8;
+      --text-dim: #475569;
+      /* UI chrome and menu hints need more contrast than SVG .t-dim accents */
+      --text-faint: #7d8da1;
+
+      --panel: rgba(15, 23, 42, 0.5);
+      --panel-border: #1e293b;
+      --lane-fill: rgba(15, 23, 42, 0.22);
+      --lane-stroke: #334155;
+
+      --arrow: #64748b;
+      --arrow-emphasis: #34d399;
+
+      /* Opaque mask color used behind semi-transparent component fills
+         so the arrows drawn underneath are properly hidden. */
+      --mask: #0f172a;
+
+      --frontend-fill:    rgba(8, 51, 68, 0.4);
+      --frontend-stroke:  #22d3ee;
+      --backend-fill:     rgba(6, 78, 59, 0.4);
+      --backend-stroke:   #34d399;
+      --database-fill:    rgba(76, 29, 149, 0.4);
+      --database-stroke:  #a78bfa;
+      --cloud-fill:       rgba(120, 53, 15, 0.3);
+      --cloud-stroke:     #fbbf24;
+      --security-fill:    rgba(136, 19, 55, 0.4);
+      --security-stroke:  #fb7185;
+      --messagebus-fill:  rgba(251, 146, 60, 0.3);
+      --messagebus-stroke:#fb923c;
+      --external-fill:    rgba(30, 41, 59, 0.5);
+      --external-stroke:  #94a3b8;
+
+      --toolbar-bg:       rgba(15, 23, 42, 0.8);
+      --toolbar-border:   #334155;
+      --toolbar-text:     #e2e8f0;
+      --toolbar-hover:    rgba(15, 23, 42, 0.95);
+      --toolbar-menu-bg:  #0f172a;
+      background: var(--bg);
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace;
+    }
+    @media (prefers-color-scheme: light) {
+      svg {
+--bg: #f8fafc;
+      --grid: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+      --text-faint: #64748b;
+
+      --panel: #ffffff;
+      --panel-border: #e2e8f0;
+      --lane-fill: rgba(248, 250, 252, 0.65);
+      --lane-stroke: #cbd5e1;
+
+      --arrow: #94a3b8;
+      --arrow-emphasis: #059669;
+
+      --mask: #ffffff;
+
+      --frontend-fill:    rgba(34, 211, 238, 0.15);
+      --frontend-stroke:  #0891b2;
+      --backend-fill:     rgba(52, 211, 153, 0.18);
+      --backend-stroke:   #059669;
+      --database-fill:    rgba(167, 139, 250, 0.2);
+      --database-stroke:  #7c3aed;
+      --cloud-fill:       rgba(251, 191, 36, 0.18);
+      --cloud-stroke:     #d97706;
+      --security-fill:    rgba(251, 113, 133, 0.15);
+      --security-stroke:  #e11d48;
+      --messagebus-fill:  rgba(251, 146, 60, 0.15);
+      --messagebus-stroke:#ea580c;
+      --external-fill:    rgba(148, 163, 184, 0.18);
+      --external-stroke:  #64748b;
+
+      --toolbar-bg:       rgba(255, 255, 255, 0.92);
+      --toolbar-border:   #cbd5e1;
+      --toolbar-text:     #334155;
+      --toolbar-hover:    #ffffff;
+      --toolbar-menu-bg:  #ffffff;
+      }
+    }
+.c-grid { stroke: var(--grid); fill: none;
+}
+.c-mask { fill: var(--mask); stroke: none;
+}
+.c-backend { fill: var(--backend-fill);    stroke: var(--backend-stroke);
+}
+.c-external { fill: var(--external-fill);   stroke: var(--external-stroke);
+}
+.t-primary { fill: var(--text);
+}
+.t-muted { fill: var(--text-muted);
+}
+.t-backend { fill: var(--backend-stroke);
+}
+.t-messagebus { fill: var(--messagebus-stroke);
+}
+svg .semantic-sigil {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.35;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.76;
+      pointer-events: none;
+}
+svg .semantic-sigil > * { vector-effect: non-scaling-stroke;
+}
+svg .semantic-sigil .sigil-fill { fill: currentColor; stroke: none;
+}
+svg .s-backend { color: var(--backend-stroke);
+}
+svg .s-external { color: var(--external-stroke);
+}
+.a-default { stroke: var(--arrow); fill: none;
+}
+.a-dashed { stroke: var(--database-stroke); fill: none; stroke-dasharray: 4,4;
+}
+.m-default { fill: var(--arrow);
+}
+.m-emphasis { fill: var(--arrow-emphasis);
+}
+.m-security { fill: var(--security-stroke);
+}
+.m-dashed { fill: var(--database-stroke);
+}
+  </style>
+        <title id="archify-diagram-title">OS multi-agente Arquiteto de Soluções Júnior — Fluxo de Dados</title>
+        <desc id="archify-diagram-description">Fluxo de dados entre componentes (evento vs. consulta), fonte: dados.md</desc>
+        <!-- Definitions -->
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" class="m-default" />
+          </marker>
+          <marker id="arrowhead-emphasis" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" class="m-emphasis" />
+          </marker>
+          <marker id="arrowhead-security" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" class="m-security" />
+          </marker>
+          <marker id="arrowhead-dashed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" class="m-dashed" />
+          </marker>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" class="c-grid" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+
+        <!-- Background Grid -->
+        <rect width="100%" height="100%" fill="url(#grid)" />
+
+        <!-- Boundaries (behind everything) -->
+
+
+        <!-- Connection paths (before components for correct z-order) -->
+        <path data-edge-from="c1_entendimento_escopo" data-edge-to="c18_orquestrador" data-edge-label="Confirma nome e status da demanda" data-edge-key="0" data-edge-id="c0" data-composition-points="378,144;378,344" d="M 378 144 L 378 344" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c1_entendimento_escopo" data-edge-to="c2_desenho_arquitetura" data-edge-label="Lê entendimento.md completo antes de desenhar" data-edge-key="1" data-edge-id="c1" data-composition-points="392,144;392,244;755,244;755,344" d="M 392 144 L 392 236 Q 392 244 400 244 L 747 244 Q 755 244 755 252 L 755 344" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c2_desenho_arquitetura" data-edge-to="c4_modelagem_dados" data-edge-label="Lê desenho.md antes de modelar dados" data-edge-key="2" data-edge-id="c2" data-composition-points="734,408;734,508;200,508;200,608" d="M 734 408 L 734 500 Q 734 508 726 508 L 208 508 Q 200 508 200 516 L 200 608" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c2_desenho_arquitetura" data-edge-to="c5_seguranca_compliance" data-edge-label="Lê desenho.md antes de definir segurança" data-edge-key="3" data-edge-id="c3" data-composition-points="755,408;755,438;1740,438;1740,842;200,842;200,872" d="M 755 408 L 755 430 Q 755 438 763 438 L 1732 438 Q 1740 438 1740 446 L 1740 834 Q 1740 842 1732 842 L 208 842 Q 200 842 200 850 L 200 872" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c2_desenho_arquitetura" data-edge-to="c6_infraestrutura_deployment" data-edge-label="Lê desenho.md antes de definir infraestrutura" data-edge-key="4" data-edge-id="c4" data-composition-points="762,408;762,508;940,508;940,608" d="M 762 408 L 762 500 Q 762 508 770 508 L 932 508 Q 940 508 940 516 L 940 608" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c2_desenho_arquitetura" data-edge-to="c9_testes_qualidade" data-edge-label="Lê desenho.md antes de validar qualidade" data-edge-key="5" data-edge-id="c5" data-composition-points="748,408;748,508;570,508;570,608" d="M 748 408 L 748 500 Q 748 508 740 508 L 578 508 Q 570 508 570 516 L 570 608" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c2_desenho_arquitetura" data-edge-to="c10_jornadas_usuario" data-edge-label="Lê desenho.md antes de desenhar jornadas" data-edge-key="6" data-edge-id="c6" data-composition-points="776,408;776,508;1310,508;1310,608" d="M 776 408 L 776 500 Q 776 508 784 508 L 1302 508 Q 1310 508 1310 516 L 1310 608" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c4_modelagem_dados" data-edge-to="c5_seguranca_compliance" data-edge-label="Lê dados.md antes de tratar segurança" data-edge-key="7" data-edge-id="c7" data-composition-points="193,672;193,872" d="M 193 672 L 193 872" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c4_modelagem_dados" data-edge-to="c12_documentacao_final" data-edge-label="Lê dados.md na consolidação final" data-edge-key="8" data-edge-id="c8" data-composition-points="207,672;207,772;563,772;563,872" d="M 207 672 L 207 764 Q 207 772 215 772 L 555 772 Q 563 772 563 780 L 563 872" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c6_infraestrutura_deployment" data-edge-to="c7_estimativa_custo" data-edge-label="Lê infraestrutura.md antes de estimar custo" data-edge-key="9" data-edge-id="c9" data-composition-points="940,672;940,702;1740,702;1740,842;940,842;940,872" d="M 940 672 L 940 694 Q 940 702 948 702 L 1732 702 Q 1740 702 1740 710 L 1740 834 Q 1740 842 1732 842 L 948 842 Q 940 842 940 850 L 940 872" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c6_infraestrutura_deployment" data-edge-to="c8_observabilidade_telemetria" data-edge-label="Lê infraestrutura.md antes de definir observabilidade" data-edge-key="10" data-edge-id="c10" data-composition-points="940,672;940,702;1960,702;1960,842;1310,842;1310,872" d="M 940 672 L 940 694 Q 940 702 948 702 L 1952 702 Q 1960 702 1960 710 L 1960 834 Q 1960 842 1952 842 L 1318 842 Q 1310 842 1310 850 L 1310 872" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c9_testes_qualidade" data-edge-to="c14_riscos_mitigacao" data-edge-label="Lê qualidade.md antes de priorizar riscos" data-edge-key="11" data-edge-id="c11" data-composition-points="570,672;570,702;1960,702;1960,1168;1080,1168" d="M 570 672 L 570 694 Q 570 702 578 702 L 1952 702 Q 1960 702 1960 710 L 1960 1160 Q 1960 1168 1952 1168 L 1080 1168" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c9_testes_qualidade" data-edge-to="c12_documentacao_final" data-edge-label="Lê qualidade.md na consolidação final" data-edge-key="12" data-edge-id="c12" data-composition-points="577,672;577,872" d="M 577 672 L 577 872" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c10_jornadas_usuario" data-edge-to="c13_geracao_diagramas" data-edge-label="Lê jornadas.md para gerar visões filtradas" data-edge-key="13" data-edge-id="c13" data-composition-points="1450,640;2180,640;2180,1106;570,1106;570,1136" d="M 1450 640 L 2172 640 Q 2180 640 2180 648 L 2180 1098 Q 2180 1106 2172 1106 L 578 1106 Q 570 1106 570 1114 L 570 1136" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c11_trade_offs_adr" data-edge-to="ator_pessoa_operadora" data-edge-label="Publica ADR para aprovação humana" data-edge-key="14" data-edge-id="c14" data-composition-points="755,144;755,174;2620,174;2620,1960;895,1960" d="M 755 144 L 755 166 Q 755 174 763 174 L 2612 174 Q 2620 174 2620 182 L 2620 1952 Q 2620 1960 2612 1960 L 895 1960" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
+        <path data-edge-from="c12_documentacao_final" data-edge-to="c14_riscos_mitigacao" data-edge-label="Aciona riscos em paralelo na consolidação" data-edge-key="15" data-edge-id="c15" data-composition-points="577,936;577,1036;940,1036;940,1136" d="M 577 936 L 577 1028 Q 577 1036 585 1036 L 932 1036 Q 940 1036 940 1044 L 940 1136" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c12_documentacao_final" data-edge-to="c15_comunicacao_stakeholders" data-edge-label="Envia pacote para comunicação com stakeholders" data-edge-key="16" data-edge-id="c16" data-composition-points="570,936;570,966;2400,966;2400,1432;895,1432" d="M 570 936 L 570 958 Q 570 966 578 966 L 2392 966 Q 2400 966 2400 974 L 2400 1424 Q 2400 1432 2392 1432 L 895 1432" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c12_documentacao_final" data-edge-to="c13_geracao_diagramas" data-edge-label="Aciona segunda chamada de diagramas" data-edge-key="17" data-edge-id="c17" data-composition-points="563,936;563,1136" d="M 563 936 L 563 1136" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_geracao_diagramas" data-edge-to="c12_documentacao_final" data-edge-label="Publica diagramas finais consolidados" data-edge-key="18" data-edge-id="c18" data-composition-points="570,1200;570,1230;1520,1230;1520,842;570,842;570,872" d="M 570 1200 L 570 1222 Q 570 1230 578 1230 L 1512 1230 Q 1520 1230 1520 1222 L 1520 850 Q 1520 842 1512 842 L 578 842 Q 570 842 570 850 L 570 872" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
+        <path data-edge-from="c14_riscos_mitigacao" data-edge-to="c15_comunicacao_stakeholders" data-edge-label="Lê riscos.md antes de comunicar" data-edge-key="19" data-edge-id="c19" data-composition-points="940,1200;940,1300;755,1300;755,1400" d="M 940 1200 L 940 1292 Q 940 1300 932 1300 L 763 1300 Q 755 1300 755 1308 L 755 1400" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c14_riscos_mitigacao" data-edge-to="c16_entrega_handoff" data-edge-label="Lê riscos.md antes do handoff" data-edge-key="20" data-edge-id="c20" data-composition-points="940,1200;940,1230;1740,1230;1740,1696;895,1696" d="M 940 1200 L 940 1222 Q 940 1230 948 1230 L 1732 1230 Q 1740 1230 1740 1238 L 1740 1688 Q 1740 1696 1732 1696 L 895 1696" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c15_comunicacao_stakeholders" data-edge-to="c16_entrega_handoff" data-edge-label="Lê comunicacao.md antes do handoff" data-edge-key="21" data-edge-id="c21" data-composition-points="755,1464;755,1664" d="M 755 1464 L 755 1664" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c16_entrega_handoff" data-edge-to="ator_pessoa_operadora" data-edge-label="Aguarda aprovação humana do handoff" data-edge-key="22" data-edge-id="c22" data-composition-points="755,1728;755,1928" d="M 755 1728 L 755 1928" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c19_substrato_conhecimento" data-edge-to="ator_claude_code_runtime" data-edge-label="Bloqueia despacho com caminho relativo" data-edge-key="23" data-edge-id="c23" data-composition-points="1125,144;1125,344" d="M 1125 144 L 1125 344" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+        <!-- Components -->
+        <g id="node-ator_pessoa_operadora" data-node-id="ator_pessoa_operadora" data-node-label="Pessoa Operadora" tabindex="0" role="button" aria-label="Focus Pessoa Operadora, Dispara demandas, confirma nomes e aprova portões., Architecture component" aria-pressed="false" data-node-kind="external" data-node-sublabel="Dispara demandas, confirma nomes e aprova portões." data-node-context="Architecture component">
+          <title>Pessoa Operadora · Dispara demandas, confirma nomes e aprova portões. · Architecture component</title>
+          <rect x="615" y="1928" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="615" y="1928" width="280" height="64" rx="6" class="c-external" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(621 1934) scale(0.6875)">
+            <rect x="2.5" y="5" width="8.5" height="8" rx="1.5"/>
+            <path d="M8 2.5h5.5V8M13.5 2.5 7.5 8.5"/>
+          </g>
+          <text data-detail-anchor="" x="755" y="1958" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Pessoa Operadora</text>
+        <text data-detail="context" x="755" y="1974" class="t-muted" font-size="9" text-anchor="middle">Dispara demandas, confirma nomes e aprova portões.</text>
+        </g>
+
+        <g id="node-ator_claude_code_runtime" data-node-id="ator_claude_code_runtime" data-node-label="Claude Code Runtime" tabindex="0" role="button" aria-label="Focus Claude Code Runtime, Executa cada subagente como processo, fora do domínio., Architecture component" aria-pressed="false" data-node-kind="external" data-node-sublabel="Executa cada subagente como processo, fora do domínio." data-node-context="Architecture component">
+          <title>Claude Code Runtime · Executa cada subagente como processo, fora do domínio. · Architecture component</title>
+          <rect x="985" y="344" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="985" y="344" width="280" height="64" rx="6" class="c-external" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(991 350) scale(0.6875)">
+            <rect x="2.5" y="5" width="8.5" height="8" rx="1.5"/>
+            <path d="M8 2.5h5.5V8M13.5 2.5 7.5 8.5"/>
+          </g>
+          <text data-detail-anchor="" x="1125" y="374" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Claude Code Runtime</text>
+        <text data-detail="context" x="1125" y="390" class="t-muted" font-size="8.3" text-anchor="middle">Executa cada subagente como processo, fora do domínio.</text>
+        </g>
+
+        <g id="node-c1_entendimento_escopo" data-node-id="c1_entendimento_escopo" data-node-label="C1 — Entendimento e Escopo" tabindex="0" role="button" aria-label="Focus C1 — Entendimento e Escopo, Captura o pedido e produz entendimento.md com escopo confirmado., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Captura o pedido e produz entendimento.md com escopo confirmado." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C1 — Entendimento e Escopo · Captura o pedido e produz entendimento.md com escopo confirmado. · Architecture component · REUSO</title>
+          <rect x="245" y="80" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="245" y="80" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(251 86) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="385" y="110" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C1 — Entendimento e Escopo</text>
+        <text data-detail="context" x="385" y="126" class="t-muted" font-size="7" text-anchor="middle">Captura o pedido e produz entendimento.md com escopo confirmado.</text>
+        <text data-detail="fine" x="385" y="136" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c2_desenho_arquitetura" data-node-id="c2_desenho_arquitetura" data-node-label="C2 — Desenho de Arquitetura" tabindex="0" role="button" aria-label="Focus C2 — Desenho de Arquitetura, Traduz capacidades de negócio em bounded contexts e componentes., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Traduz capacidades de negócio em bounded contexts e componentes." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C2 — Desenho de Arquitetura · Traduz capacidades de negócio em bounded contexts e componentes. · Architecture component · REUSO</title>
+          <rect x="615" y="344" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="615" y="344" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(621 350) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="755" y="374" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C2 — Desenho de Arquitetura</text>
+        <text data-detail="context" x="755" y="390" class="t-muted" font-size="7" text-anchor="middle">Traduz capacidades de negócio em bounded contexts e componentes.</text>
+        <text data-detail="fine" x="755" y="400" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c4_modelagem_dados" data-node-id="c4_modelagem_dados" data-node-label="C4 — Modelagem de Dados" tabindex="0" role="button" aria-label="Focus C4 — Modelagem de Dados, Define entidades, donos e fluxo de dados entre serviços., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Define entidades, donos e fluxo de dados entre serviços." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C4 — Modelagem de Dados · Define entidades, donos e fluxo de dados entre serviços. · Architecture component · REUSO</title>
+          <rect x="60" y="608" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="60" y="608" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(66 614) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="200" y="638" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C4 — Modelagem de Dados</text>
+        <text data-detail="context" x="200" y="654" class="t-muted" font-size="8" text-anchor="middle">Define entidades, donos e fluxo de dados entre serviços.</text>
+        <text data-detail="fine" x="200" y="664" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c5_seguranca_compliance" data-node-id="c5_seguranca_compliance" data-node-label="C5 — Segurança e Compliance" tabindex="0" role="button" aria-label="Focus C5 — Segurança e Compliance, Define autenticação, autorização e tratamento de dado sensível., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Define autenticação, autorização e tratamento de dado sensível." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C5 — Segurança e Compliance · Define autenticação, autorização e tratamento de dado sensível. · Architecture component · REUSO</title>
+          <rect x="60" y="872" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="60" y="872" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(66 878) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="200" y="902" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C5 — Segurança e Compliance</text>
+        <text data-detail="context" x="200" y="918" class="t-muted" font-size="7.1" text-anchor="middle">Define autenticação, autorização e tratamento de dado sensível.</text>
+        <text data-detail="fine" x="200" y="928" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c6_infraestrutura_deployment" data-node-id="c6_infraestrutura_deployment" data-node-label="C6 — Infraestrutura e Deployment" tabindex="0" role="button" aria-label="Focus C6 — Infraestrutura e Deployment, Escolhe hospedagem por componente e descreve escala e disponibilidade., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Escolhe hospedagem por componente e descreve escala e disponibilidade." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C6 — Infraestrutura e Deployment · Escolhe hospedagem por componente e descreve escala e disponibilidade. · Architecture component · REUSO</title>
+          <rect x="800" y="608" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="800" y="608" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(806 614) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="940" y="638" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C6 — Infraestrutura e Deployment</text>
+        <text data-detail="context" x="940" y="654" class="t-muted" font-size="6.4" text-anchor="middle">Escolhe hospedagem por componente e descreve escala e disponibilidade.</text>
+        <text data-detail="fine" x="940" y="664" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c7_estimativa_custo" data-node-id="c7_estimativa_custo" data-node-label="C7 — Estimativa de Custo" tabindex="0" role="button" aria-label="Focus C7 — Estimativa de Custo, Quebra custo por componente após infraestrutura estar definida., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Quebra custo por componente após infraestrutura estar definida." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C7 — Estimativa de Custo · Quebra custo por componente após infraestrutura estar definida. · Architecture component · REUSO</title>
+          <rect x="800" y="872" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="800" y="872" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(806 878) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="940" y="902" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C7 — Estimativa de Custo</text>
+        <text data-detail="context" x="940" y="918" class="t-muted" font-size="7.1" text-anchor="middle">Quebra custo por componente após infraestrutura estar definida.</text>
+        <text data-detail="fine" x="940" y="928" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c8_observabilidade_telemetria" data-node-id="c8_observabilidade_telemetria" data-node-label="C8 — Observabilidade e Telemetria" tabindex="0" role="button" aria-label="Focus C8 — Observabilidade e Telemetria, Define observabilidade da solução e telemetria do próprio time., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Define observabilidade da solução e telemetria do próprio time." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C8 — Observabilidade e Telemetria · Define observabilidade da solução e telemetria do próprio time. · Architecture component · REUSO</title>
+          <rect x="1170" y="872" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="1170" y="872" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(1176 878) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="1310" y="902" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C8 — Observabilidade e Telemetria</text>
+        <text data-detail="context" x="1310" y="918" class="t-muted" font-size="7.1" text-anchor="middle">Define observabilidade da solução e telemetria do próprio time.</text>
+        <text data-detail="fine" x="1310" y="928" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c9_testes_qualidade" data-node-id="c9_testes_qualidade" data-node-label="C9 — Testes e Qualidade" tabindex="0" role="button" aria-label="Focus C9 — Testes e Qualidade, Valida o desenho contra cada requisito não funcional., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Valida o desenho contra cada requisito não funcional." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C9 — Testes e Qualidade · Valida o desenho contra cada requisito não funcional. · Architecture component · REUSO</title>
+          <rect x="430" y="608" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="430" y="608" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(436 614) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="570" y="638" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C9 — Testes e Qualidade</text>
+        <text data-detail="context" x="570" y="654" class="t-muted" font-size="8.5" text-anchor="middle">Valida o desenho contra cada requisito não funcional.</text>
+        <text data-detail="fine" x="570" y="664" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c10_jornadas_usuario" data-node-id="c10_jornadas_usuario" data-node-label="C10 — Jornadas do Usuário" tabindex="0" role="button" aria-label="Focus C10 — Jornadas do Usuário, Produz o roteiro de jornada a partir dos requisitos funcionais., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Produz o roteiro de jornada a partir dos requisitos funcionais." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C10 — Jornadas do Usuário · Produz o roteiro de jornada a partir dos requisitos funcionais. · Architecture component · REUSO</title>
+          <rect x="1170" y="608" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="1170" y="608" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(1176 614) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="1310" y="638" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C10 — Jornadas do Usuário</text>
+        <text data-detail="context" x="1310" y="654" class="t-muted" font-size="7.1" text-anchor="middle">Produz o roteiro de jornada a partir dos requisitos funcionais.</text>
+        <text data-detail="fine" x="1310" y="664" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c11_trade_offs_adr" data-node-id="c11_trade_offs_adr" data-node-label="C11 — Trade-offs e ADR" tabindex="0" role="button" aria-label="Focus C11 — Trade-offs e ADR, Formaliza decisões arquiteturais com contexto, alternativas e trade-offs., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Formaliza decisões arquiteturais com contexto, alternativas e trade-offs." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C11 — Trade-offs e ADR · Formaliza decisões arquiteturais com contexto, alternativas e trade-offs. · Architecture component · REUSO</title>
+          <rect x="615" y="80" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="615" y="80" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(621 86) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="755" y="110" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C11 — Trade-offs e ADR</text>
+        <text data-detail="context" x="755" y="126" class="t-muted" font-size="6.2" text-anchor="middle">Formaliza decisões arquiteturais com contexto, alternativas e trade-offs.</text>
+        <text data-detail="fine" x="755" y="136" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c12_documentacao_final" data-node-id="c12_documentacao_final" data-node-label="C12 — Documentação Final" tabindex="0" role="button" aria-label="Focus C12 — Documentação Final, Sincroniza todos os ramos paralelos num pacote único., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Sincroniza todos os ramos paralelos num pacote único." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C12 — Documentação Final · Sincroniza todos os ramos paralelos num pacote único. · Architecture component · REUSO</title>
+          <rect x="430" y="872" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="430" y="872" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(436 878) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="570" y="902" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C12 — Documentação Final</text>
+        <text data-detail="context" x="570" y="918" class="t-muted" font-size="8.5" text-anchor="middle">Sincroniza todos os ramos paralelos num pacote único.</text>
+        <text data-detail="fine" x="570" y="928" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c13_geracao_diagramas" data-node-id="c13_geracao_diagramas" data-node-label="C13 — Geração de Diagramas C4" tabindex="0" role="button" aria-label="Focus C13 — Geração de Diagramas C4, Traduz estrutura decidida em diagramas C4 determinísticos., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Traduz estrutura decidida em diagramas C4 determinísticos." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C13 — Geração de Diagramas C4 · Traduz estrutura decidida em diagramas C4 determinísticos. · Architecture component · REUSO</title>
+          <rect x="430" y="1136" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="430" y="1136" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(436 1142) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="570" y="1166" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C13 — Geração de Diagramas C4</text>
+        <text data-detail="context" x="570" y="1182" class="t-muted" font-size="7.8" text-anchor="middle">Traduz estrutura decidida em diagramas C4 determinísticos.</text>
+        <text data-detail="fine" x="570" y="1192" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c14_riscos_mitigacao" data-node-id="c14_riscos_mitigacao" data-node-label="C14 — Riscos e Mitigação" tabindex="0" role="button" aria-label="Focus C14 — Riscos e Mitigação, Herda e prioriza riscos técnicos e de negócio., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Herda e prioriza riscos técnicos e de negócio." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C14 — Riscos e Mitigação · Herda e prioriza riscos técnicos e de negócio. · Architecture component · REUSO</title>
+          <rect x="800" y="1136" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="800" y="1136" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(806 1142) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="940" y="1166" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C14 — Riscos e Mitigação</text>
+        <text data-detail="context" x="940" y="1182" class="t-muted" font-size="9" text-anchor="middle">Herda e prioriza riscos técnicos e de negócio.</text>
+        <text data-detail="fine" x="940" y="1192" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c15_comunicacao_stakeholders" data-node-id="c15_comunicacao_stakeholders" data-node-label="C15 — Comunicação com Stakeholders" tabindex="0" role="button" aria-label="Focus C15 — Comunicação com Stakeholders, Traduz o pacote final para linguagem sem jargão técnico., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Traduz o pacote final para linguagem sem jargão técnico." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C15 — Comunicação com Stakeholders · Traduz o pacote final para linguagem sem jargão técnico. · Architecture component · REUSO</title>
+          <rect x="615" y="1400" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="615" y="1400" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(621 1406) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="755" y="1430" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C15 — Comunicação com Stakeholders</text>
+        <text data-detail="context" x="755" y="1446" class="t-muted" font-size="8" text-anchor="middle">Traduz o pacote final para linguagem sem jargão técnico.</text>
+        <text data-detail="fine" x="755" y="1456" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c16_entrega_handoff" data-node-id="c16_entrega_handoff" data-node-label="C16 — Entrega e Handoff" tabindex="0" role="button" aria-label="Focus C16 — Entrega e Handoff, Organiza o pacote final e libera a entrega após aprovação., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Organiza o pacote final e libera a entrega após aprovação." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C16 — Entrega e Handoff · Organiza o pacote final e libera a entrega após aprovação. · Architecture component · REUSO</title>
+          <rect x="615" y="1664" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="615" y="1664" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(621 1670) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="755" y="1694" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C16 — Entrega e Handoff</text>
+        <text data-detail="context" x="755" y="1710" class="t-muted" font-size="7.8" text-anchor="middle">Organiza o pacote final e libera a entrega após aprovação.</text>
+        <text data-detail="fine" x="755" y="1720" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c18_orquestrador" data-node-id="c18_orquestrador" data-node-label="C18 — Orquestrador" tabindex="0" role="button" aria-label="Focus C18 — Orquestrador, Decide ordem e paralelismo, despacha subagentes e segura o portão de saída., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Decide ordem e paralelismo, despacha subagentes e segura o portão de saída." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C18 — Orquestrador · Decide ordem e paralelismo, despacha subagentes e segura o portão de saída. · Architecture component · REUSO</title>
+          <rect x="245" y="344" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="245" y="344" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(251 350) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="385" y="374" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C18 — Orquestrador</text>
+        <text data-detail="context" x="385" y="390" class="t-muted" font-size="6" text-anchor="middle">Decide ordem e paralelismo, despacha subagentes e segura o portão de saída.</text>
+        <text data-detail="fine" x="385" y="400" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c19_substrato_conhecimento" data-node-id="c19_substrato_conhecimento" data-node-label="C19 — Substrato de Conhecimento" tabindex="0" role="button" aria-label="Focus C19 — Substrato de Conhecimento, Referência somente leitura de stack, padrões e regras da casa., Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Referência somente leitura de stack, padrões e regras da casa." data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C19 — Substrato de Conhecimento · Referência somente leitura de stack, padrões e regras da casa. · Architecture component · REUSO</title>
+          <rect x="985" y="80" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="985" y="80" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(991 86) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="1125" y="110" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C19 — Substrato de Conhecimento</text>
+        <text data-detail="context" x="1125" y="126" class="t-muted" font-size="7.3" text-anchor="middle">Referência somente leitura de stack, padrões e regras da casa.</text>
+        <text data-detail="fine" x="1125" y="136" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <!-- Connection labels -->
+        <g data-detail="context" data-edge-from="c1_entendimento_escopo" data-edge-to="c18_orquestrador" data-edge-label="Confirma nome e status da demanda" data-edge-key="0" data-edge-id="c0">
+          <rect x="293.8" y="54" width="168.4" height="14" rx="3" class="c-mask"/>
+          <text x="378" y="64" class="t-muted" font-size="8" text-anchor="middle">Confirma nome e status da demanda</text>
+        </g>
+        <g data-detail="context" data-edge-from="c1_entendimento_escopo" data-edge-to="c2_desenho_arquitetura" data-edge-label="Lê entendimento.md completo antes de desenhar" data-edge-key="1" data-edge-id="c1">
+          <rect x="460.5" y="176" width="226" height="14" rx="3" class="c-mask"/>
+          <text x="573.5" y="186" class="t-muted" font-size="8" text-anchor="middle">Lê entendimento.md completo antes de desenhar</text>
+        </g>
+        <g data-detail="context" data-edge-from="c2_desenho_arquitetura" data-edge-to="c4_modelagem_dados" data-edge-label="Lê desenho.md antes de modelar dados" data-edge-key="2" data-edge-id="c2">
+          <rect x="375.6" y="466" width="182.79999999999998" height="14" rx="3" class="c-mask"/>
+          <text x="467" y="476" class="t-muted" font-size="8" text-anchor="middle">Lê desenho.md antes de modelar dados</text>
+        </g>
+        <g data-detail="context" data-edge-from="c2_desenho_arquitetura" data-edge-to="c5_seguranca_compliance" data-edge-label="Lê desenho.md antes de definir segurança" data-edge-key="3" data-edge-id="c3">
+          <rect x="1146.5" y="418" width="202" height="14" rx="3" class="c-mask"/>
+          <text x="1247.5" y="428" class="t-muted" font-size="8" text-anchor="middle">Lê desenho.md antes de definir segurança</text>
+        </g>
+        <g data-detail="context" data-edge-from="c2_desenho_arquitetura" data-edge-to="c6_infraestrutura_deployment" data-edge-label="Lê desenho.md antes de definir infraestrutura" data-edge-key="4" data-edge-id="c4">
+          <rect x="738" y="582" width="226" height="14" rx="3" class="c-mask"/>
+          <text x="851" y="592" class="t-muted" font-size="8" text-anchor="middle">Lê desenho.md antes de definir infraestrutura</text>
+        </g>
+        <g data-detail="context" data-edge-from="c2_desenho_arquitetura" data-edge-to="c9_testes_qualidade" data-edge-label="Lê desenho.md antes de validar qualidade" data-edge-key="5" data-edge-id="c5">
+          <rect x="558" y="582" width="202" height="14" rx="3" class="c-mask"/>
+          <text x="659" y="592" class="t-muted" font-size="8" text-anchor="middle">Lê desenho.md antes de validar qualidade</text>
+        </g>
+        <g data-detail="context" data-edge-from="c2_desenho_arquitetura" data-edge-to="c10_jornadas_usuario" data-edge-label="Lê desenho.md antes de desenhar jornadas" data-edge-key="6" data-edge-id="c6">
+          <rect x="942" y="466" width="202" height="14" rx="3" class="c-mask"/>
+          <text x="1043" y="476" class="t-muted" font-size="8" text-anchor="middle">Lê desenho.md antes de desenhar jornadas</text>
+        </g>
+        <g data-detail="context" data-edge-from="c4_modelagem_dados" data-edge-to="c5_seguranca_compliance" data-edge-label="Lê dados.md antes de tratar segurança" data-edge-key="7" data-edge-id="c7">
+          <rect x="99.2" y="794" width="187.6" height="14" rx="3" class="c-mask"/>
+          <text x="193" y="804" class="t-muted" font-size="8" text-anchor="middle">Lê dados.md antes de tratar segurança</text>
+        </g>
+        <g data-detail="context" data-edge-from="c4_modelagem_dados" data-edge-to="c12_documentacao_final" data-edge-label="Lê dados.md na consolidação final" data-edge-key="8" data-edge-id="c8">
+          <rect x="300.8" y="704" width="168.4" height="14" rx="3" class="c-mask"/>
+          <text x="385" y="714" class="t-muted" font-size="8" text-anchor="middle">Lê dados.md na consolidação final</text>
+        </g>
+        <g data-detail="context" data-edge-from="c6_infraestrutura_deployment" data-edge-to="c7_estimativa_custo" data-edge-label="Lê infraestrutura.md antes de estimar custo" data-edge-key="9" data-edge-id="c9">
+          <rect x="1231.8" y="682" width="216.4" height="14" rx="3" class="c-mask"/>
+          <text x="1340" y="692" class="t-muted" font-size="8" text-anchor="middle">Lê infraestrutura.md antes de estimar custo</text>
+        </g>
+        <g data-detail="context" data-edge-from="c6_infraestrutura_deployment" data-edge-to="c8_observabilidade_telemetria" data-edge-label="Lê infraestrutura.md antes de definir observabilidade" data-edge-key="10" data-edge-id="c10">
+          <rect x="1317.8" y="682" width="264.4" height="14" rx="3" class="c-mask"/>
+          <text x="1450" y="692" class="t-muted" font-size="8" text-anchor="middle">Lê infraestrutura.md antes de definir observabilidade</text>
+        </g>
+        <g data-detail="context" data-edge-from="c9_testes_qualidade" data-edge-to="c14_riscos_mitigacao" data-edge-label="Lê qualidade.md antes de priorizar riscos" data-edge-key="11" data-edge-id="c11">
+          <rect x="1161.6" y="682" width="206.79999999999998" height="14" rx="3" class="c-mask"/>
+          <text x="1265" y="692" class="t-muted" font-size="8" text-anchor="middle">Lê qualidade.md antes de priorizar riscos</text>
+        </g>
+        <g data-detail="context" data-edge-from="c9_testes_qualidade" data-edge-to="c12_documentacao_final" data-edge-label="Lê qualidade.md na consolidação final" data-edge-key="12" data-edge-id="c12">
+          <rect x="483.2" y="722" width="187.6" height="14" rx="3" class="c-mask"/>
+          <text x="577" y="732" class="t-muted" font-size="8" text-anchor="middle">Lê qualidade.md na consolidação final</text>
+        </g>
+        <g data-detail="context" data-edge-from="c10_jornadas_usuario" data-edge-to="c13_geracao_diagramas" data-edge-label="Lê jornadas.md para gerar visões filtradas" data-edge-key="13" data-edge-id="c13">
+          <rect x="2074.2" y="853" width="211.6" height="14" rx="3" class="c-mask"/>
+          <text x="2180" y="863" class="t-muted" font-size="8" text-anchor="middle">Lê jornadas.md para gerar visões filtradas</text>
+        </g>
+        <g data-detail="context" data-edge-from="c11_trade_offs_adr" data-edge-to="ator_pessoa_operadora" data-edge-label="Publica ADR para aprovação humana" data-edge-key="14" data-edge-id="c14">
+          <rect x="1603.3" y="154" width="168.4" height="14" rx="3" class="c-mask"/>
+          <text x="1687.5" y="164" class="t-messagebus" font-size="8" text-anchor="middle">Publica ADR para aprovação humana</text>
+        </g>
+        <g data-detail="context" data-edge-from="c12_documentacao_final" data-edge-to="c14_riscos_mitigacao" data-edge-label="Aciona riscos em paralelo na consolidação" data-edge-key="15" data-edge-id="c15">
+          <rect x="655.1" y="994" width="206.79999999999998" height="14" rx="3" class="c-mask"/>
+          <text x="758.5" y="1004" class="t-muted" font-size="8" text-anchor="middle">Aciona riscos em paralelo na consolidação</text>
+        </g>
+        <g data-detail="context" data-edge-from="c12_documentacao_final" data-edge-to="c15_comunicacao_stakeholders" data-edge-label="Envia pacote para comunicação com stakeholders" data-edge-key="16" data-edge-id="c16">
+          <rect x="1369.6" y="946" width="230.79999999999998" height="14" rx="3" class="c-mask"/>
+          <text x="1485" y="956" class="t-muted" font-size="8" text-anchor="middle">Envia pacote para comunicação com stakeholders</text>
+        </g>
+        <g data-detail="context" data-edge-from="c12_documentacao_final" data-edge-to="c13_geracao_diagramas" data-edge-label="Aciona segunda chamada de diagramas" data-edge-key="17" data-edge-id="c17">
+          <rect x="474" y="1058" width="178" height="14" rx="3" class="c-mask"/>
+          <text x="563" y="1068" class="t-muted" font-size="8" text-anchor="middle">Aciona segunda chamada de diagramas</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_geracao_diagramas" data-edge-to="c12_documentacao_final" data-edge-label="Publica diagramas finais consolidados" data-edge-key="18" data-edge-id="c18">
+          <rect x="951.2" y="1210" width="187.6" height="14" rx="3" class="c-mask"/>
+          <text x="1045" y="1220" class="t-messagebus" font-size="8" text-anchor="middle">Publica diagramas finais consolidados</text>
+        </g>
+        <g data-detail="context" data-edge-from="c14_riscos_mitigacao" data-edge-to="c15_comunicacao_stakeholders" data-edge-label="Lê riscos.md antes de comunicar" data-edge-key="19" data-edge-id="c19">
+          <rect x="768.1" y="1258" width="158.79999999999998" height="14" rx="3" class="c-mask"/>
+          <text x="847.5" y="1268" class="t-muted" font-size="8" text-anchor="middle">Lê riscos.md antes de comunicar</text>
+        </g>
+        <g data-detail="context" data-edge-from="c14_riscos_mitigacao" data-edge-to="c16_entrega_handoff" data-edge-label="Lê riscos.md antes do handoff" data-edge-key="20" data-edge-id="c20">
+          <rect x="1265.4" y="1210" width="149.2" height="14" rx="3" class="c-mask"/>
+          <text x="1340" y="1220" class="t-muted" font-size="8" text-anchor="middle">Lê riscos.md antes do handoff</text>
+        </g>
+        <g data-detail="context" data-edge-from="c15_comunicacao_stakeholders" data-edge-to="c16_entrega_handoff" data-edge-label="Lê comunicacao.md antes do handoff" data-edge-key="21" data-edge-id="c21">
+          <rect x="668.4" y="1490" width="173.2" height="14" rx="3" class="c-mask"/>
+          <text x="755" y="1500" class="t-muted" font-size="8" text-anchor="middle">Lê comunicacao.md antes do handoff</text>
+        </g>
+        <g data-detail="context" data-edge-from="c16_entrega_handoff" data-edge-to="ator_pessoa_operadora" data-edge-label="Aguarda aprovação humana do handoff" data-edge-key="22" data-edge-id="c22">
+          <rect x="666" y="1754" width="178" height="14" rx="3" class="c-mask"/>
+          <text x="755" y="1764" class="t-muted" font-size="8" text-anchor="middle">Aguarda aprovação humana do handoff</text>
+        </g>
+        <g data-detail="context" data-edge-from="c19_substrato_conhecimento" data-edge-to="ator_claude_code_runtime" data-edge-label="Bloqueia despacho com caminho relativo" data-edge-key="23" data-edge-id="c23">
+          <rect x="1028.8" y="50" width="192.4" height="14" rx="3" class="c-mask"/>
+          <text x="1125" y="60" class="t-muted" font-size="8" text-anchor="middle">Bloqueia despacho com caminho relativo</text>
+        </g>
+
+        <!-- Legend -->
+        <g data-legend="" data-legend-bridge="">
+          <text x="40" y="2117" class="t-primary" font-size="12" font-weight="650">Legend</text>
+          <g data-legend-semantic-kind="backend" data-legend-kind="backend" data-legend-label="Backend" data-legend-x="40" data-legend-baseline="2137" data-legend-width="78">
+            <rect x="40" y="2128" width="16" height="10" rx="2.5" class="c-backend" stroke-width="1"/>
+            <text x="62" y="2137" class="t-muted" font-size="10" font-weight="500">Backend</text>
+          </g>
+          <g data-legend-semantic-kind="external" data-legend-kind="external" data-legend-label="External" data-legend-x="140" data-legend-baseline="2137" data-legend-width="83">
+            <rect x="140" y="2128" width="16" height="10" rx="2.5" class="c-external" stroke-width="1"/>
+            <text x="162" y="2137" class="t-muted" font-size="10" font-weight="500">External</text>
+          </g>
+        </g>
+      </svg>

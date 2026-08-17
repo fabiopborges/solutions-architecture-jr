@@ -1,0 +1,454 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2141" height="2711" viewBox="0 0 2141 2711" role="img" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="standard">
+  <style>
+    svg {
+--bg: #020617;
+      --grid: #1e293b;
+      --text: #ffffff;
+      --text-muted: #94a3b8;
+      --text-dim: #475569;
+      /* UI chrome and menu hints need more contrast than SVG .t-dim accents */
+      --text-faint: #7d8da1;
+
+      --panel: rgba(15, 23, 42, 0.5);
+      --panel-border: #1e293b;
+      --lane-fill: rgba(15, 23, 42, 0.22);
+      --lane-stroke: #334155;
+
+      --arrow: #64748b;
+      --arrow-emphasis: #34d399;
+
+      /* Opaque mask color used behind semi-transparent component fills
+         so the arrows drawn underneath are properly hidden. */
+      --mask: #0f172a;
+
+      --frontend-fill:    rgba(8, 51, 68, 0.4);
+      --frontend-stroke:  #22d3ee;
+      --backend-fill:     rgba(6, 78, 59, 0.4);
+      --backend-stroke:   #34d399;
+      --database-fill:    rgba(76, 29, 149, 0.4);
+      --database-stroke:  #a78bfa;
+      --cloud-fill:       rgba(120, 53, 15, 0.3);
+      --cloud-stroke:     #fbbf24;
+      --security-fill:    rgba(136, 19, 55, 0.4);
+      --security-stroke:  #fb7185;
+      --messagebus-fill:  rgba(251, 146, 60, 0.3);
+      --messagebus-stroke:#fb923c;
+      --external-fill:    rgba(30, 41, 59, 0.5);
+      --external-stroke:  #94a3b8;
+
+      --toolbar-bg:       rgba(15, 23, 42, 0.8);
+      --toolbar-border:   #334155;
+      --toolbar-text:     #e2e8f0;
+      --toolbar-hover:    rgba(15, 23, 42, 0.95);
+      --toolbar-menu-bg:  #0f172a;
+      background: var(--bg);
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace;
+    }
+    @media (prefers-color-scheme: light) {
+      svg {
+--bg: #f8fafc;
+      --grid: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+      --text-faint: #64748b;
+
+      --panel: #ffffff;
+      --panel-border: #e2e8f0;
+      --lane-fill: rgba(248, 250, 252, 0.65);
+      --lane-stroke: #cbd5e1;
+
+      --arrow: #94a3b8;
+      --arrow-emphasis: #059669;
+
+      --mask: #ffffff;
+
+      --frontend-fill:    rgba(34, 211, 238, 0.15);
+      --frontend-stroke:  #0891b2;
+      --backend-fill:     rgba(52, 211, 153, 0.18);
+      --backend-stroke:   #059669;
+      --database-fill:    rgba(167, 139, 250, 0.2);
+      --database-stroke:  #7c3aed;
+      --cloud-fill:       rgba(251, 191, 36, 0.18);
+      --cloud-stroke:     #d97706;
+      --security-fill:    rgba(251, 113, 133, 0.15);
+      --security-stroke:  #e11d48;
+      --messagebus-fill:  rgba(251, 146, 60, 0.15);
+      --messagebus-stroke:#ea580c;
+      --external-fill:    rgba(148, 163, 184, 0.18);
+      --external-stroke:  #64748b;
+
+      --toolbar-bg:       rgba(255, 255, 255, 0.92);
+      --toolbar-border:   #cbd5e1;
+      --toolbar-text:     #334155;
+      --toolbar-hover:    #ffffff;
+      --toolbar-menu-bg:  #ffffff;
+      }
+    }
+.c-grid { stroke: var(--grid); fill: none;
+}
+.c-mask { fill: var(--mask); stroke: none;
+}
+.c-backend { fill: var(--backend-fill);    stroke: var(--backend-stroke);
+}
+.c-database { fill: var(--database-fill);   stroke: var(--database-stroke);
+}
+.c-external { fill: var(--external-fill);   stroke: var(--external-stroke);
+}
+.t-primary { fill: var(--text);
+}
+.t-muted { fill: var(--text-muted);
+}
+.t-backend { fill: var(--backend-stroke);
+}
+.t-database { fill: var(--database-stroke);
+}
+svg .semantic-sigil {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.35;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.76;
+      pointer-events: none;
+}
+svg .semantic-sigil > * { vector-effect: non-scaling-stroke;
+}
+svg .semantic-sigil .sigil-fill { fill: currentColor; stroke: none;
+}
+svg .s-backend { color: var(--backend-stroke);
+}
+svg .s-database { color: var(--database-stroke);
+}
+svg .s-external { color: var(--external-stroke);
+}
+.a-default { stroke: var(--arrow); fill: none;
+}
+.m-default { fill: var(--arrow);
+}
+.m-emphasis { fill: var(--arrow-emphasis);
+}
+.m-security { fill: var(--security-stroke);
+}
+.m-dashed { fill: var(--database-stroke);
+}
+  </style>
+        <title id="archify-diagram-title">Geração de Diagramas C4 — C3 Componentes internos (c13_geracao_diagramas)</title>
+        <desc id="archify-diagram-description">Decomposto de desenho-c3-geracao-diagramas.md</desc>
+        <!-- Definitions -->
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" class="m-default" />
+          </marker>
+          <marker id="arrowhead-emphasis" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" class="m-emphasis" />
+          </marker>
+          <marker id="arrowhead-security" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" class="m-security" />
+          </marker>
+          <marker id="arrowhead-dashed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" class="m-dashed" />
+          </marker>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" class="c-grid" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+
+        <!-- Background Grid -->
+        <rect width="100%" height="100%" fill="url(#grid)" />
+
+        <!-- Boundaries (behind everything) -->
+
+
+        <!-- Connection paths (before components for correct z-order) -->
+        <path data-edge-from="ator_c2_desenho_arquitetura" data-edge-to="c13_1_camada_decisao" data-edge-label="Envia desenho.md com estrutura decidida" data-edge-key="0" data-edge-id="c0" data-composition-points="200,2256;200,2286;1440,2286;1440,904;519.5,904" d="M 200 2256 L 200 2278 Q 200 2286 208 2286 L 1432 2286 Q 1440 2286 1440 2278 L 1440 912 Q 1440 904 1432 904 L 519.5 904" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="ator_c4_modelagem_dados" data-edge-to="c13_1_camada_decisao" data-edge-label="Envia dados.md com fluxo de dados" data-edge-key="1" data-edge-id="c1" data-composition-points="697.5,112;1000,112;1000,842;385,842;385,872" d="M 697.5 112 L 992 112 Q 1000 112 1000 120 L 1000 834 Q 1000 842 992 842 L 393 842 Q 385 842 385 850 L 385 872" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="ator_c12_documentacao_final" data-edge-to="c13_1_camada_decisao" data-edge-label="Pede consolidação de diagramas do pacote" data-edge-key="2" data-edge-id="c2" data-composition-points="385,672;385,872" d="M 385 672 L 385 872" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="ator_c10_jornadas_usuario" data-edge-to="c13_4_derivar_c4" data-edge-label="Envia sequências de jornadas por journey" data-edge-key="3" data-edge-id="c3" data-composition-points="710,2224;1220,2224;1220,1432;547,1432" d="M 710 2224 L 1212 2224 Q 1220 2224 1220 2216 L 1220 1440 Q 1220 1432 1212 1432 L 547 1432" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="ator_c10_jornadas_usuario" data-edge-to="c13_6_exportar_sequencia_archify" data-edge-label="Envia sequência da jornada para diagrama" data-edge-key="4" data-edge-id="c4" data-composition-points="570,2256;570,2356;385,2356;385,2456" d="M 570 2256 L 570 2348 Q 570 2356 562 2356 L 393 2356 Q 385 2356 385 2364 L 385 2456" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_1_camada_decisao" data-edge-to="c13_2_schema_contrato" data-edge-label="Aplica contrato de schema do spec" data-edge-key="5" data-edge-id="c5" data-composition-points="378,936;378,1036;200,1036;200,1136" d="M 378 936 L 378 1028 Q 378 1036 370 1036 L 208 1036 Q 200 1036 200 1044 L 200 1136" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_1_camada_decisao" data-edge-to="c13_3_catalogo_estatico" data-edge-label="Traduz desenho.md para catálogo estático" data-edge-key="6" data-edge-id="c6" data-composition-points="392,936;392,1036;570,1036;570,1136" d="M 392 936 L 392 1028 Q 392 1036 400 1036 L 562 1036 Q 570 1036 570 1044 L 570 1136" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_3_catalogo_estatico" data-edge-to="c13_4_derivar_c4" data-edge-label="Fornece catálogo para a derivação" data-edge-key="7" data-edge-id="c7" data-composition-points="570,1200;570,1300;385,1300;385,1400" d="M 570 1200 L 570 1292 Q 570 1300 562 1300 L 393 1300 Q 385 1300 385 1308 L 385 1400" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_1_camada_decisao" data-edge-to="c13_4_derivar_c4" data-edge-label="Aciona derivação quando existem sequências" data-edge-key="8" data-edge-id="c8" data-composition-points="385,936;385,966;780,966;780,1370;385,1370;385,1400" d="M 385 936 L 385 958 Q 385 966 393 966 L 772 966 Q 780 966 780 974 L 780 1362 Q 780 1370 772 1370 L 393 1370 Q 385 1370 385 1378 L 385 1400" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_4_derivar_c4" data-edge-to="c13_5_exportar_archify" data-edge-label="Entrega spec derivado de Container ou Contexto" data-edge-key="9" data-edge-id="c9" data-composition-points="385,1464;385,1664" d="M 385 1464 L 385 1664" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_3_catalogo_estatico" data-edge-to="c13_6_exportar_sequencia_archify" data-edge-label="Resolve nome e tipo do participante" data-edge-key="10" data-edge-id="c10" data-composition-points="710,1168;1660,1168;1660,2488;525,2488" d="M 710 1168 L 1652 1168 Q 1660 1168 1660 1176 L 1660 2480 Q 1660 2488 1652 2488 L 525 2488" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_5_exportar_archify" data-edge-to="c13_9_gate_12_palavras" data-edge-label="Verifica limite de doze palavras" data-edge-key="11" data-edge-id="c11" data-composition-points="519.5,1696;1000,1696;1000,1960;710,1960" d="M 519.5 1696 L 992 1696 Q 1000 1696 1000 1704 L 1000 1952 Q 1000 1960 992 1960 L 710 1960" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_5_exportar_archify" data-edge-to="ator_c13_7_archify_vendorizado" data-edge-label="Chama validação e entrega via ArchiFy" data-edge-key="12" data-edge-id="c12" data-composition-points="385,1728;385,1758;1880,1758;1880,50;212.5,50;212.5,80" d="M 385 1728 L 385 1750 Q 385 1758 393 1758 L 1872 1758 Q 1880 1758 1880 1750 L 1880 58 Q 1880 50 1872 50 L 220.5 50 Q 212.5 50 212.5 58 L 212.5 80" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_4_derivar_c4" data-edge-to="c13_8_relatorios_nao_silenciaveis" data-edge-label="Imprime relatório de órfão e falta catálogo" data-edge-key="13" data-edge-id="c13" data-composition-points="385,1464;385,1494;1000,1494;1000,1898;200,1898;200,1928" d="M 385 1464 L 385 1486 Q 385 1494 393 1494 L 992 1494 Q 1000 1494 1000 1502 L 1000 1890 Q 1000 1898 992 1898 L 208 1898 Q 200 1898 200 1906 L 200 1928" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_5_exportar_archify" data-edge-to="c13_8_relatorios_nao_silenciaveis" data-edge-label="Imprime erro de limite de palavras" data-edge-key="14" data-edge-id="c14" data-composition-points="385,1728;385,1828;200,1828;200,1928" d="M 385 1728 L 385 1820 Q 385 1828 377 1828 L 208 1828 Q 200 1828 200 1836 L 200 1928" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_8_relatorios_nao_silenciaveis" data-edge-to="ator_c2_desenho_arquitetura" data-edge-label="Repassa tensão entre catálogo e jornada" data-edge-key="15" data-edge-id="c15" data-composition-points="193,1992;193,2192" d="M 193 1992 L 193 2192" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_8_relatorios_nao_silenciaveis" data-edge-to="ator_c10_jornadas_usuario" data-edge-label="Repassa tensão entre catálogo e jornada" data-edge-key="16" data-edge-id="c16" data-composition-points="207,1992;207,2092;570,2092;570,2192" d="M 207 1992 L 207 2084 Q 207 2092 215 2092 L 562 2092 Q 570 2092 570 2100 L 570 2192" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="ator_c13_7_archify_vendorizado" data-edge-to="c13_10_artefatos_saida" data-edge-label="Entrega HTML final validado em showcase" data-edge-key="17" data-edge-id="c17" data-composition-points="212.5,144;212.5,244;385,244;385,344" d="M 212.5 144 L 212.5 236 Q 212.5 244 220.5 244 L 377 244 Q 385 244 385 252 L 385 344" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_6_exportar_sequencia_archify" data-edge-to="c13_10_artefatos_saida" data-edge-label="Grava HTML de sequência e JSON" data-edge-key="18" data-edge-id="c18" data-composition-points="385,2520;385,2550;2100,2550;2100,376;525,376" d="M 385 2520 L 385 2542 Q 385 2550 393 2550 L 2092 2550 Q 2100 2550 2100 2542 L 2100 384 Q 2100 376 2092 376 L 525 376" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="c13_10_artefatos_saida" data-edge-to="ator_c12_documentacao_final" data-edge-label="Entrega artefatos finais para o pacote" data-edge-key="19" data-edge-id="c19" data-composition-points="385,408;385,608" d="M 385 408 L 385 608" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+        <!-- Components -->
+        <g id="node-ator_c13_7_archify_vendorizado" data-node-id="ator_c13_7_archify_vendorizado" data-node-label="ArchiFy — Vendorizado" tabindex="0" role="button" aria-label="Focus ArchiFy — Vendorizado, Valida qualidade visual e renderiza o HTML final, Architecture component" aria-pressed="false" data-node-kind="external" data-node-sublabel="Valida qualidade visual e renderiza o HTML final" data-node-context="Architecture component">
+          <title>ArchiFy — Vendorizado · Valida qualidade visual e renderiza o HTML final · Architecture component</title>
+          <rect x="72.5" y="80" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="72.5" y="80" width="280" height="64" rx="6" class="c-external" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(78.5 86) scale(0.6875)">
+            <rect x="2.5" y="5" width="8.5" height="8" rx="1.5"/>
+            <path d="M8 2.5h5.5V8M13.5 2.5 7.5 8.5"/>
+          </g>
+          <text data-detail-anchor="" x="212.5" y="110" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">ArchiFy — Vendorizado</text>
+        <text data-detail="context" x="212.5" y="126" class="t-muted" font-size="9" text-anchor="middle">Valida qualidade visual e renderiza o HTML final</text>
+        </g>
+
+        <g id="node-ator_c2_desenho_arquitetura" data-node-id="ator_c2_desenho_arquitetura" data-node-label="C2 — Desenho de Arquitetura" tabindex="0" role="button" aria-label="Focus C2 — Desenho de Arquitetura, Decide bounded contexts e envia desenho.md, Architecture component" aria-pressed="false" data-node-kind="external" data-node-sublabel="Decide bounded contexts e envia desenho.md" data-node-context="Architecture component">
+          <title>C2 — Desenho de Arquitetura · Decide bounded contexts e envia desenho.md · Architecture component</title>
+          <rect x="60" y="2192" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="60" y="2192" width="280" height="64" rx="6" class="c-external" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(66 2198) scale(0.6875)">
+            <rect x="2.5" y="5" width="8.5" height="8" rx="1.5"/>
+            <path d="M8 2.5h5.5V8M13.5 2.5 7.5 8.5"/>
+          </g>
+          <text data-detail-anchor="" x="200" y="2222" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C2 — Desenho de Arquitetura</text>
+        <text data-detail="context" x="200" y="2238" class="t-muted" font-size="9" text-anchor="middle">Decide bounded contexts e envia desenho.md</text>
+        </g>
+
+        <g id="node-ator_c10_jornadas_usuario" data-node-id="ator_c10_jornadas_usuario" data-node-label="C10 — Jornadas do Usuário" tabindex="0" role="button" aria-label="Focus C10 — Jornadas do Usuário, Decide jornadas e envia sequências por journey, Architecture component" aria-pressed="false" data-node-kind="external" data-node-sublabel="Decide jornadas e envia sequências por journey" data-node-context="Architecture component">
+          <title>C10 — Jornadas do Usuário · Decide jornadas e envia sequências por journey · Architecture component</title>
+          <rect x="430" y="2192" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="430" y="2192" width="280" height="64" rx="6" class="c-external" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(436 2198) scale(0.6875)">
+            <rect x="2.5" y="5" width="8.5" height="8" rx="1.5"/>
+            <path d="M8 2.5h5.5V8M13.5 2.5 7.5 8.5"/>
+          </g>
+          <text data-detail-anchor="" x="570" y="2222" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C10 — Jornadas do Usuário</text>
+        <text data-detail="context" x="570" y="2238" class="t-muted" font-size="9" text-anchor="middle">Decide jornadas e envia sequências por journey</text>
+        </g>
+
+        <g id="node-ator_c4_modelagem_dados" data-node-id="ator_c4_modelagem_dados" data-node-label="C4 — Modelagem de Dados" tabindex="0" role="button" aria-label="Focus C4 — Modelagem de Dados, Decide entidades e envia dados.md, Architecture component" aria-pressed="false" data-node-kind="external" data-node-sublabel="Decide entidades e envia dados.md" data-node-context="Architecture component">
+          <title>C4 — Modelagem de Dados · Decide entidades e envia dados.md · Architecture component</title>
+          <rect x="442.5" y="80" width="255" height="64" rx="6" class="c-mask"/>
+          <rect x="442.5" y="80" width="255" height="64" rx="6" class="c-external" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(448.5 86) scale(0.6875)">
+            <rect x="2.5" y="5" width="8.5" height="8" rx="1.5"/>
+            <path d="M8 2.5h5.5V8M13.5 2.5 7.5 8.5"/>
+          </g>
+          <text data-detail-anchor="" x="570" y="110" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C4 — Modelagem de Dados</text>
+        <text data-detail="context" x="570" y="126" class="t-muted" font-size="9" text-anchor="middle">Decide entidades e envia dados.md</text>
+        </g>
+
+        <g id="node-ator_c12_documentacao_final" data-node-id="ator_c12_documentacao_final" data-node-label="C12 — Documentação Final" tabindex="0" role="button" aria-label="Focus C12 — Documentação Final, Pede consolidação e recebe artefatos finais, Architecture component" aria-pressed="false" data-node-kind="external" data-node-sublabel="Pede consolidação e recebe artefatos finais" data-node-context="Architecture component">
+          <title>C12 — Documentação Final · Pede consolidação e recebe artefatos finais · Architecture component</title>
+          <rect x="245" y="608" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="245" y="608" width="280" height="64" rx="6" class="c-external" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(251 614) scale(0.6875)">
+            <rect x="2.5" y="5" width="8.5" height="8" rx="1.5"/>
+            <path d="M8 2.5h5.5V8M13.5 2.5 7.5 8.5"/>
+          </g>
+          <text data-detail-anchor="" x="385" y="638" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C12 — Documentação Final</text>
+        <text data-detail="context" x="385" y="654" class="t-muted" font-size="9" text-anchor="middle">Pede consolidação e recebe artefatos finais</text>
+        </g>
+
+        <g id="node-c13_1_camada_decisao" data-node-id="c13_1_camada_decisao" data-node-label="C13.1 — Camada de Decisão" tabindex="0" role="button" aria-label="Focus C13.1 — Camada de Decisão, Decide qual passo do pipeline rodar, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Decide qual passo do pipeline rodar" data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C13.1 — Camada de Decisão · Decide qual passo do pipeline rodar · Architecture component · REUSO</title>
+          <rect x="250.5" y="872" width="269" height="64" rx="6" class="c-mask"/>
+          <rect x="250.5" y="872" width="269" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(256.5 878) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="385" y="902" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C13.1 — Camada de Decisão</text>
+        <text data-detail="context" x="385" y="918" class="t-muted" font-size="9" text-anchor="middle">Decide qual passo do pipeline rodar</text>
+        <text data-detail="fine" x="385" y="928" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c13_2_schema_contrato" data-node-id="c13_2_schema_contrato" data-node-label="C13.2 — Schema e Contrato do Spec" tabindex="0" role="button" aria-label="Focus C13.2 — Schema e Contrato do Spec, Define formato do catálogo e specs derivados, Architecture component" aria-pressed="false" data-node-kind="database" data-node-sublabel="Define formato do catálogo e specs derivados" data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C13.2 — Schema e Contrato do Spec · Define formato do catálogo e specs derivados · Architecture component · REUSO</title>
+          <rect x="60" y="1136" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="60" y="1136" width="280" height="64" rx="6" class="c-database" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(66 1142) scale(0.6875)">
+            <ellipse cx="8" cy="4" rx="5" ry="2"/>
+            <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
+          </g>
+          <text data-detail-anchor="" x="200" y="1166" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C13.2 — Schema e Contrato do Spec</text>
+        <text data-detail="context" x="200" y="1182" class="t-muted" font-size="9" text-anchor="middle">Define formato do catálogo e specs derivados</text>
+        <text data-detail="fine" x="200" y="1192" class="t-database" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c13_3_catalogo_estatico" data-node-id="c13_3_catalogo_estatico" data-node-label="C13.3 — Catálogo Estático de Componentes" tabindex="0" role="button" aria-label="Focus C13.3 — Catálogo Estático de Componentes, Guarda atores, fronteiras e componentes sem conexões, Architecture component" aria-pressed="false" data-node-kind="database" data-node-sublabel="Guarda atores, fronteiras e componentes sem conexões" data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C13.3 — Catálogo Estático de Componentes · Guarda atores, fronteiras e componentes sem conexões · Architecture component · REUSO</title>
+          <rect x="430" y="1136" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="430" y="1136" width="280" height="64" rx="6" class="c-database" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(436 1142) scale(0.6875)">
+            <ellipse cx="8" cy="4" rx="5" ry="2"/>
+            <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
+          </g>
+          <text data-detail-anchor="" x="570" y="1166" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C13.3 — Catálogo Estático de Componentes</text>
+        <text data-detail="context" x="570" y="1182" class="t-muted" font-size="8.7" text-anchor="middle">Guarda atores, fronteiras e componentes sem conexões</text>
+        <text data-detail="fine" x="570" y="1192" class="t-database" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c13_4_derivar_c4" data-node-id="c13_4_derivar_c4" data-node-label="C13.4 — Script de Derivação Container/Contexto" tabindex="0" role="button" aria-label="Focus C13.4 — Script de Derivação Container/Contexto, Combina catálogo e sequências em specs derivados, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Combina catálogo e sequências em specs derivados" data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C13.4 — Script de Derivação Container/Contexto · Combina catálogo e sequências em specs derivados · Architecture component · REUSO</title>
+          <rect x="223" y="1400" width="324" height="64" rx="6" class="c-mask"/>
+          <rect x="223" y="1400" width="324" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(229 1406) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="385" y="1430" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C13.4 — Script de Derivação Container/Contexto</text>
+        <text data-detail="context" x="385" y="1446" class="t-muted" font-size="9" text-anchor="middle">Combina catálogo e sequências em specs derivados</text>
+        <text data-detail="fine" x="385" y="1456" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c13_5_exportar_archify" data-node-id="c13_5_exportar_archify" data-node-label="C13.5 — Renderer de Arquitetura" tabindex="0" role="button" aria-label="Focus C13.5 — Renderer de Arquitetura, Calcula geometria e chama o ArchiFy, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Calcula geometria e chama o ArchiFy" data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C13.5 — Renderer de Arquitetura · Calcula geometria e chama o ArchiFy · Architecture component · REUSO</title>
+          <rect x="250.5" y="1664" width="269" height="64" rx="6" class="c-mask"/>
+          <rect x="250.5" y="1664" width="269" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(256.5 1670) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="385" y="1694" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C13.5 — Renderer de Arquitetura</text>
+        <text data-detail="context" x="385" y="1710" class="t-muted" font-size="9" text-anchor="middle">Calcula geometria e chama o ArchiFy</text>
+        <text data-detail="fine" x="385" y="1720" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c13_6_exportar_sequencia_archify" data-node-id="c13_6_exportar_sequencia_archify" data-node-label="C13.6 — Renderer de Sequência" tabindex="0" role="button" aria-label="Focus C13.6 — Renderer de Sequência, Traduz sequência e catálogo para diagrama, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Traduz sequência e catálogo para diagrama" data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C13.6 — Renderer de Sequência · Traduz sequência e catálogo para diagrama · Architecture component · REUSO</title>
+          <rect x="245" y="2456" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="245" y="2456" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(251 2462) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="385" y="2486" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C13.6 — Renderer de Sequência</text>
+        <text data-detail="context" x="385" y="2502" class="t-muted" font-size="9" text-anchor="middle">Traduz sequência e catálogo para diagrama</text>
+        <text data-detail="fine" x="385" y="2512" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c13_8_relatorios_nao_silenciaveis" data-node-id="c13_8_relatorios_nao_silenciaveis" data-node-label="C13.8 — Relatórios de Tensão e Violação" tabindex="0" role="button" aria-label="Focus C13.8 — Relatórios de Tensão e Violação, Sinaliza órfão, falta de catálogo e limite excedido, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Sinaliza órfão, falta de catálogo e limite excedido" data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C13.8 — Relatórios de Tensão e Violação · Sinaliza órfão, falta de catálogo e limite excedido · Architecture component · REUSO</title>
+          <rect x="60" y="1928" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="60" y="1928" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(66 1934) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="200" y="1958" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C13.8 — Relatórios de Tensão e Violação</text>
+        <text data-detail="context" x="200" y="1974" class="t-muted" font-size="8.8" text-anchor="middle">Sinaliza órfão, falta de catálogo e limite excedido</text>
+        <text data-detail="fine" x="200" y="1984" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c13_9_gate_12_palavras" data-node-id="c13_9_gate_12_palavras" data-node-label="C13.9 — Gate de Doze Palavras" tabindex="0" role="button" aria-label="Focus C13.9 — Gate de Doze Palavras, Bloqueia renderização se texto passar do limite, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Bloqueia renderização se texto passar do limite" data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C13.9 — Gate de Doze Palavras · Bloqueia renderização se texto passar do limite · Architecture component · REUSO</title>
+          <rect x="430" y="1928" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="430" y="1928" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(436 1934) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="570" y="1958" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C13.9 — Gate de Doze Palavras</text>
+        <text data-detail="context" x="570" y="1974" class="t-muted" font-size="9" text-anchor="middle">Bloqueia renderização se texto passar do limite</text>
+        <text data-detail="fine" x="570" y="1984" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <g id="node-c13_10_artefatos_saida" data-node-id="c13_10_artefatos_saida" data-node-label="C13.10 — Artefatos Finais Gravados" tabindex="0" role="button" aria-label="Focus C13.10 — Artefatos Finais Gravados, Grava specs, HTML e JSON de arquitetura, Architecture component" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Grava specs, HTML e JSON de arquitetura" data-node-tag="REUSO" data-node-context="Architecture component">
+          <title>C13.10 — Artefatos Finais Gravados · Grava specs, HTML e JSON de arquitetura · Architecture component · REUSO</title>
+          <rect x="245" y="344" width="280" height="64" rx="6" class="c-mask"/>
+          <rect x="245" y="344" width="280" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(251 350) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-detail-anchor="" x="385" y="374" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">C13.10 — Artefatos Finais Gravados</text>
+        <text data-detail="context" x="385" y="390" class="t-muted" font-size="9" text-anchor="middle">Grava specs, HTML e JSON de arquitetura</text>
+        <text data-detail="fine" x="385" y="400" class="t-backend" font-size="7" text-anchor="middle">REUSO</text>
+        </g>
+
+        <!-- Connection labels -->
+        <g data-detail="context" data-edge-from="ator_c2_desenho_arquitetura" data-edge-to="c13_1_camada_decisao" data-edge-label="Envia desenho.md com estrutura decidida" data-edge-key="0" data-edge-id="c0">
+          <rect x="721.4" y="2266" width="197.2" height="14" rx="3" class="c-mask"/>
+          <text x="820" y="2276" class="t-muted" font-size="8" text-anchor="middle">Envia desenho.md com estrutura decidida</text>
+        </g>
+        <g data-detail="context" data-edge-from="ator_c4_modelagem_dados" data-edge-to="c13_1_camada_decisao" data-edge-label="Envia dados.md com fluxo de dados" data-edge-key="1" data-edge-id="c1">
+          <rect x="915.8" y="457" width="168.4" height="14" rx="3" class="c-mask"/>
+          <text x="1000" y="467" class="t-muted" font-size="8" text-anchor="middle">Envia dados.md com fluxo de dados</text>
+        </g>
+        <g data-detail="context" data-edge-from="ator_c12_documentacao_final" data-edge-to="c13_1_camada_decisao" data-edge-label="Pede consolidação de diagramas do pacote" data-edge-key="2" data-edge-id="c2">
+          <rect x="284" y="698" width="202" height="14" rx="3" class="c-mask"/>
+          <text x="385" y="708" class="t-muted" font-size="8" text-anchor="middle">Pede consolidação de diagramas do pacote</text>
+        </g>
+        <g data-detail="context" data-edge-from="ator_c10_jornadas_usuario" data-edge-to="c13_4_derivar_c4" data-edge-label="Envia sequências de jornadas por journey" data-edge-key="3" data-edge-id="c3">
+          <rect x="1119" y="1808" width="202" height="14" rx="3" class="c-mask"/>
+          <text x="1220" y="1818" class="t-muted" font-size="8" text-anchor="middle">Envia sequências de jornadas por journey</text>
+        </g>
+        <g data-detail="context" data-edge-from="ator_c10_jornadas_usuario" data-edge-to="c13_6_exportar_sequencia_archify" data-edge-label="Envia sequência da jornada para diagrama" data-edge-key="4" data-edge-id="c4">
+          <rect x="376.5" y="2314" width="202" height="14" rx="3" class="c-mask"/>
+          <text x="477.5" y="2324" class="t-muted" font-size="8" text-anchor="middle">Envia sequência da jornada para diagrama</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_1_camada_decisao" data-edge-to="c13_2_schema_contrato" data-edge-label="Aplica contrato de schema do spec" data-edge-key="5" data-edge-id="c5">
+          <rect x="204.8" y="994" width="168.4" height="14" rx="3" class="c-mask"/>
+          <text x="289" y="1004" class="t-muted" font-size="8" text-anchor="middle">Aplica contrato de schema do spec</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_1_camada_decisao" data-edge-to="c13_3_catalogo_estatico" data-edge-label="Traduz desenho.md para catálogo estático" data-edge-key="6" data-edge-id="c6">
+          <rect x="380" y="1062" width="202" height="14" rx="3" class="c-mask"/>
+          <text x="481" y="1072" class="t-muted" font-size="8" text-anchor="middle">Traduz desenho.md para catálogo estático</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_3_catalogo_estatico" data-edge-to="c13_4_derivar_c4" data-edge-label="Fornece catálogo para a derivação" data-edge-key="7" data-edge-id="c7">
+          <rect x="393.3" y="1258" width="168.4" height="14" rx="3" class="c-mask"/>
+          <text x="477.5" y="1268" class="t-muted" font-size="8" text-anchor="middle">Fornece catálogo para a derivação</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_1_camada_decisao" data-edge-to="c13_4_derivar_c4" data-edge-label="Aciona derivação quando existem sequências" data-edge-key="8" data-edge-id="c8">
+          <rect x="476.7" y="946" width="211.6" height="14" rx="3" class="c-mask"/>
+          <text x="582.5" y="956" class="t-muted" font-size="8" text-anchor="middle">Aciona derivação quando existem sequências</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_4_derivar_c4" data-edge-to="c13_5_exportar_archify" data-edge-label="Entrega spec derivado de Container ou Contexto" data-edge-key="9" data-edge-id="c9">
+          <rect x="269.6" y="1538" width="230.79999999999998" height="14" rx="3" class="c-mask"/>
+          <text x="385" y="1548" class="t-muted" font-size="8" text-anchor="middle">Entrega spec derivado de Container ou Contexto</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_3_catalogo_estatico" data-edge-to="c13_6_exportar_sequencia_archify" data-edge-label="Resolve nome e tipo do participante" data-edge-key="10" data-edge-id="c10">
+          <rect x="1571" y="1808" width="178" height="14" rx="3" class="c-mask"/>
+          <text x="1660" y="1818" class="t-muted" font-size="8" text-anchor="middle">Resolve nome e tipo do participante</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_5_exportar_archify" data-edge-to="c13_9_gate_12_palavras" data-edge-label="Verifica limite de doze palavras" data-edge-key="11" data-edge-id="c11">
+          <rect x="918.2" y="1808" width="163.6" height="14" rx="3" class="c-mask"/>
+          <text x="1000" y="1818" class="t-muted" font-size="8" text-anchor="middle">Verifica limite de doze palavras</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_5_exportar_archify" data-edge-to="ator_c13_7_archify_vendorizado" data-edge-label="Chama validação e entrega via ArchiFy" data-edge-key="12" data-edge-id="c12">
+          <rect x="1038.7" y="1738" width="187.6" height="14" rx="3" class="c-mask"/>
+          <text x="1132.5" y="1748" class="t-muted" font-size="8" text-anchor="middle">Chama validação e entrega via ArchiFy</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_4_derivar_c4" data-edge-to="c13_8_relatorios_nao_silenciaveis" data-edge-label="Imprime relatório de órfão e falta catálogo" data-edge-key="13" data-edge-id="c13">
+          <rect x="584.3" y="1474" width="216.4" height="14" rx="3" class="c-mask"/>
+          <text x="692.5" y="1484" class="t-muted" font-size="8" text-anchor="middle">Imprime relatório de órfão e falta catálogo</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_5_exportar_archify" data-edge-to="c13_8_relatorios_nao_silenciaveis" data-edge-label="Imprime erro de limite de palavras" data-edge-key="14" data-edge-id="c14">
+          <rect x="205.9" y="1760" width="173.2" height="14" rx="3" class="c-mask"/>
+          <text x="292.5" y="1770" class="t-muted" font-size="8" text-anchor="middle">Imprime erro de limite de palavras</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_8_relatorios_nao_silenciaveis" data-edge-to="ator_c2_desenho_arquitetura" data-edge-label="Repassa tensão entre catálogo e jornada" data-edge-key="15" data-edge-id="c15">
+          <rect x="94.4" y="2114" width="197.2" height="14" rx="3" class="c-mask"/>
+          <text x="193" y="2124" class="t-muted" font-size="8" text-anchor="middle">Repassa tensão entre catálogo e jornada</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_8_relatorios_nao_silenciaveis" data-edge-to="ator_c10_jornadas_usuario" data-edge-label="Repassa tensão entre catálogo e jornada" data-edge-key="16" data-edge-id="c16">
+          <rect x="289.9" y="2142" width="197.2" height="14" rx="3" class="c-mask"/>
+          <text x="388.5" y="2152" class="t-muted" font-size="8" text-anchor="middle">Repassa tensão entre catálogo e jornada</text>
+        </g>
+        <g data-detail="context" data-edge-from="ator_c13_7_archify_vendorizado" data-edge-to="c13_10_artefatos_saida" data-edge-label="Entrega HTML final validado em showcase" data-edge-key="17" data-edge-id="c17">
+          <rect x="200.15" y="202" width="197.2" height="14" rx="3" class="c-mask"/>
+          <text x="298.75" y="212" class="t-muted" font-size="8" text-anchor="middle">Entrega HTML final validado em showcase</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_6_exportar_sequencia_archify" data-edge-to="c13_10_artefatos_saida" data-edge-label="Grava HTML de sequência e JSON" data-edge-key="18" data-edge-id="c18">
+          <rect x="1165.5" y="2530" width="154" height="14" rx="3" class="c-mask"/>
+          <text x="1242.5" y="2540" class="t-muted" font-size="8" text-anchor="middle">Grava HTML de sequência e JSON</text>
+        </g>
+        <g data-detail="context" data-edge-from="c13_10_artefatos_saida" data-edge-to="ator_c12_documentacao_final" data-edge-label="Entrega artefatos finais para o pacote" data-edge-key="19" data-edge-id="c19">
+          <rect x="288.8" y="434" width="192.4" height="14" rx="3" class="c-mask"/>
+          <text x="385" y="444" class="t-muted" font-size="8" text-anchor="middle">Entrega artefatos finais para o pacote</text>
+        </g>
+
+        <!-- Legend -->
+        <g data-legend="" data-legend-bridge="">
+          <text x="40" y="2675" class="t-primary" font-size="12" font-weight="650">Legend</text>
+          <g data-legend-semantic-kind="backend" data-legend-kind="backend" data-legend-label="Backend" data-legend-x="40" data-legend-baseline="2695" data-legend-width="78">
+            <rect x="40" y="2686" width="16" height="10" rx="2.5" class="c-backend" stroke-width="1"/>
+            <text x="62" y="2695" class="t-muted" font-size="10" font-weight="500">Backend</text>
+          </g>
+          <g data-legend-semantic-kind="database" data-legend-kind="database" data-legend-label="Database" data-legend-x="140" data-legend-baseline="2695" data-legend-width="83">
+            <rect x="140" y="2686" width="16" height="10" rx="2.5" class="c-database" stroke-width="1"/>
+            <text x="162" y="2695" class="t-muted" font-size="10" font-weight="500">Database</text>
+          </g>
+          <g data-legend-semantic-kind="external" data-legend-kind="external" data-legend-label="External" data-legend-x="245" data-legend-baseline="2695" data-legend-width="83">
+            <rect x="245" y="2686" width="16" height="10" rx="2.5" class="c-external" stroke-width="1"/>
+            <text x="267" y="2695" class="t-muted" font-size="10" font-weight="500">External</text>
+          </g>
+        </g>
+      </svg>
