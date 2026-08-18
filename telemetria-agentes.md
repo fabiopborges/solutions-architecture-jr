@@ -1,6 +1,6 @@
 # Telemetria dos Agentes
 
-Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido pelo agente [[agents/observabilidade-e-telemetria/AGENT]], frente 2. Sete demandas rodaram até agora: a primeira simulada (um agente-modelo narrando os 14 papéis), as demais via subagentes reais (`/arquiteto-solucoes`), com uso de token medido de verdade por agente.
+Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido pelo agente [[agents/observabilidade-e-telemetria/AGENT]], frente 2. Oito demandas rodaram até agora: a primeira simulada (um agente-modelo narrando os 14 papéis), as demais via subagentes reais (`/arquiteto-solucoes`), com uso de token medido de verdade por agente.
 
 ## Formato de uma entrada
 - Demanda:
@@ -248,3 +248,68 @@ Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido p
 **Achado de processo (não de arquitetura):** falso positivo do hook `PreToolUse` de caminho absoluto — a regex do hook reage a qualquer ocorrência textual de `demandas/` sem barra à esquerda em qualquer parte do prompt de despacho, não só em caminho de arquivo real. Um trecho de instrução como "não cite projetos dentro de demandas/ do repositório" (prosa, não caminho) já dispara o bloqueio. Contornado reformulando a prosa para evitar o padrão literal; nenhuma mudança feita no hook nesta sessão, mas vale registrar como possível ajuste futuro de precisão do hook (falso positivo, não falha de proteção).
 
 **Custo real em US$/R$:** pendente, a preencher por quem operou a sessão — não estimado por este agente. Ver `demandas/projeto-agentes-arquitetura-de-solucoes-junior-16-08-2026/custo-processamento.md`.
+
+---
+
+### 2026-08-17 — sad-008-sync-dados-ia
+
+> **Entrada gravada com a demanda ainda aberta.** Diferente das sete anteriores, esta foi registrada **antes do fim da cadeia**: Geração de Diagramas C4 ainda estava em execução quando esta frente 2 foi acionada, e Entrega e Handoff não tinha começado. Os números abaixo são **reais e parciais**, e o que falta está **nomeado, não estimado**.
+
+**Oitava demanda, primeira sem enunciado escrito.** O único insumo foi uma **foto de tela** de um diagrama de arquitetura de outra equipe. Não havia texto de pedido, RNF, prazo nem orçamento. Isso mudou a natureza de quase todas as atividades: o objeto não é um sistema a projetar, é um **as-is de terceiros a avaliar por evidência única e fraca**, e o produto de vários agentes virou **parecer com grau de evidência declarado**, não especificação.
+
+**Por agente, execução e uso real (tokens/ferramentas/duração):**
+| Agente | Execução | Tokens | Ferramentas | Duração |
+|---|---|---|---|---|
+| Entendimento e Escopo | inicial + v2 (após respostas humanas) | 36.897 + 58.014 | 11 + 1 | 232,0s + 263,8s |
+| Desenho de Arquitetura | 1 | 73.294 | 13 | 959,2s |
+| Trade-offs e ADR | ADR-023 v1 + v2 (produto × topologia) + formalização da aprovação | 56.021 + 89.319 + 103.624 | 12 + 9 + 11 | 176,5s + 111,7s + 113,8s |
+| Especialista em Dados e Analytics | inicial + v2 (repasse do Desenho) | 76.102 + 126.213 | 15 + 18 | 471,0s + 290,7s |
+| Especialista em IA e ML | inicial + v2 (repasses cruzados) | 65.504 + 135.444 | 9 + 19 | 414,4s + 265,0s |
+| Modelagem de Dados | 1 | 133.966 | 11 | 431,0s |
+| Testes e Qualidade | 1 | 130.870 | 10 | 445,4s |
+| Jornadas do Usuário | 1 | 124.227 | 16 | 439,5s |
+| Infraestrutura e Deployment | 1 | 120.771 | 17 | 533,6s |
+| Segurança e Compliance | 1 | 139.122 | 16 | 560,4s |
+| Estimativa de Custo | 1 | 116.843 | 18 | 612,3s |
+| Observabilidade e Telemetria (frente 1) | 1 | 186.027 | 17 | 644,0s |
+| Riscos e Mitigação | inicial + v2 (incorporando Segurança) | 155.493 + 220.859 | 21 + 56 | 559,2s + 1.095,9s |
+| Documentação Final | 1 | 418.519 | 45 | 1.592,6s |
+| Comunicação com Stakeholders | 1 | 100.972 | 14 | 293,1s |
+| **Geração de Diagramas C4** | **em execução no momento deste registro** | **não medido** | — | — |
+| **Entrega e Handoff** | **não iniciada** | — | — | — |
+
+**Total medido: 2.668.101 tokens — PARCIAL E EXPLICITAMENTE INCOMPLETO.** É a soma exata dos 22 acionamentos de subagente já encerrados (359 chamadas de ferramenta). Já é, sozinho, a maior demanda em tokens desta telemetria, quase o dobro da anterior mais cara (1.465.010). **O que falta, nomeado:**
+- **Geração de Diagramas C4**, ainda rodando quando este registro saiu. É **historicamente o agente mais caro desta cadeia** (382.279 tokens somados em 2 execuções na demanda de 16-08). **Não estimo o que falta** — o número entra aqui quando for medido.
+- **Entrega e Handoff**, não iniciada.
+
+**Limitação de medição a registrar, não a omitir:** estes números cobrem **apenas os subagentes**. O consumo do próprio **Orquestrador** (a sessão principal, que lê, despacha, faz os repasses cruzados e conduz os round-trips humanos) **não é reportado de volta como o dos subagentes**, então **não está em nenhuma linha da tabela acima**. O total real de tokens da sessão é maior que 2.668.101 por uma margem que este agente não mede e não estima. Isso vale retroativamente para todas as sete entradas anteriores desta telemetria.
+
+**Loops de dúvida que bateram no limite de 3 rodadas: nenhum.** Uma rodada aberta e **não escalada**: Testes e Qualidade → Desenho de Arquitetura (rodada 1 de 3), declarada **não bloqueante**, sobre a dependência de saber o que significam as siglas de raia do diagrama de origem.
+
+**Paralelo vs sequencial, o que realmente aconteceu:**
+- Entendimento → Desenho **sequencial por dependência real**, com **parada para pergunta humana no meio**: o pedido não existia por escrito, e o Entendimento **bloqueou o próprio portão** até ser respondido, em vez de seguir com premissa inventada.
+- Onda de **4 em paralelo** logo após o Entendimento: Desenho, Trade-offs e ADR, e os **dois especialistas sob demanda** (Dados e Analytics, IA e ML).
+- Onda de **5 em paralelo** após o Desenho (Modelagem de Dados, Infraestrutura, Testes e Qualidade, Jornadas do Usuário, Geração de Diagramas C4) **mais 2 reaberturas simultâneas** dos especialistas para repasses cruzados — **7 agentes ativos ao mesmo tempo, o pico desta demanda e o maior paralelismo simultâneo já registrado nesta telemetria** (o recorde anterior era 5).
+- Segurança e Compliance entrou **sozinho**, ao fecharem Desenho + Modelagem de Dados.
+- Estimativa de Custo e Observabilidade (frente 1) **em paralelo** após Infraestrutura.
+- Riscos e Mitigação **em paralelo** com Documentação Final.
+- Comunicação e depois Entrega e Handoff, **sequenciais**.
+- **Nenhum despacho foi bloqueado pelo hook de caminho absoluto nesta demanda** — diferente da execução de 2026-08-16, onde um falso positivo do hook derrubou um lote de 4 despachos. Sem mudança no hook desde então; a diferença veio da redação dos prompts.
+
+#### Achados de processo desta demanda (aprendizado do time, não incidente)
+
+1. **Demanda sem enunciado escrito, resolvida com um padrão novo e reutilizável.** O insumo era uma imagem, e **subagentes despachados por Task não enxergam imagem**. O Orquestrador transcreveu a foto **literalmente** para um arquivo em `insumos/`, marcando explicitamente como lacuna o que estava ilegível, em vez de parafrasear ou completar por dedução. Todos os agentes seguintes trabalharam sobre a transcrição, com os rótulos de ilegibilidade preservados até o fim da cadeia. **Padrão provavelmente reutilizável em qualquer demanda cujo insumo seja não textual.**
+
+2. **Três nomes de artefato errados no despacho, por divergência real dentro do próprio repositório — e os três foram detectados pelos agentes donos.** O Orquestrador despachou pedindo `especialista-ia-ml.md`, `especialista-dados-analytics.md` e `apresentacao.md`; a convenção vigente é `ia-ml.md`, `dados-analytics.md` e `comunicacao.md`. **Nenhum dos três agentes aceitou o nome errado em silêncio** — todos reportaram a divergência. **Causa-raiz encontrada e corrigida nesta sessão:** `.claude/agents/comunicacao-stakeholders.md` e `.claude/agents/entrega-e-handoff.md` ainda apontavam para o nome antigo, contradizendo a skill que padronizou os nomes em 2026-08-16. Não foi erro de digitação do despacho: era **incoerência real versionada no repo**, e o mecanismo que a encontrou foi o agente dono checar a própria convenção.
+
+3. **Duas reaberturas por ordem de conclusão, não por erro.** Riscos e Mitigação rodou antes de `seguranca.md` existir e precisou de v2; os dois especialistas rodaram antes do Desenho e precisaram de v2. Nenhuma das quatro execuções extras foi retrabalho por engano — foi **efeito da árvore de dependência não prever que aquele insumo chegaria depois**. Custo direto observável: 4 reexecuções, 482.516 tokens. **Vale avaliar se a árvore de dependência do Orquestrador deveria modelar esses dois casos** em vez de aceitar a reabertura como rotina.
+
+4. **Uma recomendação destrutiva foi capturada pelo cruzamento entre agentes, não por revisão humana.** Um agente recomendou expurgo em `Raw`, lendo a camada como passivo; outro agente mostrou que `Raw` é o **ativo que dá a única rota de reprocessamento** da plataforma. O primeiro **retirou a própria recomendação**. Isso é o padrão desta arquitetura funcionando no seu ponto mais alto: um único agente, por mais competente, teria emitido a recomendação sem contraditório. **É provavelmente o melhor argumento empírico já produzido nesta telemetria a favor da arquitetura de múltiplos agentes deste OS** — e, diferente dos achados anteriores do gênero, aqui o erro evitado era **destrutivo e irreversível**, não apenas incorreto.
+
+5. **Salvaguarda de método criada nesta demanda e adotada por vários agentes de forma independente:** *convergência entre agentes que leem a mesma fonte fraca é **uma evidência lida várias vezes, não várias evidências***. Com evidência única (a foto), a concordância entre agentes é o resultado esperado por construção, não confirmação. A salvaguarda foi **operacionalizada, não só declarada**: a matriz de riscos foi montada **deliberadamente sem coluna de "quantos agentes apontaram"**, para que a contagem de concordância não pudesse ser lida como força de evidência. Registrar aqui porque é uma regra de método com valor **fora** desta demanda.
+
+6. **Vários agentes declararam desvios de regra em vez de escondê-los** e os enviaram a julgamento humano — **três seguem abertos** no momento deste registro.
+
+**Estado da demanda no momento deste registro (para o registro ficar honesto):** Geração de Diagramas C4 **ainda em execução**; Entrega e Handoff **não iniciada**; portão de saída do Orquestrador com **1 de 4 itens cumpridos**; aprovação humana pendente. **A única aprovação obtida foi o ADR-023, aprovado por humano em 2026-08-17** e registrado no compêndio.
+
+**Custo real em US$/R$:** pendente, a preencher por quem operou a sessão — **não estimado por este agente**. Ver `demandas/sad-008-sync-dados-ia/custo-processamento.md`.
