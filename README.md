@@ -29,8 +29,8 @@ Construído sobre o [Claude Code](https://claude.com/claude-code). Em vez de um 
 
 **As vistas da arquitetura**
 
-- [1. As seis camadas do OS](#1-as-seis-camadas-do-os)
-- [2. Contexto — quem conversa com o OS](#2-contexto--quem-conversa-com-o-os)
+- [1. As seis camadas do Arquiteto de Soluções Junior IA](#1-as-seis-camadas-do-arquiteto-de-soluções-junior-ia)
+- [2. Contexto — quem conversa com o Arquiteto de Soluções Junior IA](#2-contexto--quem-conversa-com-o-arquiteto-de-soluções-junior-ia)
 - [3. Containers — os 18 agentes e as fronteiras de domínio](#3-containers--os-18-agentes-e-as-fronteiras-de-domínio)
 - [4. Uma demanda ponta a ponta, no tempo](#4-uma-demanda-ponta-a-ponta-no-tempo)
 - [5. Fluxo de dados entre os agentes](#5-fluxo-de-dados-entre-os-agentes)
@@ -42,6 +42,7 @@ Construído sobre o [Claude Code](https://claude.com/claude-code). Em vez de um 
 - [Pré-requisitos](#pré-requisitos)
 - [Quickstart](#quickstart)
 - [Onde ficam os outputs de uma demanda](#onde-ficam-os-outputs-de-uma-demanda)
+- [Formas de uso](#formas-de-uso)
 - [Os 18 agentes](#os-18-agentes)
 - [Regras e governança](#regras-e-governança)
 - [Estado atual](#estado-atual)
@@ -96,26 +97,26 @@ Se você já usou um time real de arquitetura, a analogia é direta: em vez de u
 
 ## As vistas da arquitetura
 
-Sete vistas complementares da mesma coisa, do conceito ao disco. **As vistas 2 a 6 não foram desenhadas à mão**: são a saída do agente [Geração de Diagramas C4](agents/geracao-diagramas/AGENT.md) rodando sobre este próprio repositório como demanda — o OS aplicado a si mesmo, com `desenho.md`, `dados.md` e as jornadas do próprio time como fonte. Os specs que geraram cada imagem estão em [`docs/diagrams/archify/`](docs/diagrams/archify/).
+Sete vistas complementares da mesma coisa, do conceito ao disco. **As vistas 2 a 6 não foram desenhadas à mão**: são a saída do agente [Geração de Diagramas C4](agents/geracao-diagramas/AGENT.md) rodando sobre este próprio repositório como demanda — o Arquiteto de Soluções Junior IA aplicado a si mesmo, com `desenho.md`, `dados.md` e as jornadas do próprio time como fonte. Os specs que geraram cada imagem estão em [`docs/diagrams/archify/`](docs/diagrams/archify/).
 
 > [!TIP]
 > Todo diagrama abaixo é clicável — abra em tamanho real, alguns são largos. Os SVGs seguem o tema claro/escuro do seu sistema.
 
-### 1. As seis camadas do OS
+### 1. As seis camadas do Arquiteto de Soluções Junior IA
 
-O projeto segue a metodologia **OS Agêntico**, construída de baixo para cima: cada camada depende da que veio antes.
+O **Arquiteto de Soluções Junior IA** é montado em seis camadas, de baixo para cima: cada camada depende da que veio antes.
 
-[![As seis camadas do OS, da Identidade até os Agentes](docs/diagrams/01-camadas.svg)](docs/diagrams/01-camadas.svg)
+[![As seis camadas do Arquiteto de Soluções Junior IA, da Identidade até os Agentes](docs/diagrams/01-camadas.svg)](docs/diagrams/01-camadas.svg)
 
 *Fonte editável: [`docs/diagrams/01-camadas.mmd`](docs/diagrams/01-camadas.mmd)*
 
-Tudo o que os agentes decidem, aprendem ou ainda não sabem fica registrado em [`memory.md`](memory.md), a memória viva do OS.
+Tudo o que os agentes decidem, aprendem ou ainda não sabem fica registrado em [`memory.md`](memory.md), a memória viva do Arquiteto de Soluções Junior IA.
 
-### 2. Contexto — quem conversa com o OS
+### 2. Contexto — quem conversa com o Arquiteto de Soluções Junior IA
 
 A vista mais alta: cada caixa é um **bounded context** inteiro, com os agentes daquele domínio colapsados dentro dele, e o único ator de fora é a **Pessoa Operadora** — que dispara a demanda, responde às perguntas de escopo e aprova o portão de saída. Todo o resto acontece entre os agentes.
 
-[![Diagrama de contexto C4: bounded contexts do OS e os atores externos](docs/diagrams/archify/c4-contexto.svg)](docs/diagrams/archify/c4-contexto.svg)
+[![Diagrama de contexto C4: bounded contexts do Arquiteto de Soluções Junior IA e os atores externos](docs/diagrams/archify/c4-contexto.svg)](docs/diagrams/archify/c4-contexto.svg)
 
 ### 3. Containers — os 18 agentes e as fronteiras de domínio
 
@@ -189,7 +190,7 @@ Os arquivos de execução apontam para os de referência em vez de duplicar cont
 ├── adrs/                   # ADRs formais, aprovados, globais, reaproveitáveis
 ├── demandas/               # Uma pasta por demanda real (local, não versionado)
 │   └── <nome-da-demanda>/
-├── docs/diagrams/          # Vistas do próprio OS (Mermaid à mão + C4 gerado pelo pipeline)
+├── docs/diagrams/          # Vistas do próprio agente (Mermaid à mão + C4 gerado pelo pipeline)
 ├── rules/
 │   ├── always.md           # O que todo agente sempre faz + hooks
 │   └── never.md            # Paradas duras
@@ -252,7 +253,55 @@ Nada sai como "entregue" sem uma pessoa do time confirmar — mesmo que todos os
 O nome da demanda **nunca é inventado por um agente**. Quem pede informa o nome explicitamente ao agente de Entendimento e Escopo (ou o agente pergunta e espera a resposta). Esse nome vira a pasta `demandas/<nome-da-demanda>/`, e cada atividade grava um arquivo lá (`entendimento.md`, `desenho.md`, `dados.md`, etc.), em vez de espalhar arquivos soltos na raiz. Duas exceções ficam fora de `demandas/`: `adrs/` (decisões reaproveitáveis por demandas futuras) e `telemetria-agentes.md` (registro contínuo entre demandas).
 
 > [!WARNING]
-> `demandas/` está em `.gitignore`, não faz parte deste repositório público: os artefatos de cada demanda ficam só no seu clone local. As demandas usadas para validar a cadeia durante o desenvolvimento deste OS foram todas sintéticas (empresa, SDR, orçamento e decisões fictícios), e por isso não foram publicadas — mantenha o mesmo cuidado com as suas.
+> `demandas/` está em `.gitignore`, não faz parte deste repositório público: os artefatos de cada demanda ficam só no seu clone local. As demandas usadas para validar a cadeia durante o desenvolvimento deste agente foram todas sintéticas (empresa, SDR, orçamento e decisões fictícios), e por isso não foram publicadas — mantenha o mesmo cuidado com as suas.
+
+## Formas de uso
+
+A cadeia completa (demanda crua → pacote entregue) é o uso principal, mas não é o único. O mesmo time atende recortes menores — em todos eles as regras valem igual: suposições e trade-offs escritos, nenhum agente decidindo fora do próprio escopo, e aprovação humana antes de qualquer coisa sair como "entregue".
+
+### 1. Transformar um SDR ou pedido de negócio em pacote de arquitetura completo
+
+O caminho padrão. Você cola o pedido cru e recebe entendimento, desenho, dados, segurança, infraestrutura, custo, observabilidade, testes, jornadas, riscos, ADRs e o handoff — com rastreabilidade de cada escolha.
+
+```text
+/arquiteto-solucoes Precisamos integrar o CRM ao WhatsApp para atendimento ativo. Orçamento X, prazo Y.
+```
+
+### 2. Avaliar uma arquitetura que já existe (as-is de terceiros)
+
+Quando o objeto não é um sistema a projetar, mas um desenho de outra equipe a avaliar. Já rodou com um insumo único e fraco (uma foto de tela de diagrama): o insumo é transcrito literalmente para `insumos/`, com o que estava ilegível marcado como lacuna, e cada agente devolve **parecer com grau de evidência declarado** em vez de especificação.
+
+```text
+/arquiteto-solucoes Avalie a arquitetura desta equipe. Insumo: insumos/diagrama-transcrito.md
+```
+
+### 3. Segunda opinião adversarial sobre um desenho já decidido
+
+Você já tem a arquitetura; quer saber o que quebra. Testes e Qualidade confere o desenho contra os requisitos não funcionais e aponta pontos únicos de falha, Riscos e Mitigação prioriza tudo e exige mitigação ou aceite explícito por risco. O ganho real é o contraditório entre agentes — uma recomendação destrutiva já foi retirada pelo próprio autor depois de outro agente mostrar o que ela destruiria.
+
+### 4. Comparar provedores de cloud e estimar custo antes de fechar orçamento
+
+Infraestrutura e Deployment escolhe hospedagem por componente sem provedor fixo ([ADR 001](adrs/adr-001-cloud-agnostica-por-criterio-de-negocio.md)), e Estimativa de Custo traduz isso em custo por componente, comparando os provedores que eram viáveis. Serve para defender número em comitê, não só para escolher tecnologia.
+
+### 5. Gerar e manter os diagramas C4 sincronizados com a documentação
+
+O agente de Geração de Diagramas C4 formaliza o que outros já decidiram (spec → candidato mínimo → SVG/HTML interativo, arquitetura e sequência) e **nunca decide arquitetura**. Como ele lê `desenho.md`/`dados.md` em vez de redesenhar à mão, os diagramas não dessincronizam da documentação. Os diagramas deste README são exatamente essa saída, com o time rodando sobre o próprio repositório.
+
+### 6. Formalizar decisões como ADRs reaproveitáveis
+
+Toda decisão importante vira um ADR com portão de aprovação humana próprio, e só entra no compêndio — passando a valer para demandas futuras — depois do aceite explícito. Dá para usar o time só para isso: registrar uma decisão já tomada com contexto, alternativas recusadas e custo aceito.
+
+### 7. Traduzir o pacote técnico para stakeholder e quebrar em backlog
+
+Comunicação com Stakeholders reescreve o pacote sem jargão, focando custo, prazo e risco principal, e termina com uma pergunta clara de aprovação. Entrega e Handoff quebra o resultado em épicos e mantém a tabela de quem responde o quê depois que os agentes saem de cena.
+
+### 8. Acompanhar uma demanda em andamento, sem interromper
+
+```text
+/arquiteto-solucoes status <nome-da-demanda>
+```
+
+Mostra o que já rodou e o que falta sem despachar nenhum agente novo. O custo de processamento de cada demanda fica registrado em [`telemetria-agentes.md`](telemetria-agentes.md).
 
 ## Os 18 agentes
 
@@ -310,7 +359,7 @@ Um agente nunca "resolve" a dúvida chutando no lugar do dono da outra atividade
 
 Veja [`memory.md`](memory.md) para o histórico completo de decisões. Resumo honesto:
 
-- As seis camadas do OS estão sólidas, o roteiro de 18 atividades está fechado, sete demandas reais já rodaram ponta a ponta via `/arquiteto-solucoes` de verdade (despacho por subagente, não simulação), com custo de processamento medido em tokens reais — ver `telemetria-agentes.md`.
+- As seis camadas do Arquiteto de Soluções Junior IA estão sólidas, o roteiro de 18 atividades está fechado, sete demandas reais já rodaram ponta a ponta via `/arquiteto-solucoes` de verdade (despacho por subagente, não simulação), com custo de processamento medido em tokens reais — ver `telemetria-agentes.md`.
 - **Os subagentes e a skill de entrada estão registrados** em `.claude/agents/` e `.claude/skills/arquiteto-solucoes/`, seguindo o padrão nativo do Claude Code, e já foram exercitados de ponta a ponta em execuções reais.
 - **Dois agentes novos (Geração de Diagramas C4 e Jornadas do Usuário) foram adicionados em 2026-08-15** (ver `memory.md`) para resolver diagramas ASCII dessincronizados entre `desenho.md`/`documentacao-final.md` e para dar um roteiro de sequência a partir dos requisitos. Já rodaram de ponta a ponta em várias demandas reais desde então, incluindo a geração de diagramas de sequência via ArchiFy e a correção que tornou `jornadas.md` sempre determinístico (veredito explícito, nunca ausência silenciosa).
 - **Dos dois especialistas sob demanda, só o de IA/ML já foi acionado de verdade** (`demandas/plataforma-ia-corporativa-v1/`, confirmando que o gatilho dispara quando deveria, depois de três demandas seguidas confirmando só o caminho de não disparar à toa). **O Especialista em Dados e Analytics nunca foi acionado** — nenhuma demanda real até agora teve decisão de plataforma analítica de verdade. Por isso ele não aparece em nenhuma das vistas geradas: nenhuma jornada real o exercita.
