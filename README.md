@@ -47,6 +47,7 @@ Construído sobre o [Claude Code](https://claude.com/claude-code). Em vez de um 
 - [Regras e governança](#regras-e-governança)
 - [Estado atual](#estado-atual)
 - [Como estender (adicionar um agente novo)](#como-estender-adicionar-um-agente-novo)
+- [Créditos e agradecimentos](#créditos-e-agradecimentos)
 - [Licença](#licença)
 
 ---
@@ -210,7 +211,7 @@ Cada atividade tem a mesma pasta em `skills/` e `agents/` (mesmo nome), para ser
 
 - [Claude Code](https://claude.com/claude-code) instalado.
 - Nenhuma dependência externa, chave de API ou etapa de build. `tools.md` documenta conexões futuras opcionais (repositório de docs, backlog, observabilidade), todas ainda desligadas.
-- Só para **regerar** os diagramas C4: Python 3 (stdlib) e Node.js ≥18 — o ArchiFy já vem vendorizado em `skills/vendors/archify/`. Ver [`scripts/README.md`](scripts/README.md).
+- Só para **regerar** os diagramas C4: Python 3 (stdlib) e Node.js ≥18 — o [ArchiFy](https://github.com/tt-a1i/archify) já vem vendorizado em `skills/vendors/archify/` (ver [Créditos e agradecimentos](#créditos-e-agradecimentos)). Ver [`scripts/README.md`](scripts/README.md).
 
 ## Quickstart
 
@@ -303,6 +304,105 @@ Comunicação com Stakeholders reescreve o pacote sem jargão, focando custo, pr
 
 Mostra o que já rodou e o que falta sem despachar nenhum agente novo. O custo de processamento de cada demanda fica registrado em [`telemetria-agentes.md`](telemetria-agentes.md).
 
+### Exemplo completo: do pedido de negócio ao pacote de arquitetura
+
+A demanda quase nunca chega em linguagem de arquitetura. Chega como **pedido de negócio** — um memorando para o comitê, escrito por quem sente a dor, sem uma linha de jargão técnico. É esse o insumo que a cadeia foi feita para receber, e este exemplo é o formato completo: um pedido de negócio real de ponta a ponta, e o que o time devolve.
+
+É também o primeiro perfil que dispara **os dois especialistas sob demanda ao mesmo tempo** — há decisão real de plataforma analítica *e* decisão real de modelo de IA.
+
+<details>
+<summary><strong>O pedido, exatamente como o negócio escreve</strong></summary>
+
+```text
+/arquiteto-solucoes
+
+SOLICITAÇÃO DE NEGÓCIO — CENTRAL DE INTELIGÊNCIA CORPORATIVA
+Para: Comitê de Estratégia / Diretoria de Tecnologia e Negócios
+
+1. O PROBLEMA
+Nossa informação está em ilhas. Anos de histórico de cliente presos em sistemas
+legados que só a engenharia de dados consegue acessar, e leva dias. Contratos,
+gravações de reunião, relatórios e páginas internas espalhados em pastas,
+SharePoint e e-mail, sem busca centralizada.
+Hoje, para responder "quais clientes de varejo reclamaram de atraso nos últimos
+6 meses, e o que foi prometido nas reuniões de acordo?", três pessoas gastam
+dois dias. O custo é perda de agilidade, retrabalho e decisão tomada com dado
+incompleto.
+
+2. A VISÃO
+Queremos que qualquer pessoa da empresa "converse" com a base de conhecimento:
+unificar o histórico de cliente com todos os documentos, organizar em etapas
+(original → limpo → pronto para o negócio), criar uma busca que entenda
+significado e não só palavra-chave (quem procura "insatisfação" acha
+"reclamação" e "falha"), e um assistente que responde em português citando a
+fonte ("conforme contrato X, página 5").
+
+3. BENEFÍCIOS ESPERADOS
+Analistas gastando 70% menos tempo procurando informação. Identificar padrão de
+insatisfação antes do cancelamento (churn). Pergunta de 3 dias respondida em
+segundos. Só quem tem permissão vê dado sensível. A plataforma aguenta 5x mais
+documentos e 5x mais usuários sem travar.
+
+4. ESCOPO
+Faremos: integração diária com o histórico de clientes; um repositório seguro
+que aceita qualquer arquivo; transcrição automática de áudio para texto; busca
+semântica num portal interno; assistente de chat em aplicação web.
+Não faremos: substituir ERP ou banco operacional; integrar rede social ou dado
+externo; responder qualquer coisa fora do universo de dados da empresa.
+
+5. CRITÉRIOS DE SUCESSO
+Resposta em menos de 10 segundos. Resposta correta e com fonte correta em 90%
+dos testes internos. 80% dos times de análise e comercial usando ativamente em
+3 meses. Custo por pergunta abaixo de R$ 0,05.
+
+6. RISCOS QUE JÁ NOS PREOCUPAM
+Vazamento de dado sensível — queremos controle de acesso rigoroso e trilha de
+auditoria de quem perguntou o quê. IA inventando resposta — o assistente só
+pode responder com base no que temos, e dizer "não encontrei" quando não achar.
+Demora na implementação — preferimos um piloto com um recorte pequeno antes de
+abrir para todo o histórico.
+```
+
+</details>
+
+**O primeiro trabalho é tradução, não desenho.** Nada acima é uma decisão técnica, e o time não trata como se fosse. Entendimento e Escopo mapeia as **capacidades de negócio** (TOGAF) e Desenho de Arquitetura as traduz em **bounded contexts** (DDD) — os limites dos componentes saem do domínio, nunca da conveniência técnica. Só então cada frase vira requisito com dono:
+
+| O negócio disse | Vira, e quem responde |
+| --- | --- |
+| "resposta em menos de 10 segundos" | RNF de latência ponta a ponta, conferido contra o desenho por **Testes e Qualidade** — inclusive onde o orçamento de tempo é gasto (busca vs. geração) |
+| "correta e com a fonte certa em 90%" | Requisito de rastreabilidade da resposta + critério de aceite mensurável, com **Especialista IA/ML** dono da abordagem e **Observabilidade** dona de como isso é medido em produção |
+| "custo por pergunta abaixo de R$ 0,05" | Restrição de custo unitário que amarra decisão técnica, em `custo.md` por **Estimativa de Custo** — é o número que derruba ou aprova opções, não um detalhe de rodapé |
+| "aguentar 5x mais documentos e usuários" | RNF de escala e disponibilidade, dividido entre **Infraestrutura e Deployment** (o que escala) e **Testes e Qualidade** (onde quebra primeiro, pontos únicos de falha) |
+| "só quem tem permissão vê dado sensível" + trilha de auditoria | Autorização por integração e tratamento por dado sensível em `seguranca.md`, com o que a lei exige, por **Segurança e Compliance** |
+| "a IA não pode inventar" | Risco nomeado, priorizado e com mitigação **ou aceite explícito** em `riscos.md`, por **Riscos e Mitigação** |
+| "piloto antes de abrir para todo o histórico" | Faseamento no `handoff.md`, quebrado em épicos por **Entrega e Handoff** |
+| "não substituir ERP, não integrar dado externo" | Não-escopo escrito em `entendimento.md` — o que está fora vale tanto quanto o que está dentro |
+
+**O que o time devolve, e onde:**
+
+| Entregável | Arquivo | Dono |
+| --- | --- | --- |
+| Entendimento, capacidades de negócio, escopo e **não-escopo** | `entendimento.md` | Entendimento e Escopo |
+| Desenho de componentes e integrações por bounded context | `desenho.md` | Desenho de Arquitetura |
+| Diagramas C4 (contexto, containers, sequência) | `diagramas/` | Geração de Diagramas C4 — formaliza o que já foi decidido, nunca decide |
+| Fluxo de dados: entidades, dono, evento vs. consulta, retenção, sensibilidade | `dados.md` | Modelagem de Dados |
+| Decisões de plataforma analítica e de modelo de IA | `dados-analytics.md`, `ia-ml.md` | Os dois especialistas — **só se o gatilho bater de verdade** |
+| Hospedagem, escala, disponibilidade e escolha de provedor | `infraestrutura.md` | Infraestrutura e Deployment |
+| Custo por componente, comparando provedores viáveis | `custo.md` | Estimativa de Custo |
+| Segurança, acesso e compliance | `seguranca.md` | Segurança e Compliance |
+| Riscos priorizados, cada um com mitigação ou aceite | `riscos.md` | Riscos e Mitigação |
+| Métricas, traces e alertas da solução | `observabilidade.md` | Observabilidade e Telemetria (frente 1) |
+| Cada decisão importante, com alternativas descartadas | um ADR em `adrs/` | Trade-offs e ADR — portão de aprovação humana próprio |
+| **O material do comitê**, sem jargão, com a pergunta de aprovação no fim | `comunicacao.md` | Comunicação com Stakeholders |
+| Épicos para o backlog e quem responde o quê depois | `handoff.md` | Entrega e Handoff |
+
+**Sobre stack já imposta.** Se o pedido de negócio já vier com produto decidido — porque uma norma corporativa fixou a plataforma, ou porque ela já está em produção —, o time **não finge que escolheu**: registra a restrição como decisão externa e anterior, no formato do [ADR 023](adrs/adr-023-restricao-de-stack-herdada-externa-registrada-sem-alterar-o-adr-001-sad-008-sync-dados-ia.md), e o [ADR 001](adrs/adr-001-cloud-agnostica-por-criterio-de-negocio.md) (cloud agnóstica) **não é excepcionado** — ele governa o que a casa escolhe, e nesse caso ela não escolheu. O *uso* segue integralmente sob exame: topologia, retenção, isolamento de ambientes, pontos únicos de falha, custo e granularidade de acesso. Restrição de produto não é imunidade arquitetural.
+
+**O que o time faz que um prompt único não faz.** Antes de tudo, **confirma o nome da demanda com você** — nome de demanda nunca é inventado por agente. Depois, cada decisão fica sob o dono dela: quem decide como a resposta cita a fonte não é quem decide retenção de dado bruto, que não é quem decide o teto de custo por pergunta. Cada um escreve as próprias suposições e trade-offs. E nada sai como "entregue" sem **aprovação humana explícita** no portão de saída — que é exatamente o momento em que `comunicacao.md` vai ao comitê, terminando com a pergunta que precisa de resposta.
+
+> [!NOTE]
+> Uma demanda desse porte é longa e cara em tokens. O custo real fica em `demandas/<nome-da-demanda>/custo-processamento.md` e em [`telemetria-agentes.md`](telemetria-agentes.md). Acompanhe com `/arquiteto-solucoes status <nome-da-demanda>`, que não despacha agente novo.
+
 ## Os 18 agentes
 
 | # | Agente | Quando entra | Depende de / é acionado por |
@@ -375,6 +475,26 @@ Siga sempre esta ordem, para não repetir o anti-padrão de "agente faz-tudo" ne
 3. Só depois escreva o `AGENT.md`: o papel, quando é acionado, de quem depende, o portão de revisão, e a fronteira clara com agentes que já existem (para não sobrepor responsabilidade).
 4. Atualize `agents/roadmap.md`, `skills/roadmap.md` e o papel do novo agente em `agents/orquestrador/AGENT.md`.
 5. Registre a decisão em `memory.md`.
+
+## Créditos e agradecimentos
+
+### ArchiFy — o motor por trás de todos os diagramas deste repositório
+
+Todo diagrama C4 e de sequência que você viu acima foi renderizado pelo **[ArchiFy](https://github.com/tt-a1i/archify)**, de **[@tt-a1i](https://github.com/tt-a1i)**, com base no trabalho original *architecture-diagram-generator* da **Cocoon AI**. Nosso agradecimento sincero ao time do ArchiFy por publicar o projeto em código aberto — ele resolveu, e bem, um problema que nós teríamos resolvido mal.
+
+| | |
+| --- | --- |
+| **Projeto** | [github.com/tt-a1i/archify](https://github.com/tt-a1i/archify) · [página do projeto](https://tt-a1i.github.io/archify/) |
+| **Autoria** | tt-a1i (Archify) · Cocoon AI (obra original) |
+| **Licença** | MIT — texto integral e avisos de copyright preservados em [`skills/vendors/archify/LICENSE`](skills/vendors/archify/LICENSE) |
+| **Versão vendorizada** | `v2.14.0`, em `skills/vendors/archify/` |
+| **Como usamos** | CLI nativo (`archify.mjs validate` / `deliver`), conduzido pelo agente [Geração de Diagramas C4](agents/geracao-diagramas/AGENT.md) |
+
+**O que ele nos deu.** Antes do ArchiFy, os diagramas deste projeto eram ASCII escrito à mão dentro dos documentos, e dessincronizavam do desenho na primeira mudança. O ArchiFy trocou isso por um pipeline determinístico: o agente escreve um candidato mínimo em JSON tipado, o `validate` devolve **diagnósticos acionáveis** (sobreposição, aresta cruzando nó, ritmo, folga de rótulo) e o `deliver` entrega HTML interativo autocontido. O ganho decisivo para nós foi o motor de layout: paramos de calcular posição em pixel e roteamento de conexão por conta própria — decisão registrada em [`memory.md`](memory.md), 2026-08-16 — e o gerador passou a fazer o que faz melhor que nós.
+
+**Como usamos, e o que isso não significa.** Mantemos uma cópia vendorizada para que o repositório rode sem passo de instalação, sempre com o `LICENSE` e os avisos de copyright originais preservados, como a MIT exige. Este projeto também é MIT, então as duas licenças convivem sem atrito. **Não somos afiliados ao ArchiFy nem à Cocoon AI, e este agradecimento não é endosso de nenhum dos lados**: os diagramas gerados aqui são responsabilidade deste time, não do projeto que os renderiza. Bug de renderização pertence ao [repositório deles](https://github.com/tt-a1i/archify/issues); bug de conteúdo de diagrama pertence a nós.
+
+Se o ArchiFy te for útil, dê uma estrela no repositório deles — é o tipo de projeto que merece.
 
 ## Licença
 
