@@ -21,7 +21,7 @@ Desenho de Arquitetura decide os bounded contexts e componentes. Jornadas do Usu
 ## Quando outro agente deve procurá-lo
 [[agents/documentacao-final/AGENT]], [[agents/comunicacao-stakeholders/AGENT]] e [[agents/geracao-diagramas/AGENT]] consultam as jornadas para montar diagramas/narrativas por jornada em vez de um "tudo de uma vez". Dúvida sobre uma jornada específica → pergunta a este agente em vez de reinterpretar sozinho. Limite de 3 rodadas antes de escalar para revisão humana ([[rules/always]]).
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Toda jornada corresponde a pelo menos um RF já aprovado por Entendimento e Escopo — nenhuma foi inventada.
 - Toda jornada usa só componentes/integrações que já existem em `desenho.md` — nenhum componente novo foi proposto.
 - Nenhum RF funcional-observável ficou sem estar coberto por ao menos uma jornada (ou justificado por que não precisa).

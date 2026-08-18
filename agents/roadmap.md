@@ -6,7 +6,7 @@ Espelha `skills/roadmap.md`. Cada atividade só virou agente depois que a skill 
 1. **Entendimento e Escopo** - `agents/entendimento-e-escopo/AGENT.md`
 2. **Desenho de Arquitetura** - `agents/desenho-de-arquitetura/AGENT.md`
 3. **Pesquisa e Benchmarking** (sob demanda, quando a stack aprovada não resolve) - `agents/pesquisa-e-benchmarking/AGENT.md`
-4. **Trade-offs e ADR** (tem portão de aprovação humana próprio, além do geral) - `agents/trade-offs-e-adr/AGENT.md`
+4. **Trade-offs e ADR** (tem gate de aprovação humana próprio, além do geral) - `agents/trade-offs-e-adr/AGENT.md`
 5. **Modelagem de Dados** (roda em paralelo com Infraestrutura, Testes e Pesquisa a partir do Desenho) - `agents/modelagem-de-dados/AGENT.md`
 6. **Segurança e Compliance** (depende de Desenho e Modelagem de Dados, não roda em paralelo com eles) - `agents/seguranca-e-compliance/AGENT.md`
 7. **Infraestrutura e Deployment** (roda em paralelo com Modelagem de Dados, Testes e Pesquisa, a partir do Desenho) - `agents/infraestrutura-e-deployment/AGENT.md`

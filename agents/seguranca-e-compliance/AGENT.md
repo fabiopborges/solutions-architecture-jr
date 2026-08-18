@@ -15,7 +15,7 @@ Qualquer agente com dúvida sobre autenticação, autorização, tratamento de d
 ## Se encontrar um conflito
 Se o desenho ou a modelagem de dados violar um requisito de compliance, sinaliza o conflito para [[agents/desenho-de-arquitetura/AGENT]] ou [[agents/modelagem-de-dados/AGENT]] em vez de tentar corrigir por conta própria. Corrigir arquitetura ou dado alheio está fora do seu escopo (regra de [[rules/never]]).
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Toda integração do desenho tem autenticação/autorização definida.
 - Todo dado sensível da modelagem tem um tratamento explícito, nenhum fica sem resposta.
 - Requisitos de compliance aplicáveis estão listados.

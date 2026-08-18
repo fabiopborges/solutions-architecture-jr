@@ -100,6 +100,6 @@ Agente: Documentação Final (ponto de sincronização total da cadeia — todos
 
 <Confronto explícito: o que foi pedido em `entendimento.md` vs. o que este pacote entrega, sem lacuna silenciosa.>
 
-## 13. Portão de revisão deste pacote (autoconferência antes de entregar)
+## 13. Gate de revisão deste pacote (autoconferência antes de entregar)
 
 <Checklist do "Antes de passar o trabalho adiante" do AGENT.md: documentos de entrada confirmados, diagramas existem, cada seção cita a origem.>

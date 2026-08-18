@@ -84,7 +84,7 @@ Arquitetura de solução tem muitas atividades distintas — entender a demanda,
 - **Alucinação**: inventar uma decisão técnica sem base.
 - **Desvio de escopo**: uma atividade contaminando o julgamento de outra (ex: quem está pensando em custo já começa a decidir segurança).
 
-Este projeto resolve isso dividindo o trabalho em **18 atividades**, cada uma com um dono (agente) e uma skill focada só naquele objetivo. Um **Orquestrador** decide a ordem, dispara em paralelo o que não depende de nada, e segura um portão de saída — com aprovação humana obrigatória — antes de qualquer pacote de arquitetura sair como "entregue".
+Este projeto resolve isso dividindo o trabalho em **18 atividades**, cada uma com um dono (agente) e uma skill focada só naquele objetivo. Um **Orquestrador** decide a ordem, dispara em paralelo o que não depende de nada, e segura um gate de saída — com aprovação humana obrigatória — antes de qualquer pacote de arquitetura sair como "entregue".
 
 ## Ideia central em 30 segundos
 
@@ -101,7 +101,7 @@ Demanda crua (SDR, pedido de negócio)
   e trade-offs escritos em cada decisão
         │
         ▼
-  Portão de saída (aprovação humana obrigatória) → Entregue
+  Gate de saída (aprovação humana obrigatória) → Entregue
 ```
 
 Se você já usou um time real de arquitetura, a analogia é direta: em vez de um arquiteto sênior sozinho tentando cobrir todas as frentes, você tem uma pessoa júnior por atividade, cada uma boa numa coisa só, que sabe pedir ajuda para o colega certo em vez de chutar.
@@ -112,11 +112,11 @@ Se você já usou um time real de arquitetura, a analogia é direta: em vez de u
 | --- | --- |
 | **Agente** | Dono de uma atividade específica (ex: Modelagem de Dados). Decide só dentro do próprio escopo. |
 | **Skill** | O "manual de operação" de uma atividade: quando usar, passos, artefato de saída, critério de pronto. |
-| **Orquestrador** | Gerencia a ordem, o paralelismo e o portão de saída. Não desenha nem decide nada de arquitetura sozinho. |
+| **Orquestrador** | Gerencia a ordem, o paralelismo e o gate de saída. Não desenha nem decide nada de arquitetura sozinho. |
 | **Demanda** | Um pedido de arquitetura específico, com nome próprio, nunca inventado pelo agente. Vira uma pasta em `demandas/`. |
 | **Bounded context** | Fronteira de domínio (DDD) que delimita o que cada agente decide. É o que define o recorte de cada componente, não a conveniência técnica. |
 | **ADR** | Architecture Decision Record. Toda decisão importante vira um ADR formal, com aprovação humana antes de valer. |
-| **Portão de saída** | Checklist obrigatório (suposições escritas, dúvidas fechadas, pacote completo, aprovação humana) antes de "entregue". |
+| **Gate de saída** | Checklist obrigatório (suposições escritas, dúvidas fechadas, pacote completo, aprovação humana) antes de "entregue". |
 | **Substrato** | O conhecimento destilado (stack aprovada, padrões da casa, ADRs anteriores) que os agentes leem antes de decidir. |
 
 ---
@@ -140,7 +140,7 @@ Tudo o que os agentes decidem, aprendem ou ainda não sabem fica registrado em [
 
 ### 2. Contexto — quem conversa com o Arquiteto de Soluções Junior IA
 
-A vista mais alta: cada caixa é um **bounded context** inteiro, com os agentes daquele domínio colapsados dentro dele, e o único ator de fora é a **Pessoa Operadora** — que dispara a demanda, responde às perguntas de escopo e aprova o portão de saída. Todo o resto acontece entre os agentes.
+A vista mais alta: cada caixa é um **bounded context** inteiro, com os agentes daquele domínio colapsados dentro dele, e o único ator de fora é a **Pessoa Operadora** — que dispara a demanda, responde às perguntas de escopo e aprova o gate de saída. Todo o resto acontece entre os agentes.
 
 [![Diagrama de contexto C4: bounded contexts do Arquiteto de Soluções Junior IA e os atores externos](docs/diagrams/archify/c4-contexto.svg)](docs/diagrams/archify/c4-contexto.svg)
 
@@ -168,7 +168,7 @@ A ordem real de execução, com o que roda em paralelo:
 6. Em paralelo — **6a** Documentação Final (sincroniza 3a+3b+3c+3d+4+5a+5b, aciona Geração de Diagramas C4 de novo pra consolidar) · **6b** Riscos e Mitigação (espera 2 + 3c)
 7. Comunicação com Stakeholders (espera 6a + 6b)
 8. Entrega e Handoff prepara o material
-9. Portão de saída (suposições, dúvidas fechadas, pacote completo, aprovação humana)
+9. Gate de saída (suposições, dúvidas fechadas, pacote completo, aprovação humana)
 10. Entregue
 
 Trade-offs e ADR, Geração de Diagramas C4 e o Orquestrador são **transversais**: atuam o tempo todo, não são um passo numerado.
@@ -225,7 +225,7 @@ Os arquivos de execução apontam para os de referência em vez de duplicar cont
 │   ├── compendium.md       # Referência destilada que os agentes leem antes de decidir
 │   └── sources.md          # De onde esse conhecimento vem
 ├── skills/<atividade>/SKILL.md   # referência: passos, artefato, critério de pronto
-└── agents/<atividade>/AGENT.md   # referência: papel, dependências, portão de revisão
+└── agents/<atividade>/AGENT.md   # referência: papel, dependências, gate de revisão
 ```
 
 Cada atividade tem a mesma pasta em `skills/` e `agents/` (mesmo nome), para ser fácil achar as duas metades de uma atividade.
@@ -261,7 +261,7 @@ claude   # sempre abra a CLI a partir daqui, não de uma subpasta
 A primeira coisa que o time faz é confirmar o **nome da demanda** com você — esse nome nunca é inventado por um agente (ver [rules/never.md](rules/never.md)). É esse nome exato que vira a pasta `demandas/<nome-da-demanda>/`.
 
 **3. Deixe o time trabalhar.**
-A skill de entrada despacha os 18 agentes na ordem e no paralelismo da [vista de containers](#3-containers--os-18-agentes-e-as-fronteiras-de-domínio), até o portão de saída — que inclui aprovação humana obrigatória — e a liberação final em `demandas/<nome-da-demanda>/handoff.md`.
+A skill de entrada despacha os 18 agentes na ordem e no paralelismo da [vista de containers](#3-containers--os-18-agentes-e-as-fronteiras-de-domínio), até o gate de saída — que inclui aprovação humana obrigatória — e a liberação final em `demandas/<nome-da-demanda>/handoff.md`.
 
 **4. Acompanhe sem interromper, a qualquer momento.**
 
@@ -271,8 +271,8 @@ A skill de entrada despacha os 18 agentes na ordem e no paralelismo da [vista de
 
 Mostra o que já rodou e o que falta, sem despachar nenhum agente novo.
 
-**5. Quando o portão de saída pedir aprovação, revise e aprove.**
-Nada sai como "entregue" sem uma pessoa do time confirmar — mesmo que todos os outros critérios do portão já tenham passado.
+**5. Quando o gate de saída pedir aprovação, revise e aprove.**
+Nada sai como "entregue" sem uma pessoa do time confirmar — mesmo que todos os outros critérios do gate já tenham passado.
 
 ### Onde ficam os outputs de uma demanda
 
@@ -315,7 +315,7 @@ O agente de Geração de Diagramas C4 formaliza o que outros já decidiram (spec
 
 ### 6. Formalizar decisões como ADRs reaproveitáveis
 
-Toda decisão importante vira um ADR com portão de aprovação humana próprio, e só entra no compêndio — passando a valer para demandas futuras — depois do aceite explícito. Dá para usar o time só para isso: registrar uma decisão já tomada com contexto, alternativas recusadas e custo aceito.
+Toda decisão importante vira um ADR com gate de aprovação humana próprio, e só entra no compêndio — passando a valer para demandas futuras — depois do aceite explícito. Dá para usar o time só para isso: registrar uma decisão já tomada com contexto, alternativas recusadas e custo aceito.
 
 ### 7. Traduzir o pacote técnico para stakeholder e quebrar em backlog
 
@@ -417,13 +417,13 @@ abrir para todo o histórico.
 | Segurança, acesso e compliance | `seguranca.md` | Segurança e Compliance |
 | Riscos priorizados, cada um com mitigação ou aceite | `riscos.md` | Riscos e Mitigação |
 | Métricas, traces e alertas da solução | `observabilidade.md` | Observabilidade e Telemetria (frente 1) |
-| Cada decisão importante, com alternativas descartadas | um ADR em `adrs/` | Trade-offs e ADR — portão de aprovação humana próprio |
+| Cada decisão importante, com alternativas descartadas | um ADR em `adrs/` | Trade-offs e ADR — gate de aprovação humana próprio |
 | **O material do comitê**, sem jargão, com a pergunta de aprovação no fim | `comunicacao.md` | Comunicação com Stakeholders |
 | Épicos para o backlog e quem responde o quê depois | `handoff.md` | Entrega e Handoff |
 
 **Sobre stack já imposta.** Se o pedido de negócio já vier com produto decidido — porque uma norma corporativa fixou a plataforma, ou porque ela já está em produção —, o time **não finge que escolheu**: registra a restrição como decisão externa e anterior, no formato do [ADR 023](adrs/adr-023-restricao-de-stack-herdada-externa-registrada-sem-alterar-o-adr-001-sad-008-sync-dados-ia.md), e o [ADR 001](adrs/adr-001-cloud-agnostica-por-criterio-de-negocio.md) (cloud agnóstica) **não é excepcionado** — ele governa o que a casa escolhe, e nesse caso ela não escolheu. O *uso* segue integralmente sob exame: topologia, retenção, isolamento de ambientes, pontos únicos de falha, custo e granularidade de acesso. Restrição de produto não é imunidade arquitetural.
 
-**O que o time faz que um prompt único não faz.** Antes de tudo, **confirma o nome da demanda com você** — nome de demanda nunca é inventado por agente. Depois, cada decisão fica sob o dono dela: quem decide como a resposta cita a fonte não é quem decide retenção de dado bruto, que não é quem decide o teto de custo por pergunta. Cada um escreve as próprias suposições e trade-offs. E nada sai como "entregue" sem **aprovação humana explícita** no portão de saída — que é exatamente o momento em que `comunicacao.md` vai ao comitê, terminando com a pergunta que precisa de resposta.
+**O que o time faz que um prompt único não faz.** Antes de tudo, **confirma o nome da demanda com você** — nome de demanda nunca é inventado por agente. Depois, cada decisão fica sob o dono dela: quem decide como a resposta cita a fonte não é quem decide retenção de dado bruto, que não é quem decide o teto de custo por pergunta. Cada um escreve as próprias suposições e trade-offs. E nada sai como "entregue" sem **aprovação humana explícita** no gate de saída — que é exatamente o momento em que `comunicacao.md` vai ao comitê, terminando com a pergunta que precisa de resposta.
 
 > [!NOTE]
 > Uma demanda desse porte é longa e cara em tokens. O custo real fica em `demandas/<nome-da-demanda>/custo-processamento.md` e em [`telemetria-agentes.md`](telemetria-agentes.md). Acompanhe com `/arquiteto-solucoes status <nome-da-demanda>`, que não despacha agente novo.
@@ -435,7 +435,7 @@ abrir para todo o histórico.
 | 1 | [Entendimento e Escopo](agents/entendimento-e-escopo/AGENT.md) | Sempre, primeiro | A demanda crua |
 | 2 | [Desenho de Arquitetura](agents/desenho-de-arquitetura/AGENT.md) | Sempre, segundo | Entendimento e Escopo |
 | 3 | [Pesquisa e Benchmarking](agents/pesquisa-e-benchmarking/AGENT.md) | Sob demanda | Quando a stack aprovada não resolve |
-| 4 | [Trade-offs e ADR](agents/trade-offs-e-adr/AGENT.md) | Toda decisão importante | Tem portão de aprovação humana próprio |
+| 4 | [Trade-offs e ADR](agents/trade-offs-e-adr/AGENT.md) | Toda decisão importante | Tem gate de aprovação humana próprio |
 | 5 | [Modelagem de Dados](agents/modelagem-de-dados/AGENT.md) | Paralelo, a partir do Desenho | Desenho de Arquitetura |
 | 6 | [Segurança e Compliance](agents/seguranca-e-compliance/AGENT.md) | Depois de Desenho + Modelagem | Não roda em paralelo com eles |
 | 7 | [Infraestrutura e Deployment](agents/infraestrutura-e-deployment/AGENT.md) | Paralelo, a partir do Desenho | Desenho de Arquitetura |
@@ -450,7 +450,7 @@ abrir para todo o histórico.
 | 16 | [Especialista em Dados e Analytics](agents/especialista-dados-analytics/AGENT.md) | Sob demanda | Só se há decisão de plataforma analítica |
 | 17 | [Especialista em IA e Machine Learning](agents/especialista-ia-ml/AGENT.md) | Sob demanda | Só se há decisão de modelo de IA/ML |
 | 18 | [Geração de Diagramas C4](agents/geracao-diagramas/AGENT.md) | Transversal | Acionado por Desenho de Arquitetura e Documentação Final |
-| — | [Orquestrador](agents/orquestrador/AGENT.md) | Sempre ativo | Gerencia dependências, paralelismo e o portão de saída |
+| — | [Orquestrador](agents/orquestrador/AGENT.md) | Sempre ativo | Gerencia dependências, paralelismo e o gate de saída |
 
 ## Regras e governança
 
@@ -497,7 +497,7 @@ Siga sempre esta ordem, para não repetir o anti-padrão de "agente faz-tudo" ne
 
 1. Confirme que é uma atividade real e repetida, não uma ideia especulativa.
 2. Escreva a `SKILL.md` primeiro: quando usar, passos, artefato de saída, critério de "bem feito". Se a atividade só se aplica em certas condições, escreva o critério de gatilho explicitamente (veja os dois especialistas sob demanda como exemplo).
-3. Só depois escreva o `AGENT.md`: o papel, quando é acionado, de quem depende, o portão de revisão, e a fronteira clara com agentes que já existem (para não sobrepor responsabilidade).
+3. Só depois escreva o `AGENT.md`: o papel, quando é acionado, de quem depende, o gate de revisão, e a fronteira clara com agentes que já existem (para não sobrepor responsabilidade).
 4. Atualize `agents/roadmap.md`, `skills/roadmap.md` e o papel do novo agente em `agents/orquestrador/AGENT.md`.
 5. Registre a decisão em `memory.md`.
 

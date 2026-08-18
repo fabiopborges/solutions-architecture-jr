@@ -21,7 +21,7 @@ Desenho de Arquitetura decide os bounded contexts, componentes e integrações �
 ## Fronteira com Documentação Final
 Documentação Final decide QUE diagramas entram no pacote final e em que ordem — este agente só gera os artefatos sob pedido, não decide a montagem do documento.
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Todo componente/conexão do diagrama gerado corresponde a algo já decidido em `desenho.md` e/ou nas sequências de `jornadas-do-usuario` — nenhum foi inventado.
 - O catálogo e os specs derivados usados pra gerar estão salvos junto com o `.html`/`.architecture.json`, para rastreabilidade e regeneração futura.
 - O relatório de derivação (`[ORFAO]`/`[FALTA-CATALOGO]`) foi lido e, se não estiver vazio, repassado como pergunta explícita — nunca descartado silenciosamente.

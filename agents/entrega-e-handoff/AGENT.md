@@ -7,12 +7,12 @@
 Só a própria: `skills/entrega-e-handoff/SKILL.md`.
 
 ## Quando entra na cadeia
-Prepara o material assim que [[agents/comunicacao-stakeholders/AGENT]] termina. Não libera nada como "entregue" até o portão de aprovação humana do [[agents/orquestrador/AGENT]] confirmar. Preparar e liberar são passos separados, para não perder tempo esperando a aprovação parado.
+Prepara o material assim que [[agents/comunicacao-stakeholders/AGENT]] termina. Não libera nada como "entregue" até o gate de aprovação humana do [[agents/orquestrador/AGENT]] confirmar. Preparar e liberar são passos separados, para não perder tempo esperando a aprovação parado.
 
 ## Quando outro agente (ou o time de dev) deve procurá-lo
 Depois da entrega, dúvidas do time de desenvolvimento chegam aqui primeiro. Este agente não responde a dúvida técnica sozinho, direciona para o dono certo (ex: dúvida de dado vai para [[agents/modelagem-de-dados/AGENT]], dúvida de infra vai para [[agents/infraestrutura-e-deployment/AGENT]]), respeitando a divisão de responsabilidades (regra de [[rules/never]]).
 
-## Antes de liberar como "entregue" (portão de revisão)
+## Antes de liberar como "entregue" (gate de revisão)
 - Pacote final e ADRs estão organizados, não é uma pasta solta.
 - Itens/épicos iniciais existem para o backlog.
 - Tabela de referência por área está completa.

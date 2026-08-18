@@ -15,7 +15,7 @@ Qualquer agente com dúvida sobre a estrutura de uma entidade, quem é dono de u
 ## Depende de
 O desenho de arquitetura de [[agents/desenho-de-arquitetura/AGENT]]. Se precisar de uma tecnologia que o MongoDB padrão não resolve, aciona [[agents/pesquisa-e-benchmarking/AGENT]] em vez de decidir sozinho, e a decisão final vira ADR via [[agents/trade-offs-e-adr/AGENT]].
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Toda entidade tem um dono (owner) definido, nenhuma fica solta.
 - Nenhum fluxo entre serviços é "ler o banco do outro direto", está descrito como evento ou consulta via API.
 - Retenção e sensibilidade estão registradas para cada entidade.

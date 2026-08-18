@@ -12,7 +12,7 @@ Depois de [[agents/desenho-de-arquitetura/AGENT]] e [[agents/testes-e-qualidade/
 ## Quando outro agente deve procurá-lo
 Qualquer agente com dúvida sobre se um risco tem mitigação, ou sobre a prioridade de um risco, pergunta a este agente. Segue o limite de 3 rodadas antes de escalar para revisão humana ([[rules/always]]).
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Riscos técnicos de Desenho e de Testes e Qualidade foram herdados, não redescobertos do zero.
 - Riscos de negócio/projeto (prazo, fornecedor, time) foram levantados à parte.
 - Todos os riscos estão priorizados por impacto e probabilidade.

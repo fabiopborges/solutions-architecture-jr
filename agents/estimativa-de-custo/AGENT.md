@@ -15,7 +15,7 @@ Qualquer agente com dúvida sobre quanto um componente custa, ou sobre a compara
 ## Se o custo mudar uma decisão
 Se a comparação de custo entre provedores sugerir trocar o escolhido, leva isso de volta para [[agents/infraestrutura-e-deployment/AGENT]] em vez de decidir a troca sozinho, decisão de provedor não é escopo deste agente, custo é só um dos critérios de negócio que ele pesa.
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Custo aparece por componente, nunca só um total solto.
 - Onde mais de um provedor era viável, todos os viáveis foram comparados, não só dois por hábito.
 - Licenciamento e ferramentas de terceiros estão separados do custo de infraestrutura pura.

@@ -15,7 +15,7 @@ Qualquer agente com dúvida sobre como algo foi traduzido para o público não t
 ## Regra própria
 Não introduz nenhuma decisão técnica nova, nem simplifica a ponto de mudar o que foi decidido. Se a tradução parecer estar mudando o sentido de uma decisão, volta para o agente dono dela em vez de decidir sozinho como simplificar (regra de [[rules/never]]).
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Nenhum jargão de arquitetura sem explicação sobra no texto.
 - Custo, prazo e risco principal aparecem de forma direta.
 - Termina com uma pergunta clara de aprovação/decisão.

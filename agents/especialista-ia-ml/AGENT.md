@@ -21,7 +21,7 @@ Recomenda explicitamente não usar IA quando uma regra determinística resolve, 
 ## Se encontrar um requisito regulatório
 Riscos de explicabilidade ou viés que afetam compliance vão para [[agents/seguranca-e-compliance/AGENT]] em vez de este agente decidir sozinho o tratamento regulatório.
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Confirmou que IA/ML é de fato necessário, ou registrou explicitamente por que não é.
 - A recomendação (construir vs serviço gerenciado) tem um porquê ligado a um requisito real, nunca "é o mais novo".
 - Riscos específicos (viés, explicabilidade, degradação do modelo, custo de inferência) estão explícitos.

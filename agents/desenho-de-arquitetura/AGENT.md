@@ -12,7 +12,7 @@ Qualquer agente das atividades seguintes (dados, segurança, infraestrutura, cus
 ## Depende de
 O documento de entendimento e escopo do agente [[agents/entendimento-e-escopo/AGENT]]. Não começa a desenhar sem ele pronto.
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Todo bounded context identificado corresponde a uma capacidade de negócio real do documento de escopo, nenhum foi inventado.
 - Todo componente listado tem pelo menos uma integração descrita ou está explicitamente marcado como isolado, e nenhuma integração acessa o modelo interno de outro bounded context diretamente.
 - Toda escolha de componente ou tecnologia tem um porquê escrito, ligado a um requisito ou restrição do escopo.

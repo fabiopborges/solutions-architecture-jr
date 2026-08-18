@@ -12,7 +12,7 @@ Pelo agente [[agents/desenho-de-arquitetura/AGENT]], quando ele precisa escolher
 ## Quando outro agente deve procurá-lo
 Qualquer agente com dúvida sobre por que uma tecnologia foi recomendada em vez de outra pergunta a este agente. Segue o limite de 3 rodadas antes de escalar para revisão humana ([[rules/always]]).
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Checou `substrate/compendium.md` primeiro, a pesquisa só existe se a stack aprovada de fato não resolve.
 - As opções estão comparadas lado a lado com os mesmos critérios.
 - Termina com uma recomendação clara, ou um empate explicitamente justificado.

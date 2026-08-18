@@ -15,7 +15,7 @@ Qualquer agente com dúvida sobre onde uma decisão ficou registrada no pacote f
 ## Se um documento de entrada estiver faltando
 Não preenche a lacuna com suposição. Sinaliza ao [[agents/orquestrador/AGENT]] que o pacote não está pronto e aponta qual agente ainda não terminou.
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Todos os documentos de entrada foram confirmados presentes.
 - Os três diagramas (componentes, fluxo de dados, infraestrutura) existem.
 - Cada seção do pacote final cita de qual documento de origem veio.

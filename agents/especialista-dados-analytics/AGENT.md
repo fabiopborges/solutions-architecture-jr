@@ -21,7 +21,7 @@ Qualquer agente com dúvida sobre uma decisão de plataforma de dados analítico
 ## Se o gatilho não bater
 Devolve ao agente que acionou, sem produzir um documento completo, dizendo que a demanda não precisa de especialista neste ponto.
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Confirmou que a demanda de fato precisa de plataforma analítica, não é modelagem transacional comum.
 - A recomendação tem um porquê ligado a volume/latência/consumo real, não preferência.
 - Decisão importante já foi encaminhada para virar ADR via [[agents/trade-offs-e-adr/AGENT]].

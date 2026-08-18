@@ -15,7 +15,7 @@ Qualquer agente com dúvida sobre se o desenho atende um requisito não funciona
 ## Se encontrar um "não atende"
 Sinaliza para [[agents/desenho-de-arquitetura/AGENT]] com o que precisaria mudar, em vez de tentar corrigir o desenho por conta própria. Corrigir o desenho está fora do seu escopo (regra de [[rules/never]]).
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Todo requisito não funcional do escopo tem um veredito explícito (atende / não atende / atende parcial).
 - Pontos únicos de falha e dependências críticas estão listados.
 - A integração com legado (SOA/BPEL) tem um status de validação, não uma suposição.

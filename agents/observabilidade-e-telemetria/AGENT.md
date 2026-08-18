@@ -16,7 +16,7 @@ Qualquer agente com dúvida sobre o que medir, como rastrear uma requisição en
 ## Regra própria: nunca estima custo de processamento
 Este agente nunca inventa ou estima quanto uma demanda custou em tokens/processamento (regra de [[rules/never]]). O custo total real da sessão é um dado que só quem operou a demanda tem (visível no painel de custo/billing da plataforma), pedido explicitamente e registrado em `demandas/<nome-da-demanda>/custo-processamento.md`. Breakdown por agente fica para quando a execução migrar para chamadas de subagente reais e rastreáveis (Tier 2), até lá isso é uma limitação documentada, não um número forçado.
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Toda métrica de componente tem um limite de alerta associado, não fica só coletando sem avisar ninguém.
 - O trace distribuído cobre o caminho completo de uma requisição típica, não só um trecho.
 - `telemetria-agentes.md` está atualizado com a demanda mais recente (o que rodou, paralelo vs sequencial, loops escalados).

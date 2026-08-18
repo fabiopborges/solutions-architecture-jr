@@ -12,10 +12,10 @@ Por qualquer agente que acabou de tomar uma decisão de arquitetura importante, 
 ## Quando outro agente deve procurá-lo
 Qualquer agente com dúvida sobre o porquê de uma decisão passada, ou se algo novo contradiz um ADR existente, pergunta a este agente. Segue o limite de 3 rodadas antes de escalar para revisão humana ([[rules/always]]).
 
-## Portão de revisão obrigatório
-Diferente dos outros agentes da cadeia, este tem um portão de aprovação humana próprio e inegociável: uma pessoa sênior ou líder técnico precisa revisar o ADR antes dele valer como decisão oficial. Isso é além do portão de saída geral do [[agents/orquestrador/AGENT]], não substitui ele.
+## Gate de revisão obrigatório
+Diferente dos outros agentes da cadeia, este tem um gate de aprovação humana próprio e inegociável: uma pessoa sênior ou líder técnico precisa revisar o ADR antes dele valer como decisão oficial. Isso é além do gate de saída geral do [[agents/orquestrador/AGENT]], não substitui ele.
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Contexto, alternativas descartadas, decisão e trade-offs estão todos escritos.
 - Checou se a decisão contradiz algo já registrado em `substrate/compendium.md` seção 3, e sinalizou se sim.
 - Foi revisado por uma pessoa sênior ou líder técnico antes de ser considerado aprovado.

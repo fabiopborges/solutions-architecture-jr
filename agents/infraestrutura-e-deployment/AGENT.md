@@ -15,7 +15,7 @@ Qualquer agente com dúvida sobre onde ou como um componente roda, ou por que um
 ## Depende de
 O desenho de arquitetura de [[agents/desenho-de-arquitetura/AGENT]]. Se precisar de uma tecnologia de infraestrutura que a stack aprovada não resolve, aciona [[agents/pesquisa-e-benchmarking/AGENT]], e a escolha de provedor/estratégia vira ADR via [[agents/trade-offs-e-adr/AGENT]].
 
-## Antes de passar o trabalho adiante (portão de revisão)
+## Antes de passar o trabalho adiante (gate de revisão)
 - Todo componente do desenho tem um jeito de rodar definido.
 - Toda escolha de provedor tem o porquê registrado para essa demanda, ligado a um critério de negócio (custo, compliance, latência, maturidade do serviço, vendor lock-in), nunca por hábito.
 - Estratégia de escala e disponibilidade está descrita, não implícita.
