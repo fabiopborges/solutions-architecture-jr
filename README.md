@@ -8,11 +8,35 @@ Uma atividade, um agente, um critério de pronto — e nada sai como "entregue" 
 [![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg)](LICENSE.md)
 [![Claude Code](https://img.shields.io/badge/roda%20em-Claude%20Code-d97757.svg)](https://claude.com/claude-code)
 [![18 agentes](https://img.shields.io/badge/agentes-18%20%2B%20orquestrador-0f766e.svg)](#os-18-agentes)
-[![ADRs](https://img.shields.io/badge/ADRs-001%E2%80%93022-475569.svg)](adrs/)
+[![ADRs](https://img.shields.io/badge/ADRs-001%E2%80%93023-475569.svg)](adrs/)
 
 </div>
 
 Construído sobre o [Claude Code](https://claude.com/claude-code). Em vez de um prompt genérico tentando fazer tudo de uma vez, cada atividade real do trabalho de arquitetura vira um agente próprio, com escopo estreito, uma skill dedicada e um critério claro de "isso está bem feito".
+
+## Por que "Júnior", se as decisões são grandes
+
+O nome engana de propósito — então vale desfazer o mal-entendido na primeira tela.
+
+**"Júnior" não é o tamanho do problema. É o tamanho da autoridade.**
+
+O trabalho que este time faz não é júnior: ele modela capacidades de negócio com TOGAF, traduz em bounded contexts com DDD, escolhe provedor de cloud por critério de negócio, define tratamento de dado sensível e requisito de compliance, dimensiona custo por componente, aponta pontos únicos de falha e formaliza cada escolha como ADR com alternativas descartadas. São decisões que sustentam ou afundam um projeto — e o time as toma com fundamento escrito, não com opinião.
+
+O que ele **nunca** tem é a palavra final.
+
+Todo agente aqui trabalha como um arquiteto júnior competente trabalha num time saudável: leva a análise até o fim, defende uma recomendação, expõe o que assumiu e o que abriu mão — e **leva para um humano assinar**. Não porque a análise seja fraca, mas porque a responsabilidade não é delegável. Quem responde pela decisão é quem tem nome, cargo e pele no jogo.
+
+E isso não é uma promessa de comportamento, é mecanismo:
+
+- Nenhum agente decide fora do próprio escopo — na dúvida, pergunta ao dono da atividade em vez de chutar.
+- Nenhum ADR vale como oficial antes de **aprovação humana explícita** registrada nele.
+- O agente de entrega **não tem autoridade para se autoaprovar**: prepara o pacote como "PREPARADO, aguardando aprovação humana" e só marca "LIBERADO" depois que uma pessoa confirma.
+- Risco não some por conveniência: cada um sai com mitigação **ou aceite explícito** de alguém.
+- Dúvida entre agentes que não fecha em três rodadas escala para revisão humana na quarta.
+
+**O selo de júnior é sobre você, não sobre o agente.** Seja você júnior, pleno, sênior ou especialista, a cadeira de decisão continua sendo a sua — o time entrega tudo pronto para você julgar, e nada pronto para dispensar o seu julgamento. Um arquiteto sênior ganha alavancagem; um júnior ganha um time que mostra o raciocínio inteiro em vez de um veredito para copiar.
+
+É o oposto de "IA que decide por você": é IA que faz o trabalho inteiro **para que a decisão seja sua, e mais bem informada**.
 
 > [!NOTE]
 > **Status do projeto:** as 18 atividades + o Orquestrador estão especificadas e registradas como skill/subagentes nativos do Claude Code (`/arquiteto-solucoes`). Sete demandas já rodaram ponta a ponta via despacho real de subagente — veja [Estado atual](#estado-atual). Os diagramas C4 deste README são a saída do próprio time rodando sobre si mesmo.
@@ -23,6 +47,7 @@ Construído sobre o [Claude Code](https://claude.com/claude-code). Em vez de um 
 
 **Conceitos**
 
+- [Por que "Júnior", se as decisões são grandes](#por-que-júnior-se-as-decisões-são-grandes)
 - [Por que isto existe](#por-que-isto-existe)
 - [Ideia central em 30 segundos](#ideia-central-em-30-segundos)
 - [Glossário rápido](#glossário-rápido)
