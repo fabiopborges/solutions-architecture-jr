@@ -1,6 +1,6 @@
 # Telemetria dos Agentes
 
-Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido pelo agente [[agents/observabilidade-e-telemetria/AGENT]], frente 2. Oito demandas rodaram até agora: a primeira simulada (um agente-modelo narrando os 14 papéis), as demais via subagentes reais (`/arquiteto-solucoes`), com uso de token medido de verdade por agente.
+Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido pelo agente [[agents/observabilidade-e-telemetria/AGENT]], frente 2. Nove demandas rodaram até agora: a primeira simulada (um agente-modelo narrando os 14 papéis), as demais via subagentes reais (`/arquiteto-solucoes`), com uso de token medido de verdade por agente — **exceto a nona (`agente-de-cobranca-interno-oracle-e-ipnet`), a primeira em que os números de token não chegaram a esta frente 2 e por isso não constam; ver a ressalva na própria entrada, eles não foram estimados**.
 
 ## Formato de uma entrada
 - Demanda:
@@ -313,3 +313,88 @@ Registro contínuo de quanto o time de agentes gasta por demanda real. Mantido p
 **Estado da demanda no momento deste registro (para o registro ficar honesto):** Geração de Diagramas C4 **ainda em execução**; Entrega e Handoff **não iniciada**; portão de saída do Orquestrador com **1 de 4 itens cumpridos**; aprovação humana pendente. **A única aprovação obtida foi o ADR-023, aprovado por humano em 2026-08-17** e registrado no compêndio.
 
 **Custo real em US$/R$:** pendente, a preencher por quem operou a sessão — **não estimado por este agente**. Ver `demandas/sad-008-sync-dados-ia/custo-processamento.md`.
+
+---
+
+### 2026-08-19 — agente-de-cobranca-interno-oracle-e-ipnet
+
+> **Registro gravado com a demanda aberta, e gravado atrasado.** Esta entrada não existia enquanto a maior execução do histórico do time acontecia: a frente 2 só foi acionada depois que oito atividades já tinham fechado. Registrar isso na primeira linha é parte do registro — a telemetria contínua **não foi contínua** nesta demanda.
+
+> **Ressalva de medição que muda a leitura desta entrada inteira:** **nenhum número de token por agente chegou a esta frente 2.** Diferente das oito entradas anteriores, **não há tabela de tokens aqui**, e **nada foi estimado para preencher o buraco**. O que se sabe desta execução foi apurado **nos artefatos em disco**, não em contadores. Ver `demandas/agente-de-cobranca-interno-oracle-e-ipnet/custo-processamento.md`, seção 2.
+
+**Nona demanda, primeira com insumo em PDF de origem corporativa** (SPTI v2.1, 24 páginas, em `input_...`/`Agente de Cobrança Interno - Oracle e IPNET.pdf`, transcrito para `insumos/spti-original-transcricao.txt`), e **primeira com stack de fornecedor herdada de fora da cadeia** (Oracle e IPNET já escolhidos, formalizado no ADR 024). Classificação herdada: USO INTERNO por TELEFÓNICA, propagada a todo artefato.
+
+**O que rodou, apurado nos artefatos (não no resumo do despacho):**
+
+| Agente | Estado no disco | Evidência apurada |
+|---|---|---|
+| Entendimento e Escopo | concluído, **v5** | 5 rodadas versionadas em 24h (v1→v5); v3 assume erro próprio de execução da v2 (escopo sem capacidade no mapa TOGAF); v5 fecha a rodada 3 do aviso de IA e remove credencial exposta (SC-07) |
+| Desenho de Arquitetura | concluído, **v3 — não v2** | v2 respondeu **19 dúvidas de cinco agentes, todas em rodada 1 de 3** (seção 16); **v3** absorve o entendimento v5, cria BC-14 e `c30` e decide SQ-10 (chave por titular × eliminação real) |
+| Modelagem de Dados | concluído, **v3** | **70 entidades**, todas com dono; quatro modeladas como estrutura vazia por anexo ausente, sem conteúdo inventado |
+| Jornadas do Usuário | concluído, **v2** | **11 jornadas**, 11 specs em `diagramas/sequencia-*_spec.json`; escrito sobre desenho **v2** + entendimento **v4** |
+| Testes e Qualidade | concluído, **v1** | 22 RNFs, 22 vereditos: **1 atende, 13 parcial, 8 não atende**; escrito sobre desenho **v1** + entendimento **v2** |
+| Segurança e Compliance | concluído, **v2** | 45 integrações com autenticação/autorização, 64 entidades tratadas; escrito sobre desenho v2, dados v2, entendimento v4 |
+| Trade-offs e ADR | concluído | **20 ADRs, 024 a 043**, todos em `adrs/`. Status conferido arquivo a arquivo: **ADR 024 APROVADO** (Fabio Borges, 2026-08-19), **os outros 19 PROPOSTOS**, todos com a frase explícita de que a aprovação do 024 não se estende a eles |
+| Geração de Diagramas C4 | concluído | **19 diagramas renderizados** (1 contexto + 7 containers + 11 sequências), perfil `showcase`, **0 erros e 0 avisos**; mais `catalogo-componentes.json` e `c4-integracoes.json`, que **não são diagramas**. Fonte declarada: desenho **v2** |
+| Observabilidade e Telemetria (**frente 2**) | esta entrada | acionada tardiamente, com a cadeia aberta |
+| **Infraestrutura e Deployment** | **RETIDA** | falta de volumetria (`LEVANTAMENTO_IA_VOZ_B2X`, L-01) |
+| **Estimativa de Custo** | **RETIDA** | idem |
+| **Especialista em IA e ML** | **RETIDA** | idem |
+| **Especialista em Dados e Analytics** | **RETIDA** | idem |
+| **Observabilidade e Telemetria (frente 1)** | **RETIDA por consequência** | não há `observabilidade.md` nesta demanda. A frente 1 depende de Desenho e, idealmente, de Infraestrutura — retida esta, retida aquela. **Registrado como retenção, não como esquecimento** |
+| **Riscos e Mitigação** | **não iniciada** | — |
+| **Documentação Final** | **não iniciada** | — |
+| **Comunicação com Stakeholders** | **não iniciada** | — |
+| **Entrega e Handoff** | **não iniciada** | — |
+
+**Quatro atividades retidas pela mesma causa única:** **1 dos 11 anexos citados pela SPTI não foi entregue pela área**, e é justamente o de volumetria. Nenhum dos quatro agentes inventou um número de ordem de grandeza para destravar — `qualidade.md` chega a declarar que não contém **uma única quantidade dimensional**, inclusive nenhum tamanho de amostra de teste. É a retenção funcionando como projetada, não como bloqueio acidental.
+
+**Gate de saída do Orquestrador: 0 de 4.** Aprovação humana do pacote pendente; a **única** aprovação humana desta demanda é o ADR 024.
+
+#### Divergências entre o resumo do despacho e o que está em disco
+
+Registradas porque a regra desta frente é registrar o apurado, não o narrado:
+
+1. **Desenho de Arquitetura está em v3, não em v2.** O resumo do despacho dizia v2. A v2 é a que respondeu as 19 dúvidas; a v3 é posterior e absorve o entendimento v5.
+2. **Consequência direta da anterior, e é o achado mais relevante desta apuração: há defasagem de versão em cascata entre a fonte e seus consumidores.** Jornadas v2, Segurança v2 e os 19 diagramas foram todos construídos sobre o desenho **v2** — `diagramas/NOTAS.md` declara na primeira linha "Fonte única: `../desenho.md` **v2**". **A v3 do desenho (BC-14, `c30`, decisão de SQ-10) ainda não foi absorvida por nenhum consumidor.** Nenhum agente errou: cada um declarou honestamente sobre qual versão trabalhou. O que falta é alguém decidir se os consumidores reabrem.
+3. **Testes e Qualidade é o caso mais defasado, e o resumo o listava apenas como "concluída".** `qualidade.md` v1 avalia o desenho **v1** contra o entendimento **v2** — hoje o desenho está em v3 e o entendimento em v5. Os 8 vereditos "não atende" e os 13 "atende parcial" foram emitidos contra um desenho que mudou duas vezes desde então. **Concluída não é o mesmo que vigente**, e essa distinção não estava visível em lugar nenhum antes deste registro.
+4. **Contagem de specs divergente dentro do próprio `jornadas.md`:** o cabeçalho diz "um por jornada (10 arquivos)", a seção 14 diz 11 specs, e o disco tem **11**. O disco e a seção 14 concordam; o cabeçalho é que está errado. Item pequeno, registrado por ser verificável.
+
+#### Paralelo vs sequencial
+
+- **Entendimento → Desenho sequencial por dependência real**, como em todas as demandas anteriores. Aqui a sequência foi mais cara que o normal: o Entendimento não rodou uma vez, rodou **cinco**, e três dessas versões foram disparadas por devolução de outro agente (Desenho na v3, Modelagem na v4, o loop do aviso de IA na v5), não por iniciativa própria.
+- **Pico de 6 agentes simultâneos** nesta demanda. Fica **abaixo do recorde de 7** registrado em `sad-008-sync-dados-ia`, e vale dizer isso explicitamente porque esta é, em volume de artefato, a maior execução do histórico: **mais trabalho não veio de mais paralelismo, veio de mais rodadas de revisão em série**. As cinco versões do Entendimento e as três do Desenho são o custo dominante desta demanda, e são sequenciais por natureza.
+- **Sequencial por dependência verdadeira:** Segurança e Compliance só pôde entrar com Desenho **e** Modelagem de Dados fechados (ele mesmo declara isso no cabeçalho); Trade-offs e ADR consome os candidatos dos agentes anteriores; Geração de Diagramas consome o catálogo canônico da seção 4 do desenho.
+- **Corrida real, e é falha de orquestração, não de agente:** Jornadas do Usuário foi despachada para **escrever** os specs de sequência enquanto Geração de Diagramas C4 já **lia** esses mesmos specs para gerar. Os dois lados escreveram e leram o mesmo conjunto de arquivos ao mesmo tempo. Custou releitura. **É o primeiro caso nesta telemetria de dois agentes paralelizados sobre o mesmo artefato de escrita** — as paralelizações anteriores sempre foram sobre artefatos disjuntos. Vale virar critério explícito na árvore de dependência do Orquestrador: *paralelizar exige artefatos disjuntos, não só ausência de dependência lógica.*
+
+#### Loops de dúvida
+
+- **Uma dúvida chegou à rodada 3** (aviso de interação com IA, Modelagem de Dados → Entendimento e Escopo) e **fechou na própria rodada 3, sem escalar** — decisão em `entendimento.md` 3.2.4, sem criar capacidade nova. **O hook da 4ª rodada segue sem ser exercitado**, agora em nove demandas.
+- **As 19 dúvidas ao Desenho fecharam todas em rodada 1 de 3**, com corrigir/confirmar/bloquear explícito item a item. Nenhuma foi acomodada como "fica para depois".
+
+#### Achados de processo
+
+**1. Três falhas de orquestração, declaradas por quem as cometeu.**
+   - **(a) Candidatos SEC-ADR nunca encaminhados ao Trade-offs.** O **SEC-ADR-02** virou dependência de dois ADRs sem passar pelo instrumento que existe para julgá-lo. Quando finalmente foi julgado em forma própria (**ADR 039**), a absorção anterior se mostrou **estreita demais**, e o julgamento revelou um limite que **ninguém no time conhecia**: a consulta federada por pseudônimo do **ADR 038** vale para identificadores exatos, mas **localizar um titular por nome não tem a mesma garantia**. Está escrito no próprio ADR 039: *"acrescentei ali um limite que eu não conhecia"*. **Quem pegou o furo foi o agente ao escrever o ADR, não a orquestração** — o que é exatamente o argumento a favor de o instrumento existir: pular o instrumento não economizou, escondeu.
+   - **(b) A corrida Jornadas × Diagramas**, descrita acima.
+   - **(c) Estes dois artefatos de telemetria não foram criados durante a execução inteira.** A frente 2 é definida como contínua na skill e não foi contínua. Consequência concreta e não recuperável: **os tokens por agente não existem mais para serem coletados** — ver a ressalva no topo desta entrada.
+
+**2. Duas quedas por erro de API, e um padrão de recuperação que vale reter.** Login expirado e conexão perdida, atingindo Trade-offs e ADR e Geração de Diagramas C4. **Nas duas vezes a mensagem final do agente subestimou o que já estava gravado em disco.** Conferir o disco antes de acreditar na narrativa da queda evitou duas reexecuções caras: **sete containers já validados** num caso, **dezenove diagramas já renderizados** no outro. **Regra prática derivada, provavelmente reutilizável:** *depois de queda de API, o disco é a fonte de verdade sobre o progresso, não a última mensagem do agente* — a mensagem é escrita no momento da falha e por isso reporta o estado da narrativa interrompida, não o estado do sistema de arquivos.
+
+**3. O hook de caminho absoluto deu falso positivo três vezes e derrubou despachos válidos. A causa é a mesma já registrada em 2026-08-16 e segue sem correção.** *(Descrição deliberadamente sem reproduzir o padrão literal, para que este arquivo não vire ele próprio um gatilho.)* O hook procura o radical do nome da pasta de demandas seguido de barra e sem barra imediatamente à esquerda. Dois modos de falso positivo, agora bem caracterizados:
+   - **Dentro do nome da pasta de entrada de demandas** (a de prefixo `input_`): o radical aparece embutido no nome dela, então **mesmo um caminho absoluto perfeitamente correto** que aponte para dentro dessa pasta dispara o bloqueio. Este é um modo novo, não observado em 2026-08-16, e é o mais grave: **o hook bloqueia o comportamento que ele existe para exigir.**
+   - **Em qualquer menção textual em prosa**, sem barra à esquerda — inclusive, ironicamente, num prompt em que se descrevia o próprio hook.
+   **Nos três casos todos os caminhos estavam absolutos e corretos.** Duas demandas separadas, cinco ocorrências somadas, zero bugs reais capturados por essas ocorrências: **a precisão do hook merece correção, e a evidência acumulada já é suficiente para justificar mexer nele** — o que 2026-08-16 registrou como "possível ajuste futuro" já não é mais só possível.
+
+**4. Cinco recusas de agentes à saída fácil oferecida pela orquestração.** Padrão que vale contar por ser o mecanismo de governança deste OS funcionando sob pressão de quem despacha:
+   - Jornadas do Usuário **recusou** declarar `c24_conector_segredos_inquilino` como "infraestrutura que legitimamente nunca aparece". Manteve o `[ORFAO]` como **registro correto do estado atual** e marca visível da lacuna LC-07, devolvendo a bola ao Desenho (`jornadas.md` 13.5).
+   - Trade-offs e ADR **recusou** absorver a decisão de chaves onde a orquestração sugeriu, com argumento melhor.
+   - Modelagem de Dados **recusou** construir índice global de titular — recusa que virou o **ADR 038** (consulta federada, sem índice global).
+   - Entendimento e Escopo **assumiu erro próprio** (v3: "registro como erro de execução da v2, não como omissão do desenho") em vez de aceitar a saída oferecida de tratar a lacuna como omissão de outro agente. Foi além e apontou que **o mesmo defeito já existia, mais discreto, na v1**.
+   - Testes e Qualidade **recusou** produzir qualquer quantidade dimensional na ausência do anexo de volumetria, incluindo tamanho de amostra de teste.
+
+**5. Duas correções cruzadas que um agente sozinho não teria feito.** É a evidência empírica desta demanda a favor da arquitetura multi-agente, e as duas são do mesmo agente pegando consequência de decisão alheia:
+   - A Modelagem de Dados percebeu que o controle de auditoria pedido pela Segurança **reintroduziria em claro exatamente o índice de CPFs que o índice cego acabara de eliminar**. A trilha de consulta (E-42) passou a gravar o critério **pseudonimizado** (MD-R8). **A Segurança registrou o crédito por escrito e classificou como furo próprio:** *"Está certo, era um furo meu, e eu tinha pedido a mudança sem enxergar a consequência"* (`seguranca.md` 0.4.3).
+   - A Modelagem de Dados descobriu que **o opt-out do titular guardado no registro de mailing seria ressuscitado pela carga de arquivo seguinte** — `RegistroAcionavel` é reconstruído a cada carga (RF-04), então a oposição ao acionamento morreria em silêncio na próxima ingestão. Virou entidade durável fora do registro de mailing (E-66, MD-ADR-10). **É um bug de comportamento em produção capturado em fase de modelagem**, e do tipo que só aparece para quem olha o ciclo de vida do dado, não o requisito.
+
+**Custo real em US$/R$:** pendente, a preencher por quem operou a sessão — **não estimado por este agente**. Ver `demandas/agente-de-cobranca-interno-oracle-e-ipnet/custo-processamento.md`.
