@@ -13,3 +13,9 @@ __pycache__/
 
 # Estudos para novas propostas de soluções, não versionar.
 docs/estudo-para-novas-propostas-solucoes/
+
+# Entrada de novas demandas
+input_demandas/
+
+# Local de armazenamento das ADRs geradas por projeto
+adrs/
